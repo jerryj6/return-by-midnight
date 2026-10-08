@@ -1,0 +1,89 @@
+{
+ "sheet": "rbm-ui-kit.png",
+ "size": [
+  512,
+  1024
+ ],
+ "bg": [
+  254,
+  254,
+  254
+ ],
+ "sprites": [
+  {
+   "name": "rbm-ui-kit-00",
+   "file": "rbm-ui-kit-00.png",
+   "src_bbox": [
+    15,
+    78,
+    499,
+    416
+   ],
+   "size": [
+    484,
+    338
+   ],
+   "ink_px": 156185
+  },
+  {
+   "name": "rbm-ui-kit-01",
+   "file": "rbm-ui-kit-01.png",
+   "src_bbox": [
+    16,
+    435,
+    497,
+    592
+   ],
+   "size": [
+    481,
+    157
+   ],
+   "ink_px": 66152
+  },
+  {
+   "name": "rbm-ui-kit-02",
+   "file": "rbm-ui-kit-02.png",
+   "src_bbox": [
+    28,
+    604,
+    483,
+    763
+   ],
+   "size": [
+    455,
+    159
+   ],
+   "ink_px": 35203
+  },
+  {
+   "name": "rbm-ui-kit-03",
+   "file": "rbm-ui-kit-03.png",
+   "src_bbox": [
+    38,
+    770,
+    468,
+    962
+   ],
+   "size": [
+    430,
+    192
+   ],
+   "ink_px": 7513
+  },
+  {
+   "name": "rbm-ui-kit-04",
+   "file": "rbm-ui-kit-04.png",
+   "src_bbox": [
+    189,
+    652,
+    403,
+    710
+   ],
+   "size": [
+    214,
+    58
+   ],
+   "ink_px": 2843
+  }
+ ]
+}
