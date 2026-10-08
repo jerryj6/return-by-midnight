@@ -190,8 +190,11 @@ function PlayScreen({
   foldRef: React.MutableRefObject<(p: unknown) => void>;
   roomCode: string | null;
 }) {
+  const roomLevel = netState.current.levelId
+    ? (LEVEL_DEFS.find((x) => x.id === netState.current.levelId)?.def ?? level)
+    : level;
   const engine = useMemo(() => new RbmEngine(), []);
-  const [gs, setGs] = useState<RbmPlayState>(() => engine.createInitialState(level));
+  const [gs, setGs] = useState<RbmPlayState>(() => engine.createInitialState(roomLevel));
   const [muted, setMuted] = useState(false);
   const [scrub, setScrub] = useState<number | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -199,7 +202,7 @@ function PlayScreen({
   const [toast, setToast] = useState<string | null>(null);
   const seq = useRef(0);
 
-  const horizon = level.verification.horizonBeat;
+  const horizon = roomLevel.verification.horizonBeat;
   const lastRun = gs.lastRun;
   const timeline = lastRun?.timeline ?? null;
 
@@ -207,8 +210,8 @@ function PlayScreen({
   // final state, else (before any test) the plan's projected initial state so
   // committed rows already show as staged loans.
   const liveSim: RbmSimState = useMemo(
-    () => initialSimState(level, { rows: gs.manifestRows, commands: gs.commands }),
-    [level, gs.manifestRows, gs.commands],
+    () => initialSimState(roomLevel, { rows: gs.manifestRows, commands: gs.commands }),
+    [roomLevel, gs.manifestRows, gs.commands],
   );
   const displayedSim: RbmSimState =
     scrub !== null && timeline?.[scrub]
@@ -229,12 +232,12 @@ function PlayScreen({
       baseRevision: gs.revision,
       payload,
     };
-    const check = engine.validateAction(level, gs, action);
+    const check = engine.validateAction(roomLevel, gs, action);
     if (!check.ok) {
       setToast(check.reason ?? "rejected");
       return false;
     }
-    const res = engine.applyAction(level, gs, action);
+    const res = engine.applyAction(roomLevel, gs, action);
     const rej = res.events.find((e) => e.type === "action.rejected");
     if (rej) {
       rbmAudio.play("command.deny");
@@ -266,7 +269,7 @@ function PlayScreen({
   // engine locally (deterministic ⇒ identical state on every client).
   netState.current.setGs = setGs;
   foldRef.current = (p: unknown) => {
-    const res = engine.applyAction(level, gs, {
+    const res = engine.applyAction(roomLevel, gs, {
       actorId: "coop",
       commandId: `net-${++seq.current}`,
       baseRevision: gs.revision,
@@ -280,8 +283,8 @@ function PlayScreen({
     <main className="play-screen">
       <header className="topbar">
         <div>
-          <span className="level-id">{level.levelId.toUpperCase()}</span>
-          <h1>{level.title}</h1>
+          <span className="level-id">{roomLevel.levelId.toUpperCase()}</span>
+          <h1>{roomLevel.title}</h1>
           {roomCode && <span className="badge">Crew {roomCode}</span>}
         </div>
         <div className="topbar-actions">
@@ -319,7 +322,7 @@ function PlayScreen({
       <div className="play-layout">
         <section className="board-pane" aria-label="Scene">
           <SceneView
-            level={level}
+            level={roomLevel}
             sim={displayedSim}
             rows={gs.manifestRows}
             selectedId={selectedId}
@@ -337,19 +340,19 @@ function PlayScreen({
         </section>
 
         <aside className="side-pane">
-          <Objectives level={level} gs={gs} />
+          <Objectives level={roomLevel} gs={gs} />
           <ManifestPanel
-            level={level}
+            level={roomLevel}
             gs={gs}
             engine={engine}
             focusedRow={focusedRow}
             onFocusRow={setFocusedRow}
             act={act}
           />
-          <CommandEditor level={level} gs={gs} engine={engine} act={act} />
+          <CommandEditor level={roomLevel} gs={gs} engine={engine} act={act} />
           <Inspection sim={displayedSim} selectedId={selectedId} />
           <RunControls gs={gs} act={act} />
-          {RBM_HINTS[level.levelId] ? <HintLadder content={RBM_HINTS[level.levelId]!} /> : null}
+          {RBM_HINTS[roomLevel.levelId] ? <HintLadder content={RBM_HINTS[roomLevel.levelId]!} /> : null}
         </aside>
       </div>
 

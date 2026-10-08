@@ -48,3 +48,33 @@ test("two planners share one authoritative manifest", async ({ browser }: { brow
 
   await host.close(); await guest.close();
 });
+
+test("finale co-op: joiner renders the room's level (RBM-12)", async ({ browser }: { browser: Browser }) => {
+  const host = await browser.newPage();
+  const guest = await browser.newPage();
+
+  // Pre-select the finale via pure SPA navigation — level is React state.
+  await host.goto(`http://localhost:${PORT}/`);
+  await host.getByTestId("play-solo").click();
+  await host.getByTestId("level-rbm-12").click();
+  await expect(host.getByTestId("scene")).toBeVisible();
+  await host.getByRole("button", { name: "Rooms" }).click();
+  await host.getByRole("button", { name: "Back", exact: true }).click();
+  await host.getByTestId("play-coop").click();
+  await host.getByText(/Host a room \(RBM-12\)/).click();
+  await expect(host.getByText(/Crew [A-Z0-9]+/)).toBeVisible();
+  const code = (await host.locator(".badge", { hasText: "Crew" }).innerText()).replace("Crew ", "");
+
+  await guest.goto(`http://localhost:${PORT}/`);
+  await guest.getByTestId("play-coop").click();
+  await guest.getByPlaceholder("Room code").fill(code);
+  await guest.getByText("Join", { exact: true }).click();
+  await expect(guest.getByText(new RegExp(`Crew ${code}`))).toBeVisible();
+
+  // The joiner never visited the select screen — the room's levelId must
+  // drive the rendered manifest, not the default RBM-01.
+  await expect(guest.getByText("RBM-12").first()).toBeVisible();
+  await expect(guest.getByText(/Midnight Returns/)).toBeVisible();
+
+  await host.close(); await guest.close();
+});
