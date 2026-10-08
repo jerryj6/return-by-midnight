@@ -174,6 +174,9 @@ export function rbm05AlternatePlan(): RbmPlan {
 
 export const RBM05_CARD: LevelCard = {
   levelId: "rbm-05",
+  insight: "One token can be lent twice — two sequential, non-overlapping loans light two rooms.",
+  naiveApproach: "One long loan for the whole run — the second room never lights (overlapping is impossible; the single token books its whole window).",
+  solutionPolicy: "Committed order-swap alternate; starts are loose (row 1: 2–4, row 2: up to 6).",
   winningTraceSummary: [
     "Beat 1 — Loan BRIGHT from the nursery lamp to the mooring bust (due end of beat 4). The north door opens.",
     "Beat 3 — Helper slips into the dark north room; its door is open on loan.",

@@ -160,6 +160,9 @@ export function rbm04PlanWithDue(dueBeat: number | null): RbmPlan {
 
 export const RBM04_CARD: LevelCard = {
   levelId: "rbm-04",
+  insight: "HEAVY returns to wherever its home object IS — lighten the safe to move it, then let the returning mass land inside the vault.",
+  naiveApproach: "Return the weight to the old shelf (due 2) — it settles in the gallery, not the vault.",
+  solutionPolicy: "due 4–5 win; the vault leg tolerates a one-beat early retime.",
   winningTraceSummary: [
     "Beat 1 — The heavy safe presses the alarm plate; the lobby gate is shut.",
     "Beat 2 — Loan HEAVY from the safe to the transport crate (due end of beat 4). The safe lightens to mass 1 and the plate releases the lobby gate; the helper lifts the safe.",

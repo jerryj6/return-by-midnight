@@ -13,6 +13,16 @@ export interface WrongApproach {
 
 export interface LevelCard {
   levelId: string;
+  /** One-line lesson the level teaches — the mechanic it exists to show. */
+  insight?: string;
+  /** The obvious-but-incomplete first approach a player will reach for. */
+  naiveApproach?: string;
+  /**
+   * Multiplicity note: which solve class the level tolerates (committed
+   * alternates, timing bands, tolerated shortcuts) — see
+   * docs/LEVEL-CARD-CONVENTIONS.md §3.
+   */
+  solutionPolicy?: string;
   /** Beat-indexed caption list of the verified winning plan. */
   winningTraceSummary: string[];
   wrongApproaches: WrongApproach[];

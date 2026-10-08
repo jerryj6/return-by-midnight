@@ -170,6 +170,9 @@ export function rbm03PlanWithDue(dueBeat: number | null): RbmPlan {
 
 export const RBM03_CARD: LevelCard = {
   levelId: "rbm-03",
+  insight: "A NOISY token only earns its diversion on RETURN — and only to a host that can ring where the patrol can hear.",
+  naiveApproach: "Keep the rattle loaned all run, or return it to the parked toy (a silent host).",
+  solutionPolicy: "due 4–6 all win; startBeat anywhere in 2–6 — only the return beat is load-bearing.",
   winningTraceSummary: [
     "Beat 1 — Loan NOISY from the winding toy to the decoy sack (due end of beat 6). The toy is now silent; the sack holds the rattle.",
     "Beats 1–2 — Wait. The patrol beam sweeps the gallery; nobody crosses it yet.",

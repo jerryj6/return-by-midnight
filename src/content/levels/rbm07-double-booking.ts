@@ -206,6 +206,9 @@ export function rbm07AlternatePlan(): RbmPlan {
 
 export const RBM07_CARD: LevelCard = {
   levelId: "rbm-07",
+  insight: "Three rows, three jobs — the ledger forbids double-booking, and the jingle must be home inside the patrol hearing window.",
+  naiveApproach: "Hold the weight on the vault scale all run (monopolize) — the scale job works but the door leg dies.",
+  solutionPolicy: "Rattle due 3–6 tolerated; several ±1 retimes pass. The ordering constraint (vault after repost) is the real lock.",
   winningTraceSummary: [
     "Beat 1 — Three doors, two tokens: HEAVY posts to the north scale (due 4) and NOISY to the decoy sack (due 7). North and east corridors open; the vault stays shut — the weight can only be in one place.",
     "Beat 3 — Helper through the open north door; operator through the east (the door cells stay swept through beat 2).",

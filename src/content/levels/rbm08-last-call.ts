@@ -233,6 +233,9 @@ export function rbm08PlanWithDue(tokenId: "TOKEN-B" | "TOKEN-N" | "TOKEN-H", due
 
 export const RBM08_CARD: LevelCard = {
   levelId: "rbm-08",
+  insight: "Two tokens, two due beats — the ORDER of returns composes the whole chain.",
+  naiveApproach: "Swap which token comes home when — the lamp early, the rattle late.",
+  solutionPolicy: "Committed tighter-window alternate; widest verified band in the set (due 5–7 on rows 0 and 2, starts 1–5 on row 2).",
   winningTraceSummary: [
     "Beats 1–2 — Three postings: the rattle to the decoy sack (due 2 — it must come home early), the light to the candlestick at beat 2 (due 6 — the beat-1 settle first registers the weighted lamp, so its release can open the doors), the weight stays home for now.",
     "Beat 2 — NOISY's return presses the toy onto its plate: the bell corridor reopens. The first return of the chain.",

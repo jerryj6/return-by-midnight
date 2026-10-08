@@ -212,6 +212,9 @@ export function rbm09PlanWithDue(dueBeat: number | null): RbmPlan {
 
 export const RBM09_CARD: LevelCard = {
   levelId: "rbm-09",
+  insight: "Aim is a destination, not a position — name where the deposit should land when it returns, not where it stands now.",
+  naiveApproach: "Aim at the anchor currently deployed — the deposit returns to a home that is not listening.",
+  solutionPolicy: "due 4,5,7 all win (ref uses 6); starts 2–3 win.",
   winningTraceSummary: [
     "Beat 1 — Post the light to the loft candlestick (due 6): the loft opens for the runner, and the stand goes dormant — ready to be re-sited.",
     "Beat 3 — Helper lifts the bare stand: carried cargo never rests, so the lamp plate releases and the dark-room door opens.",

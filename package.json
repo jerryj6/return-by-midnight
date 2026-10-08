@@ -13,6 +13,7 @@
     "build": "vite build && tsc -p tsconfig.server.json && node scripts/embed-build-id.mjs",
     "check:source": "tsx scripts/check-source.ts",
     "check:static": "tsc --noEmit && eslint src tests scripts --max-warnings 0 && tsx scripts/validate-content.ts",
+    "check:content": "tsx scripts/card-vs-engine.ts",
     "test:unit": "vitest run tests/unit",
     "test:properties": "vitest run tests/properties",
     "test:campaign": "vitest run tests/campaign",

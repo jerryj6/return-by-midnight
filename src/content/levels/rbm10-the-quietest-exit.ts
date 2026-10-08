@@ -248,6 +248,9 @@ export function rbm10AlternatePlan(): RbmPlan {
 
 export const RBM10_CARD: LevelCard = {
   levelId: "rbm-10",
+  insight: "Quiet work is sequencing: the rattle home early enough to satisfy the ledger, the lamp out long enough to cover the corridor — the two returns must not fight.",
+  naiveApproach: "Linger in the vestibule to read the sweep — the one visit this level punishes.",
+  solutionPolicy: "Loosest band in the set: due 3–4 on row 0, ≥6 on row 1; the lookout beat-3 foyer visit is droppable (committed trace non-minimal).",
   winningTraceSummary: [
     "Beat 1 — The rattle is lent to the decoy sack (the bell loft opens while it sings); the light to the attic lampstand (the attic opens). The vestibule is dark only while the gallery door stays shut.",
     "Beats 2–4 — Helper clears the bell loft; lookout slips through the dark foyer into the vestibule.",

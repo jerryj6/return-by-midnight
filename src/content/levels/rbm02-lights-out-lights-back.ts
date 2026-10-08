@@ -150,6 +150,9 @@ export function rbm02PlanWithDue(dueBeat: number | null): RbmPlan {
 
 export const RBM02_CARD: LevelCard = {
   levelId: "rbm-02",
+  insight: "One lamp must be darkness in the hall AND light at the vault — the loan window is the only way one token serves both.",
+  naiveApproach: "Return the light as soon as the helper clears the hall (due 3–4) — the obvious tightening that quietly leaves the vault tripwire dark.",
+  solutionPolicy: "due 3–5 all complete; 3/4 are TOLERATED shortcuts (contract wins, teaching lost), only 5 lights sensor-vault; due ≤2 fails to the lit-hall capture. startBeat is free within 2–5.",
   winningTraceSummary: [
     "Beat 1 — Loan BRIGHT from the floor lamp to the helper (due end of beat 5). The hall goes dark; the candlestand keeps the exit lifted.",
     "Beats 1–2 — Wait in the foyer. The custodian's beam is still sweeping the hall — it catches even a beat-2 crossing, because the guard scans before he steps away.",

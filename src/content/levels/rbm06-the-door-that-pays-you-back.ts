@@ -200,6 +200,9 @@ export function rbm06PlanWithDue(dueBeat: number | null): RbmPlan {
 
 export const RBM06_CARD: LevelCard = {
   levelId: "rbm-06",
+  insight: "Borrow the weight to make the safe portable; the return lands the mass wherever the safe is standing.",
+  naiveApproach: "Pay the weight back the moment the safe moves — it settles mid-route and the vault sense stays cold.",
+  solutionPolicy: "Committed jobs-swap alternate lands a different final state; starts 2–4 win.",
   winningTraceSummary: [
     "Beat 1 — Post HEAVY from the safe to the weighing crate (due end of beat 5). The lock plate trips: the store opens, the exit bolts, the vault anchor releases.",
     "Beats 3–5 — Helper ducks through the open store and back with the ledger — before the posted weight comes home.",
