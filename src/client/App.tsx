@@ -622,7 +622,7 @@ function CommandEditor({
                   <td key={b}>
                     <select
                       data-testid={`cmd-${b}-${c.id}`}
-                      aria-label={`Beat ${b} order for ${c.name ?? c.id}`}
+                      aria-label={`Beat ${b} order for crew ${c.id}`}
                       value={queued ? cmdSlug(queued) : "auto"}
                       onChange={(e) => {
                         const v = e.target.value;
