@@ -48,8 +48,8 @@ const PLANS: Record<string, PlayerShare[]> = {
       ],
     },
   ],
-  // rbm-12 is the 4-role-meaningful claim — played here at THREE live seats:
-  // manifest shard 1/1/1, command shards helper / scout / runner+operator.
+  // rbm-12 is the 4-role-meaningful claim — played here at FOUR live seats:
+  // manifest shard 1/1/1/0, command shards helper / scout / runner / operator.
   "rbm-12": [
     {
       rows: [{ token: "TOKEN-H", to: "prop-scale-h", start: 2, due: 4 }],
@@ -74,12 +74,17 @@ const PLANS: Record<string, PlayerShare[]> = {
       rows: [{ token: "TOKEN-N", to: "prop-chime-ex", start: 5, due: 8 }],
       cmds: [
         { beat: 3, crew: "crew-runner", slug: "move:cell-hall" },
-        { beat: 3, crew: "crew-operator", slug: "move:cell-hall" },
         { beat: 4, crew: "crew-runner", slug: "pickup:prop-crown" },
-        { beat: 4, crew: "crew-operator", slug: "move:cell-vault" },
         { beat: 5, crew: "crew-runner", slug: "move:cell-exit" },
-        { beat: 5, crew: "crew-operator", slug: "pm:prop-map:cell-hall" },
         { beat: 6, crew: "crew-runner", slug: "move:pad-out" },
+      ],
+    },
+    {
+      rows: [],
+      cmds: [
+        { beat: 3, crew: "crew-operator", slug: "move:cell-hall" },
+        { beat: 4, crew: "crew-operator", slug: "move:cell-vault" },
+        { beat: 5, crew: "crew-operator", slug: "pm:prop-map:cell-hall" },
         { beat: 6, crew: "crew-operator", slug: "move:cell-exit" },
         { beat: 7, crew: "crew-operator", slug: "move:pad-out" },
       ],
