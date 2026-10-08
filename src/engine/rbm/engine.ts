@@ -62,7 +62,7 @@ interface RbmRunRecord {
 interface RbmCheckpoint {
   manifestRows: LoanManifestRow[];
   commands: Record<number, Record<string, RbmCrewCommand>>;
-  lastRun?: RbmRunRecord;
+  lastRun: RbmRunRecord | undefined;
   accepted: boolean;
   history: CommittedAction[];
 }
@@ -74,7 +74,7 @@ export interface RbmPlayState {
   revision: Revision;
   manifestRows: LoanManifestRow[];
   commands: Record<number, Record<string, RbmCrewCommand>>;
-  lastRun?: RbmRunRecord;
+  lastRun: RbmRunRecord | undefined;
   accepted: boolean;
   /** Committed canonical action log (provenance for replays; excluded from hash). */
   history: CommittedAction[];
@@ -84,7 +84,13 @@ export interface RbmPlayState {
 const PLAN_PHASE = "planning";
 
 function evt(type: string, entityId: string | undefined, data?: Record<string, unknown>): GameEvent {
-  return { beat: 0, phase: PLAN_PHASE, type, entityId, data };
+  return {
+    beat: 0,
+    phase: PLAN_PHASE,
+    type,
+    ...(entityId !== undefined ? { entityId } : {}),
+    ...(data !== undefined ? { data } : {}),
+  };
 }
 
 function clone<T>(v: T): T {
@@ -108,6 +114,7 @@ export class RbmEngine implements DeterministicEngine<RbmManifest, RbmPlayState,
       revision: 0,
       manifestRows: [],
       commands: {},
+      lastRun: undefined,
       accepted: false,
       history: [],
       checkpoints: [],

@@ -13,8 +13,6 @@
 import { sha256Hex } from "../hash.js";
 import type { Beat, EntityId, GameEvent, PredicateResult, RunEvaluation } from "../contracts";
 import {
-  MAX_MACHINERY_TAG_BEATS,
-  type LoanManifestRow,
   type RbmBeatSnapshot,
   type RbmCrewCommand,
   type RbmDeviceState,
@@ -175,7 +173,7 @@ function settleDevices(world: World, state: RbmSimState, beat: Beat, events: Gam
   for (const id of Object.keys(state.devices).sort()) {
     const dev = state.devices[id];
     const def = world.level.devices.find((d) => d.id === id);
-    if (!def || tagActive(dev, "disabled") || tagActive(dev, "paused")) continue;
+    if (!dev || !def || tagActive(dev, "disabled") || tagActive(dev, "paused")) continue;
     if (def.kind === "pressure-plate") {
       const mass = restingMass(world, state, id);
       const pressed = mass >= def.threshold;
@@ -218,7 +216,7 @@ function settleDevices(world: World, state: RbmSimState, beat: Beat, events: Gam
 // ---------------------------------------------------------------------------
 // guards (RBM-007: finite inspectable patrol + declared detection regions)
 
-function litCells(world: World, state: RbmSimState, guard: RbmGuardDef, post: EntityId): Set<EntityId> {
+function litCells(state: RbmSimState, guard: RbmGuardDef, post: EntityId): Set<EntityId> {
   const lit = new Set<EntityId>();
   for (const ray of guard.rays[post] ?? []) {
     for (const seg of ray.segments) {
@@ -239,7 +237,8 @@ function scanGuard(
   seen: Set<string>,
 ): void {
   const g = state.entities[guard.id];
-  const lit = litCells(world, state, guard, g.cellId);
+  if (!g) return;
+  const lit = litCells(state, guard, g.cellId);
   const hits = Object.values(state.entities)
     .filter(
       (e) =>
@@ -262,6 +261,7 @@ function scanGuard(
     if (seen.has(key)) continue;
     seen.add(key);
     const crew = state.entities[crewId];
+    if (!crew) continue;
     crew.captured = true;
     events.push({
       beat,
@@ -302,6 +302,7 @@ function tryMove(
   events: GameEvent[],
 ): boolean {
   const crew = state.entities[crewId];
+  if (!crew) return false;
   const from = crew.cellId;
   const gateId = world.edgeByPair.get(pairKey(from, to));
   if (gateId === undefined) {
@@ -319,7 +320,7 @@ function tryMove(
   }
   if (crew.cargoId) {
     const mass = effectiveMass(world, state, crew.cargoId);
-    const limit = (world.entities.get(crewId) as { massLimit: number }).massLimit;
+    const limit = (world.entities.get(crewId) as { massLimit: number } | undefined)?.massLimit ?? 0;
     if (mass > limit) {
       reject(events, beat, crewId, { type: "move", to }, "overloaded-cargo");
       return false;
@@ -328,6 +329,7 @@ function tryMove(
   crew.cellId = to;
   const carried = crew.cargoId ? state.entities[crew.cargoId] : null;
   if (carried) carried.cellId = to;
+  // (carried is a prop entity; props always exist when cargoId is set)
   events.push({
     beat,
     phase: "crew",
@@ -347,6 +349,7 @@ function tryPickup(
   events: GameEvent[],
 ): boolean {
   const crew = state.entities[crewId];
+  if (!crew) return false;
   const prop = state.entities[propId];
   const def = world.entities.get(propId);
   if (!prop || prop.kind !== "prop" || !def || def.kind !== "prop") {
@@ -362,7 +365,7 @@ function tryPickup(
     return false;
   }
   const mass = effectiveMass(world, state, propId);
-  const limit = (world.entities.get(crewId) as { massLimit: number }).massLimit;
+  const limit = (world.entities.get(crewId) as { massLimit: number } | undefined)?.massLimit ?? 0;
   if (mass > limit) {
     reject(events, beat, crewId, { type: "pickup", propId }, "too-heavy");
     return false;
@@ -381,7 +384,7 @@ function runCrewCommand(
   events: GameEvent[],
 ): void {
   const crew = state.entities[crewId];
-  if (!crew) return;
+  if (!crew || crew.kind !== "crew") return;
   const cmd = command ?? { type: "wait" as const };
   if (crew.captured) {
     reject(events, beat, crewId, cmd, "captured");
@@ -504,8 +507,8 @@ export function simulate(level: RbmManifest, plan: RbmPlan, seed: string): RbmSi
     // Phase 1 — accepted loans and interaction commands, then device settling.
     for (const row of rows.filter((r) => r.startBeat === beat)) {
       const tok = state.tokens[row.tokenId];
-      const homeOk = tok.hostEntityId === row.fromHostId;
-      if (!homeOk) {
+      const homeOk = tok !== undefined && tok.hostEntityId === row.fromHostId;
+      if (!homeOk || !tok) {
         events.push({ beat, phase: "loans", type: "loan.rejected", entityId: row.tokenId, data: { rowId: row.rowId, reason: "token-not-at-origin" } });
         continue;
       }
@@ -531,9 +534,13 @@ export function simulate(level: RbmManifest, plan: RbmPlan, seed: string): RbmSi
     // Phase 3 — machinery and guard movement/detection.
     // Machinery tags tick; guards resolve attention at their current post
     // BEFORE patrol movement, then detection rays again after moving.
-    for (const id of Object.keys(state.devices).sort()) tickTags(state.devices[id]);
+    for (const id of Object.keys(state.devices).sort()) {
+      const d = state.devices[id];
+      if (d) tickTags(d);
+    }
     for (const g of [...level.guards].sort((a, b) => a.id.localeCompare(b.id))) {
       const gstate = state.entities[g.id];
+      if (!gstate) continue;
       scanGuard(world, state, beat, g, events, captureSeen); // attention before movement
       const step = g.patrol.find((p) => p.beat === beat);
       if (step && step.cellId !== gstate.cellId) {
@@ -552,7 +559,7 @@ export function simulate(level: RbmManifest, plan: RbmPlan, seed: string): RbmSi
       const homeId = world.tokenDefs.get(tok.id)?.homeEntityId ?? tok.hostEntityId;
       const from = tok.hostEntityId;
       tok.hostEntityId = homeId;
-      tok.loan = undefined;
+      delete tok.loan;
       tok.completedLoans += 1;
       tok.status = "returned";
       events.push({
@@ -568,12 +575,13 @@ export function simulate(level: RbmManifest, plan: RbmPlan, seed: string): RbmSi
     settleDevices(world, state, beat, events);
     for (const crewId of Object.keys(state.entities).sort()) {
       const crew = state.entities[crewId];
-      if (crew.kind !== "crew" || !crew.cargoId) continue;
+      if (!crew || crew.kind !== "crew" || !crew.cargoId) continue;
       const def = world.entities.get(crewId) as { massLimit: number } | undefined;
       const mass = effectiveMass(world, state, crew.cargoId);
       if (def && mass > def.massLimit) {
         const propId = crew.cargoId;
         const prop = state.entities[propId];
+        if (!prop) continue;
         crew.cargoId = null;
         prop.cellId = crew.cellId; // settles at the carrier's current valid location (RBM-004)
         events.push({

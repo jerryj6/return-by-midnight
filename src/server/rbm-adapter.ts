@@ -35,7 +35,7 @@ export const rbmAdapter: GameAdapter<RbmRoomState> = {
     if (!payload || typeof payload !== "object" || !("type" in payload)) return { ok: false, reason: "malformed command" };
     const action = { actorId, commandId: `${actorId}@${room.revision}`, baseRevision: room.revision, payload };
     const r = engine.validateAction(levelOf(room.state.levelId), room.state.state, action);
-    return r.ok ? { ok: true } : { ok: false, reason: r.reason };
+    return r.ok ? { ok: true } : { ok: false, reason: r.reason ?? "illegal" };
   },
 
   applyCommand(room: RoomDraft<RbmRoomState>, actorId: string, cmd: unknown): unknown[] {

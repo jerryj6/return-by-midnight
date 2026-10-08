@@ -143,6 +143,8 @@ export function rbm01AlternatePlan(): RbmPlan {
 /** Same movements, but HEAVY is due at the given beat (null = permanent). */
 export function rbm01PlanWithDue(dueBeat: number | null): RbmPlan {
   const plan = rbm01ReferencePlan();
-  plan.rows[0] = { ...plan.rows[0], dueBeat };
+  const row = plan.rows[0];
+  if (!row) throw new Error("reference plan has no rows");
+  plan.rows[0] = { ...row, dueBeat };
   return plan;
 }

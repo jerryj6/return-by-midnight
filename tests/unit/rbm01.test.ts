@@ -51,7 +51,7 @@ describe("RBM-C canonical trace", () => {
 
   it("succeeds at the end-of-beat-4 verification horizon", () => {
     expect(result.evaluation.success).toBe(true);
-    const evalEvent = eventsOf(result, "evaluation")[0];
+    const evalEvent = eventsOf(result, "evaluation")[0]!;
     expect(evalEvent.beat).toBe(4);
     expect(evalEvent.phase).toBe("evaluate");
   });
@@ -77,7 +77,7 @@ describe("RBM-C canonical trace", () => {
     const b3 = atBeat(result.events, 3);
     const moveIdx = b3.findIndex((e) => e.type === "crew.move" && e.entityId === "crew-helper");
     expect(moveIdx).toBeGreaterThanOrEqual(0);
-    expect(b3[moveIdx].data?.["to"]).toBe("pad-out");
+    expect(b3[moveIdx]!.data?.["to"]).toBe("pad-out");
     const ret = b3.find((e) => e.type === "token.return" && e.entityId === "TOKEN-H");
     // RBM-008: returns (phase 4) resolve after crew movement (phase 2).
     expect(ret).toBeTruthy();
@@ -102,7 +102,7 @@ describe("RBM-C canonical trace", () => {
 it("return due at beat 2 settles the safe mid-route and the exit run fails", () => {
   const result = simulate(RBM01, rbm01PlanWithDue(2), SEED);
   // HEAVY returns to the carried safe at the approach square: it settles there.
-  const settled = eventsOf(result, "cargo.settled")[0];
+  const settled = eventsOf(result, "cargo.settled")[0]!;
   expect(settled.beat).toBe(2);
   expect(settled.data?.["cellId"]).toBe("cell-approach");
   expect(settled.data?.["reason"]).toBe("overloaded");
@@ -111,7 +111,7 @@ it("return due at beat 2 settles the safe mid-route and the exit run fails", () 
   // The beat-3 exit move is rejected — the helper never leaves the building.
   const rejected = atBeat(result.events, 3).find((e) => e.type === "command.rejected" && e.entityId === "crew-helper");
   expect(rejected).toBeTruthy();
-  expect(result.finalState.entities["prop-safe"].cellId).not.toBe("pad-out");
+  expect(result.finalState.entities["prop-safe"]!.cellId).not.toBe("pad-out");
   expect(result.evaluation.success).toBe(false);
 });
 
@@ -120,11 +120,11 @@ it("return due at beat 4 is too late — open exit lets the beat-4 ray capture",
   const result = simulate(RBM01, rbm01PlanWithDue(4), SEED);
   // The exit is still open through the guard's beat-4 movement (RBM-008: guard
   // movement precedes the end-of-beat-4 return).
-  const capture = eventsOf(result, "guard.capture")[0];
+  const capture = eventsOf(result, "guard.capture")[0]!;
   expect(capture.beat).toBe(4);
   expect(capture.data?.["crewId"]).toBe("crew-helper");
   expect(capture.data?.["cellId"]).toBe("pad-out");
-  const ret = eventsOf(result, "token.return")[0];
+  const ret = eventsOf(result, "token.return")[0]!;
   expect(ret.beat).toBe(4);
   // capture (phase 3) is recorded before the return (phase 4)
   const b4 = atBeat(result.events, 4);
@@ -136,7 +136,7 @@ it("return due at beat 4 is too late — open exit lets the beat-4 ray capture",
 it("permanent loan (never returned) leaves the gate open and fails", () => {
   const result = simulate(RBM01, rbm01PlanWithDue(null), SEED);
   expect(eventsOf(result, "token.return")).toHaveLength(0);
-  const capture = eventsOf(result, "guard.capture")[0];
+  const capture = eventsOf(result, "guard.capture")[0]!;
   expect(capture.beat).toBe(4);
   expect(capture.data?.["crewId"]).toBe("crew-helper");
   const heavyOutcome = result.evaluation.outcomes.find((o) => o.predicateId === "heavy-returned");
@@ -159,7 +159,7 @@ describe("token conservation (RBM-001)", () => {
     for (const plan of [rbm01ReferencePlan(), rbm01PlanWithDue(2), rbm01PlanWithDue(4), rbm01PlanWithDue(null)]) {
       const result = simulate(RBM01, plan, SEED);
       for (const snap of result.timeline) {
-        const tok = snap.state.tokens["TOKEN-H"];
+        const tok = snap.state.tokens["TOKEN-H"]!;
         expect(tok).toBeTruthy();
         expect(Object.keys(snap.state.entities)).toContain(tok.hostEntityId);
         // one token record => one host; no second entity can claim it.
@@ -170,7 +170,7 @@ describe("token conservation (RBM-001)", () => {
 
   it("overlapping loans and duplicate commands cannot duplicate the token", () => {
     let s = engine.createInitialState(RBM01);
-    const row = rbm01ReferencePlan().rows[0];
+    const row = rbm01ReferencePlan().rows[0]!;
     s = commit(s, { type: "manifest.commit", row }, "r1");
     // A second overlapping row for the same token is rejected before execution.
     const overlap: LoanManifestRow = { ...row, rowId: "r2", startBeat: 2, dueBeat: 4 };
@@ -210,14 +210,14 @@ it("serialize/restore preserves token home and mid-loan host", () => {
   expect(engine.canonicalHash(RBM01, restored)).toBe(engine.canonicalHash(RBM01, state));
 
   // beat-2/3 snapshots sit mid-loan: hosted by the crate, home still the safe.
-  const midLoan = restored.lastRun!.timeline[2].state;
-  expect(midLoan.tokens["TOKEN-H"].status).toBe("held");
-  expect(midLoan.tokens["TOKEN-H"].hostEntityId).toBe("prop-crate");
+  const midLoan = restored.lastRun!.timeline[2]!.state;
+  expect(midLoan.tokens["TOKEN-H"]!.status).toBe("held");
+  expect(midLoan.tokens["TOKEN-H"]!.hostEntityId).toBe("prop-crate");
   expect(RBM01.tokens.find((t) => t.id === "TOKEN-H")?.homeEntityId).toBe("prop-safe");
   // after restore, the same token is back home by the horizon snapshot
-  const final = restored.lastRun!.timeline[4].state;
-  expect(final.tokens["TOKEN-H"].hostEntityId).toBe("prop-safe");
-  expect(final.tokens["TOKEN-H"].status).toBe("returned");
+  const final = restored.lastRun!.timeline[4]!.state;
+  expect(final.tokens["TOKEN-H"]!.hostEntityId).toBe("prop-safe");
+  expect(final.tokens["TOKEN-H"]!.status).toBe("returned");
 
   // corruption is detected, not silently accepted
   const tampered = JSON.parse(blob);
@@ -229,7 +229,7 @@ it("serialize/restore preserves token home and mid-loan host", () => {
 
 it("enforces manifest budget and loan legality before execution", () => {
   let s = engine.createInitialState(RBM01);
-  const row = rbm01ReferencePlan().rows[0];
+  const row = rbm01ReferencePlan().rows[0]!;
   // loan must start from home: a row pretending another origin is illegal
   const wrongOrigin: LoanManifestRow = { ...row, rowId: "x1", fromHostId: "prop-crate" };
   const a1: RbmAction = { actorId: "t", commandId: "x1", baseRevision: s.revision, payload: { type: "manifest.commit", row: wrongOrigin } };
@@ -253,7 +253,7 @@ it("enforces manifest budget and loan legality before execution", () => {
 it("undo across a committed loan restores the prior plan exactly", () => {
   let s = engine.createInitialState(RBM01);
   const before = engine.canonicalHash(RBM01, s);
-  s = commit(s, { type: "manifest.commit", row: rbm01ReferencePlan().rows[0] }, "u1");
+  s = commit(s, { type: "manifest.commit", row: rbm01ReferencePlan().rows[0]! }, "u1");
   s = commit(s, { type: "history.undo" }, "u2");
   expect(s.manifestRows).toHaveLength(0);
   expect(engine.canonicalHash(RBM01, s)).toBe(before); // undo(apply(x)) == x
