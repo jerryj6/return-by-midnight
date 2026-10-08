@@ -10,7 +10,7 @@ the audit sweep) — not human playtest.
 |---|---|
 | Tutorial exemption | **RBM-01 ships no `LevelCard`** — its beat-by-beat sequence is the tutorial itself; the teaching trace lives in `RBM_HINTS["rbm-01"].solution` instead. Every post-tutorial level (02–12) MUST export a card with ≥1 `winningTraceSummary` line and ≥1 `wrongApproaches` entry. Enforced by `scripts/validate-content.ts`. |
 | Card id | `card.levelId` equals the lowercase index id (`"rbm-02"`), the `CARDS` map key is uppercase (`"RBM-02"`). |
-| coopNote | Only on designated co-op levels (GME-007): currently RBM-08 and RBM-10. Four entries = four distinct contribution types (two manifest owners + route operators + a warden). Other levels omit it — solo design is the default, not a gap. |
+| coopNote | Only on designated co-op levels (GME-007): RBM-08, RBM-10, RBM-11, RBM-12. Four entries = four distinct contribution types (two manifest owners + route operators + a warden). Other levels omit it — solo design is the default, not a gap. RBM-08/10 wire it inline on the card const; RBM-11/12 wire it via the `CARDS` index spread — `check:content` loads the merged cards so both shapes are truth-checked. |
 
 ## 2. `expectedFailure` honesty rules
 
@@ -44,6 +44,8 @@ Authors may either tighten the level or document the band; silent looseness is t
 | RBM-08 | `TOKEN-B` `dueBeat` 5–7, `startBeat` 3–4 (start 1 fails: the beat-1 settle must register the weighted lamp first); `TOKEN-N` `dueBeat` 3 also wins but due 6 fails — early return required; `TOKEN-H` `dueBeat` 5–7, `startBeat` 1–5; six ±1 retimes. Widest in the set. |
 | RBM-09 | `dueBeat` 4,5,7 win (ref 6); `startBeat` 2,3 win; four ±1 retimes. |
 | RBM-10 | row 0 `dueBeat` 3–4, `startBeat` 2; row 1 `dueBeat` ≥6, `startBeat` 2–5; eight ±1 retimes. Still the loosest timing band in the set — designed multiplicity, kept deliberately (the finale's precision lives in the vestibule lurk, not the manifest). Trace was made minimal in refine-2 (see §5). |
+| RBM-11 | Enumerated (1,296 manifests → 324 winners, exactly 1 family): corridor rows `dueBeat` 4–5, `startBeat` 1–3; window rows `dueBeat` 7–8, `startBeat` ≤6 — the crossover bound is per-token non-overlap (`late.start > early.due`), not a fixed beat: a late posting at start 5 wins when the early one ends at 4. |
+| RBM-12 | Enumerated (92,160 manifests → 33,000 winners, **4 families**): canonical `TOKEN-H` `dueBeat` 3–4, `startBeat` 1–3; `TOKEN-B` `dueBeat` 5–9 all win, `startBeat` 1–4; `TOKEN-N` `dueBeat` 7–8, `startBeat` 1–6. Plus three **split-posting families**: any one posting can decompose into two shorter loans covering the same beats (e.g. `H@1~2 + H@3~3`, `B@1~2 + B@3~5`, `N@1~2 + N@3~7`) — `maxRows:4` buys exactly one split. Tolerated multiplicity; see §7. |
 
 Policy: where a tolerance is *designed* multiplicity, add one "Tolerance note" line to the
 card's trace summary. Where it undercuts the taught lesson (rbm-02's dark tripwire), the
@@ -84,3 +86,54 @@ card marks the shortcut `TOLERATED`.
 Cards may carry `insight`, `naiveApproach`, and `solutionPolicy` — see the interface
 comments in `src/content/levels/level-card.ts`. All are documentation-only; no engine or
 client surface consumes them yet.
+
+## 7. Refine-5 — RBM-11/12 probe coverage + coop wiring note (AUTOMATED)
+
+- **All 14 carded `wrongApproaches` on rbm-11/12 now have probes** in
+  `scripts/card-vs-engine.ts` (`unprobed=0`, 61 total). Every carded mechanism
+  reproduces exactly as written — no drift on either level: the crossover's
+  `overlapping-loan`/`incompatible-host` rows, `gate-closed` exits before the
+  window posting, `guard.capture` at beat 9 (open-window stragglers on both
+  levels) and at beat 2 on the opening sweeps, the vault-pair beat-6 rattle,
+  and `plan.complete` on a missing required-token row.
+- **CoopNote wiring inconsistency caught (AUTOMATED):** RBM-11/12 ship their
+  `coopNote` via the `CARDS` index spread, not inline on the card const like
+  08/10 — the validator's raw-const imports silently skipped their role checks.
+  `check:content` now loads the merged `CARDS` entries for 11/12 (the same
+  objects the client ships); both coopNotes verified load-bearing (rbm-11: 4
+  roles / 4 rows / 4-of-4 crew commanded; rbm-12: 4 roles / 3 rows / 4-of-4).
+- **Convention pinned:** home props carry `accepts: []` — a token's home is
+  declared by `homeEntityId`, not by an accept list (the rbm-12 fix).
+- §3 tolerance table extended to 11/12 — first by targeted mutation sweep,
+  then superseded by full enumeration (`scripts/enumerate-manifests.ts`):
+  rbm-11 → 324 winners, exactly 1 routing family; rbm-12 → 33,000 winners,
+  **4 families** (see §8).
+
+## 8. Refine-6 — enumeration of 11/12 + split-posting finding (AUTOMATED)
+
+`scripts/enumerate-manifests.ts` now runs a gate-coverage prefilter for
+rbm-11/12: a manifest that cannot press open a gate the committed commands
+cross (or leaves a home-pressured plate's token out at the crossing beat) is
+counted as statically eliminated — guaranteed `gate-closed` — and only
+coverage-surviving manifests are simulated. The filter is audited by padded
+spot-checks (rejected token-sets re-completed with committed rows: 0 misses).
+
+- **RBM-11: exactly 1 routing family.** All 324 winning manifests are the
+  crossover — four gates, four plate-feeding rows, `maxRows:4` leaves zero
+  slack for split postings or spare rows. Timing is the only freedom.
+- **RBM-12: 4 families — a genuinely new solve structure.** 33,000 winners:
+  the canonical 3-row family (1,440) plus three **split-posting families**
+  where one posting decomposes into two shorter loans covering the same
+  beats. Choreography is identical; they differ only on the loan board —
+  paperwork variants, not new routes. `maxRows:4` over 3 required rows buys
+  exactly one split. A *fourth* kind of alternates (different routing or
+  different choreography) does not exist: single-host tokens and the
+  door-chain force both.
+- **Convention — split postings are TOLERATED multiplicity, not cards.** A
+  card need not enumerate them; the appendix documents them so playtesters
+  don't report them as bugs. If a level's lesson requires a posting to be
+  atomic, that is a level-author design change (maxRows or due options),
+  not a card fix.
+- **Minimality on 11/12 clean (AUTOMATED):** row-drop, crew-drop, and
+  delete-one-command sweeps fail on all four committed plans (ref+alt) —
+  no dead command, no freeloader row, no single-crew shortcut.
