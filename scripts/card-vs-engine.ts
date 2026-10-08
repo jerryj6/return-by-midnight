@@ -27,6 +27,7 @@ import { simulate } from "../src/engine/rbm/sim.js";
 import type { RbmAction } from "../src/engine/rbm/engine.js";
 import type { LoanManifestRow, RbmManifest, RbmPlan, RbmSimResult } from "../src/engine/rbm/types.js";
 import type { LevelCard } from "../src/content/levels/level-card.js";
+import { NAMES, PREDICATE_NAMES } from "../src/client/describe.js";
 import { RBM01, rbm01ReferencePlan } from "../src/content/levels/rbm01-weight-of-evidence.js";
 import { RBM02, RBM02_CARD, rbm02PlanWithDue, rbm02ReferencePlan } from "../src/content/levels/rbm02-lights-out-lights-back.js";
 import { RBM03, RBM03_CARD, rbm03PlanWithDue, rbm03ReferencePlan } from "../src/content/levels/rbm03-quiet-then-quite-loud.js";
@@ -288,6 +289,39 @@ for (const [level, ref] of REFS) {
         warns++;
       }
     }
+  }
+}
+
+// --- 5. UI text coverage: every predicate + named-rendered id must have a
+// display name in describe.ts (the failed-run verdict and the inspector show
+// these; a missing entry leaks the raw slug to players).
+{
+  const LEVELS_ALL = REFS.map(([l]) => l);
+  const missing: string[] = [];
+  if (!("plan.complete" in PREDICATE_NAMES)) missing.push("shared: predicate plan.complete");
+  for (const level of LEVELS_ALL) {
+    for (const p of level.outcomes) {
+      if (!(p.id in PREDICATE_NAMES)) missing.push(`${level.levelId}:predicate ${p.id}`);
+    }
+    const idFields: string[] = [];
+    for (const e of [...level.cells, ...level.props, ...level.crew, ...level.guards, ...level.devices]) idFields.push(e.id);
+    for (const edge of level.edges) { idFields.push(edge.a, edge.b); if (edge.gateId) idFields.push(edge.gateId); }
+    for (const t of level.tokens) { idFields.push(t.id, t.homeEntityId); }
+    for (const o of level.outcomes) {
+      if ("entityId" in o) idFields.push(o.entityId);
+      if ("cellId" in o) idFields.push(o.cellId);
+      if ("tokenId" in o) idFields.push(o.tokenId);
+      if ("region" in o) idFields.push(o.region);
+    }
+    for (const id of new Set(idFields)) {
+      if (!(id in NAMES)) missing.push(`${level.levelId}:id ${id}`);
+    }
+  }
+  if (missing.length) {
+    for (const m of missing) console.log(`FAIL  unnamed id rendered raw in UI — ${m}`);
+    fails += missing.length;
+  } else {
+    console.log(`ok    UI text coverage: all predicates + entities named`);
   }
 }
 

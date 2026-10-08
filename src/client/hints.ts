@@ -84,10 +84,10 @@ export const RBM_HINTS: Record<string, HintLadderContent> = {
     solution: {
       caption: "A complete operation (spoiler)",
       lines: [
-        "Beat 1 — Loan BRIGHT from the nursery lamp to the mooring bust (due end of beat 4). The north door opens.",
+        "Beat 1 — Loan BRIGHT from the nursery lamp to the north anchor (due end of beat 4). The north door opens.",
         "Beat 3 — Helper slips into the dark north room; its door is open on loan.",
         "Beat 4 — She lifts the north idol and exits; the loan lapses home — the lamp's telltale fires at the settle (the home job).",
-        "Beat 5 — BRIGHT is reloaned from home to the ballast urn (legal only after the one-beat gap); the south door opens at the settle.",
+        "Beat 5 — BRIGHT is reloaned from home to the south anchor (legal only after the one-beat gap); the south door opens at the settle.",
         "Beat 6 — Operator lifts the south idol and exits through the open door; BRIGHT comes home to the lamp. Run the plan, then accept it.",
       ],
     },
@@ -101,7 +101,7 @@ export const RBM_HINTS: Record<string, HintLadderContent> = {
     solution: {
       caption: "A complete operation (spoiler)",
       lines: [
-        "Beat 1 — Post HEAVY from the safe to the weighing crate (due end of beat 5). The lock plate trips: the store opens, the exit bolts, the vault anchor releases.",
+        "Beat 1 — Post HEAVY from the safe to the light crate (due end of beat 5). The lock plate trips: the store opens, the exit bolts, the vault anchor releases.",
         "Beats 3–5 — Helper ducks through the open store and back with the ledger — before the posted weight comes home.",
         "Beat 5 (return phase) — HEAVY lands back on the safe: the alarm plate unbars the vault door AND delivery window while the lock plate releases the front exit — one return, three doors.",
         "Beats 6–7 — Helper leaves by the front door; operator slips in the vault window and out with the crown while the beam sweeps the hall. Run the plan, then accept it.",
@@ -112,7 +112,7 @@ export const RBM_HINTS: Record<string, HintLadderContent> = {
     tiers: [
       "Three rows, three jobs: the scales, the diversion, and the door. The ledger will not let one token sit on two scales at once — double-booking is rejected outright.",
       "The NOISY rattle only earns its diversion when it *returns* to a host that can make noise where the patrol can hear it. And the vault step must come after the repost — order matters more than speed.",
-      "Book the weight first, the jingle second, and the door token last. Keep the rattle's return inside the patrol's hearing window — due 4–6 all work, but earlier strands the diversion.",
+      "Book the weight first, the jingle second, and the door token last. The rattle's return beat is the loosest dial on the manifest — due anywhere from beat 3 on works (beat 1–2 strands the diversion, never returning fails the midnight check).",
     ],
     solution: {
       caption: "A complete operation (spoiler)",
@@ -169,8 +169,9 @@ export const RBM_HINTS: Record<string, HintLadderContent> = {
       caption: "A complete operation (spoiler)",
       lines: [
         "Beat 1 — The rattle is lent to the decoy sack (the bell loft opens while it sings); the light to the attic lampstand (the attic opens). The vestibule is dark only while the gallery door stays shut.",
-        "Beats 2–4 — Helper clears the bell loft; lookout slips through the dark foyer into the vestibule.",
+        "Beats 2–4 — Helper clears the bell loft; the lookout holds on the pad, then ducks straight into the vestibule ahead of the returning watch.",
         "Beat 5 — Lookout leaves by the hatch before the rattle lands home: the return presses the toy, unbarring both gallery doors — and pours the west beam into the now-empty vestibule.",
+        "Beats 5–6 — Operator slips into the attic the moment the east watch leaves it, and drops to the pad with the attic idol.",
         "Beats 6–7 — Runner takes the delivery window into the open gallery and out with the idol.",
         "Alternative — bring the rattle home at beat 3 and send the runner through the inside corridor instead: same take, earlier finish, a tighter bell window.",
       ],

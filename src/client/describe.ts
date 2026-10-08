@@ -5,7 +5,7 @@
 import type { GameEvent } from "../engine/contracts.js";
 import type { RbmCrewCommand } from "../engine/rbm/types.js";
 
-const NAMES: Record<string, string> = {
+export const NAMES: Record<string, string> = {
   "prop-safe": "the portable safe",
   "prop-crate": "the light crate",
   "crew-helper": "the carrier",
@@ -14,6 +14,8 @@ const NAMES: Record<string, string> = {
   "plate-1": "the pressure plate",
   "gate-exit": "the exit gate",
   "TOKEN-H": "HEAVY",
+  "TOKEN-B": "BRIGHT",
+  "TOKEN-N": "NOISY",
   "room-safe": "the safe room",
   "cell-approach": "the doorway approach",
   "guard-far": "the far gallery",
@@ -22,6 +24,127 @@ const NAMES: Record<string, string> = {
   "cover-out": "the covered blind",
   inside: "inside",
   outside: "outside",
+
+  // ---- crew (rbm-08/10 four-hand levels) ---------------------------------
+  "crew-runner": "the runner",
+  "crew-lookout": "the warden",
+
+  // ---- cells ---------------------------------------------------------------
+  "cell-alcove": "the alcove",
+  "cell-attic": "the attic",
+  "cell-bell": "the bell loft",
+  "cell-dark": "the dark room",
+  "cell-east": "the east room",
+  "cell-eastwing": "the east wing",
+  "cell-foyer": "the foyer",
+  "cell-gallery": "the gallery",
+  "cell-hall": "the hall",
+  "cell-hub": "the hub",
+  "cell-junction": "the junction",
+  "cell-landing": "the landing",
+  "cell-lobby": "the lobby",
+  "cell-loft": "the loft",
+  "cell-north": "the north room",
+  "cell-nursery": "the nursery",
+  "cell-parlor": "the parlor",
+  "cell-south": "the south room",
+  "cell-store": "the storeroom",
+  "cell-vault": "the vault",
+  "cell-vestibule": "the vestibule",
+
+  // ---- props ---------------------------------------------------------------
+  "prop-anchor-north": "the north anchor",
+  "prop-anchor-south": "the south anchor",
+  "prop-bust": "the marble bust",
+  "prop-candle": "the candle",
+  "prop-candlestick": "the candlestick",
+  "prop-crown": "the crown",
+  "prop-decoy": "the decoy",
+  "prop-idol-attic": "the attic idol",
+  "prop-idol-bell": "the bell idol",
+  "prop-idol-dark": "the dark-room idol",
+  "prop-idol-east": "the east idol",
+  "prop-idol-gallery": "the gallery idol",
+  "prop-idol-loft": "the loft idol",
+  "prop-idol-north": "the north idol",
+  "prop-idol-south": "the south idol",
+  "prop-idol-vault": "the vault idol",
+  "prop-idol-vest": "the vestibule idol",
+  "prop-lamp": "the lamp",
+  "prop-lampstand": "the lamp stand",
+  "prop-ledger": "the ledger",
+  "prop-nightlamp": "the nightlamp",
+  "prop-sack": "the sack",
+  "prop-scale-north": "the north scale",
+  "prop-scale-vault": "the vault scale",
+  "prop-stand": "the lamp stand",
+  "prop-statuette": "the statuette",
+  "prop-toy": "the wind-up toy",
+
+  // ---- gates ---------------------------------------------------------------
+  "gate-attic": "the attic gate",
+  "gate-bell": "the bell-loft gate",
+  "gate-dark": "the dark-room gate",
+  "gate-e1": "the east door",
+  "gate-east": "the east gate",
+  "gate-gallery": "the gallery door",
+  "gate-gallery-window": "the gallery window",
+  "gate-lift": "the lift gate",
+  "gate-lobby": "the lobby door",
+  "gate-loft": "the loft gate",
+  "gate-n1": "the north door",
+  "gate-north": "the north gate",
+  "gate-south": "the south gate",
+  "gate-store": "the storeroom door",
+  "gate-v1": "the vault door",
+  "gate-vault": "the vault gate",
+  "gate-window": "the vault window",
+
+  // ---- pressure plates -------------------------------------------------------
+  "plate-alarm": "the alarm plate",
+  "plate-anchor": "the anchor plate",
+  "plate-attic": "the attic plate",
+  "plate-bell": "the bell plate",
+  "plate-east": "the east plate",
+  "plate-hold": "the hold plate",
+  "plate-lamp": "the lamp plate",
+  "plate-lift": "the lift plate",
+  "plate-lock": "the lock plate",
+  "plate-loft": "the loft plate",
+  "plate-north": "the north plate",
+  "plate-south": "the south plate",
+  "plate-toy": "the toy plate",
+  "plate-vault": "the vault plate",
+
+  // ---- beams (guard vision cones) --------------------------------------------
+  "beam-att": "the attic beam",
+  "beam-d": "the dark-room beam",
+  "beam-e": "the east beam",
+  "beam-far": "the far beam",
+  "beam-foyer": "the foyer beam",
+  "beam-gal": "the gallery beam",
+  "beam-gallery": "the gallery beam",
+  "beam-hall": "the hall beam",
+  "beam-hall2": "the second hall beam",
+  "beam-hub": "the hub beam",
+  "beam-j": "the junction beam",
+  "beam-l": "the loft beam",
+  "beam-landing": "the landing beam",
+  "beam-lobby": "the lobby beam",
+  "beam-n": "the north beam",
+  "beam-north": "the north beam",
+  "beam-pad": "the pad beam",
+  "beam-south": "the south beam",
+  "beam-v": "the vault beam",
+  "beam-vault": "the vault beam",
+  "beam-vest": "the vestibule beam",
+
+  // ---- sensors ---------------------------------------------------------------
+  "sensor-ear": "the ear sensor",
+  "sensor-eye": "the eye sensor",
+  "sensor-junction": "the junction sensor",
+  "sensor-lamp": "the lamp sensor",
+  "sensor-vault": "the vault sensor",
 };
 
 export function nameOf(id: string | undefined | null): string {
@@ -165,13 +288,42 @@ export function describeEvent(e: GameEvent): string {
 
 // ---- predicates --------------------------------------------------------------
 
-const PREDICATE_NAMES: Record<string, string> = {
+export const PREDICATE_NAMES: Record<string, string> = {
   "plan.complete": "The manifest schedules every required token",
   "safe-delivered": "The safe reaches the outside pad",
   "helper-extracted": "The carrier ends outside",
   "operator-extracted": "The lookout ends outside",
   "crew-safe": "No one is caught",
   "heavy-returned": "HEAVY is home by midnight",
+
+  // shared shapes across levels
+  "runner-extracted": "The runner ends outside",
+  "lookout-extracted": "The warden ends outside",
+  "crew-extracted": "The carrier ends outside",
+  "bright-returned": "BRIGHT is home by midnight",
+  "bright-home": "BRIGHT is home by midnight",
+  "noisy-returned": "NOISY is home by midnight",
+  "noisy-home": "NOISY is home by midnight",
+  "heavy-home": "HEAVY is home by midnight",
+
+  // per-level deliveries
+  "statuette-delivered": "The statuette reaches the outside pad",
+  "bust-delivered": "The marble bust reaches the outside pad",
+  "toy-posted": "The wind-up toy waits in the alcove",
+  "safe-vaulted": "The safe rests in the vault",
+  "ledger-out": "The ledger reaches the outside pad",
+  "crown-out": "The crown reaches the outside pad",
+  "stand-aimed": "The lamp stand is left at the junction",
+  "idol-north-out": "The north idol reaches the outside pad",
+  "idol-south-out": "The south idol reaches the outside pad",
+  "idol-east-out": "The east idol reaches the outside pad",
+  "idol-vault-out": "The vault idol reaches the outside pad",
+  "idol-dark-out": "The dark-room idol reaches the outside pad",
+  "idol-loft-out": "The loft idol reaches the outside pad",
+  "idol-bell-out": "The bell idol reaches the outside pad",
+  "idol-gallery-out": "The gallery idol reaches the outside pad",
+  "idol-attic-out": "The attic idol reaches the outside pad",
+  "idol-vest-out": "The vestibule idol reaches the outside pad",
 };
 
 export function describePredicate(id: string): string {

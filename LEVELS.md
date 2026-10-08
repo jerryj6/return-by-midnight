@@ -216,3 +216,30 @@ the return lands.
 - The paired counterexamples prove the causality: the same linger is safe
   when the return never lands (no capture — but the gallery stays shut).
 - `coopNote` carries the four-contribution map per GME-007.
+
+## Appendix — designed multiplicity (verified tolerance bands)
+
+**Playtester note:** every band below is measured against the engine (AUTOMATED
+verification — mutation sweeps over `dueBeat`/`startBeat`/command timing). Solving
+inside a listed band is a *designed alternate*, not a bug and not a shortcut that
+needs a report. Report only a variant OUTSIDE these bands that wins, or a listed
+alternate that loses. Canonical rows/commands are the committed reference plans.
+
+| Level | Verified alternates (all still win) |
+|---|---|
+| RBM-01 | `startBeat` 1–2 (beat 2 is the committed alternate); helper's beat-2 command also passes at beat 1. |
+| RBM-02 | `dueBeat` 3, 4, 5 all complete — but only **5** powers `sensor-vault`; 3/4 are TOLERATED shortcuts (carded). `startBeat` 2–5. |
+| RBM-03 | `dueBeat` 4–6; `startBeat` 2–6 — only the return beat matters. |
+| RBM-04 | `dueBeat` 4–5; helper's beat-6 command also passes at 5. |
+| RBM-05 | Row order is swappable (north-first or south-first are both committed alternates); row 0 `startBeat` 2–4, row 1 `startBeat` up to 6. |
+| RBM-06 | `startBeat` 2–4. |
+| RBM-07 | Row 0 `dueBeat` 3–4; row 2 (`TOKEN-H` vault scale) `dueBeat` 3–6 + `startBeat` 2–3; `TOKEN-N` rattle `dueBeat` **3–7 all win** — due 1–2 strands the diversion, `null` fails `noisy-home` (the "all run long" framing is flavor, not binding). |
+| RBM-08 | `TOKEN-B` `dueBeat` 5–7, `startBeat` 3–4 (start 1 fails — the beat-1 settle must register the weighted lamp first); `TOKEN-N` `dueBeat` 3 also wins (due 6 fails — the early return is required); `TOKEN-H` `dueBeat` 5–7, `startBeat` 1–5. Widest band in the set. |
+| RBM-09 | `dueBeat` 4, 5, 7 (canonical 6); `startBeat` 2–3. The aim is NOT free: `cell-junction` is the only viable landing (aiming `cell-alcove` fails — the moved deposit must power the junction receiver). |
+| RBM-10 | `TOKEN-N` `dueBeat` 3–4, `startBeat` 2; `TOKEN-B` `dueBeat` ≥6, `startBeat` 2–5; the committed reference and the inside-corridor alternate are both carded routes. |
+
+Loosest bands by design: RBM-08 (chain orchestration is the lesson, not clock
+arithmetic) and RBM-10 (precision lives in the vestibule lurk, not the manifest).
+The tight non-band is also by design: RBM-02 `dueBeat` ≤2 fails to a lit-hall
+capture, and `TOKEN-B` at start 1 in RBM-08 fails outright — transition-gated
+doors need the baseline press recorded before a release can invert it.

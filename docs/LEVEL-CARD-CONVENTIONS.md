@@ -40,8 +40,8 @@ Authors may either tighten the level or document the band; silent looseness is t
 | RBM-04 | `dueBeat` 4,5 win; helper's beat-6 command passes at 5. |
 | RBM-05 | row 0 `startBeat` 2–4; row 1 `startBeat` up to 6; three ±1 command retimes pass. |
 | RBM-06 | `startBeat` 2–4; three ±1 retimes pass. |
-| RBM-07 | row 0 `dueBeat` 3–4; row 2 `dueBeat` 3–6 and `startBeat` 2–3 (the "all run long" jingle framing is not binding); four ±1 retimes. |
-| RBM-08 | row 0 `dueBeat` 5–7, `startBeat` 3–4; row 1 `dueBeat` ≥3, `startBeat` 2; row 2 `dueBeat` 5–7, `startBeat` 1–5; six ±1 retimes. Widest in the set. |
+| RBM-07 | row 0 `dueBeat` 3–4; `TOKEN-N` rattle `dueBeat` 3–7 all win — due 1–2 fails the diversion, `null` fails `noisy-home` (the "all run long" framing is not binding); `TOKEN-H` vault row `startBeat` 2–3; four ±1 retimes. |
+| RBM-08 | `TOKEN-B` `dueBeat` 5–7, `startBeat` 3–4 (start 1 fails: the beat-1 settle must register the weighted lamp first); `TOKEN-N` `dueBeat` 3 also wins but due 6 fails — early return required; `TOKEN-H` `dueBeat` 5–7, `startBeat` 1–5; six ±1 retimes. Widest in the set. |
 | RBM-09 | `dueBeat` 4,5,7 win (ref 6); `startBeat` 2,3 win; four ±1 retimes. |
 | RBM-10 | row 0 `dueBeat` 3–4, `startBeat` 2; row 1 `dueBeat` ≥6, `startBeat` 2–5; eight ±1 retimes. Still the loosest timing band in the set — designed multiplicity, kept deliberately (the finale's precision lives in the vestibule lurk, not the manifest). Trace was made minimal in refine-2 (see §5). |
 
@@ -63,11 +63,18 @@ card marks the shortcut `TOLERATED`.
   probes on rbm-08/10: dropping any manifest row or any crew member's entire command
   set fails the run. rbm-10 is a clean 1:1 — helper=bell, runner=gallery,
   operator=attic, lookout=vestibule, each owning exactly one outcome.
-- **`history.undo` is safe across `manifest.commit` boundaries.** Checkpoints are
-  LIFO full-state snapshots pushed on every non-undo action. Undoing past a committed
-  row cleanly un-commits it — but only after popping every action queued since. A
-  player cannot surgically un-commit a loan while keeping its downstream effects
-  (verified: commit → queue → undo pops the command, then the row). No escape hatch.
+- **`history.undo` across `manifest.commit` — RULING: sanctioned, not a loophole.**
+  Checkpoints are LIFO full-state snapshots pushed on every non-undo action. Undoing
+  past a committed row cleanly un-commits it — but only after popping every action
+  queued since, so a player cannot surgically un-commit a loan while keeping its
+  downstream effects (verified: commit → queue → undo pops the command, then the
+  row). The spec *intends* this: RBM-002 ("Players may undo a committed beat through
+  the ordinary history mechanism"), GME-010 (undo a mistake and retry quickly), and
+  FLOW-05 (ordinary undo requires no confirmation) all treat the manifest as a plan
+  under edit, not an irrevocable contract — a loan row is only binding once the run
+  is tested and *accepted*. A mid-window undo is therefore a legal rewind of your
+  own paperwork, and the listed edge case "undo across return" (MASTER-HANDOFF
+  verification table) is expected to work. Engine behavior is correct; no change.
 - **Degenerate-solve sweep rbm-06/07/09 clean.** Dropping any single crew member's
   commands or any manifest row from the committed plans fails the run; no
   single-crew or row-less shortcut exists.
