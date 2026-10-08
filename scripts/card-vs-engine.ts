@@ -38,6 +38,8 @@ import { RBM07, RBM07_CARD, rbm07ReferencePlan } from "../src/content/levels/rbm
 import { RBM08, RBM08_CARD, rbm08PlanWithDue, rbm08ReferencePlan } from "../src/content/levels/rbm08-last-call.js";
 import { RBM09, RBM09_CARD, rbm09PlanWithAim, rbm09PlanWithDue, rbm09ReferencePlan } from "../src/content/levels/rbm09-the-moving-deposit.js";
 import { RBM10, RBM10_CARD, rbm10ReferencePlan } from "../src/content/levels/rbm10-the-quietest-exit.js";
+import { RBM11, RBM11_CARD, rbm11ReferencePlan } from "../src/content/levels/rbm11-night-shift.js";
+import { RBM12, RBM12_CARD, rbm12ReferencePlan } from "../src/content/levels/rbm12-midnight-returns.js";
 
 const SEED = "card-vs-engine";
 const engine = new RbmEngine();
@@ -180,12 +182,14 @@ const REFS: [RbmManifest, () => RbmPlan][] = [
   [RBM08, rbm08ReferencePlan],
   [RBM09, rbm09ReferencePlan],
   [RBM10, rbm10ReferencePlan],
+  [RBM11, rbm11ReferencePlan],
+  [RBM12, rbm12ReferencePlan],
 ];
 
 const CARDED: [RbmManifest, LevelCard][] = [
   [RBM02, RBM02_CARD], [RBM03, RBM03_CARD], [RBM04, RBM04_CARD], [RBM05, RBM05_CARD],
   [RBM06, RBM06_CARD], [RBM07, RBM07_CARD], [RBM08, RBM08_CARD], [RBM09, RBM09_CARD],
-  [RBM10, RBM10_CARD],
+  [RBM10, RBM10_CARD], [RBM11, RBM11_CARD], [RBM12, RBM12_CARD],
 ];
 
 let fails = 0;
