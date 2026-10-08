@@ -21,8 +21,8 @@ import type {
   Replay,
   Revision,
   SaveEnvelope,
-} from "../contracts";
-import { sha256, simulate, stableStringify } from "./sim";
+} from "../contracts.js";
+import { sha256, simulate, stableStringify } from "./sim.js";
 import {
   RBM_RULES_VERSION,
   type LoanManifestRow,
@@ -32,7 +32,7 @@ import {
   type RbmManifest,
   type RbmPlan,
   type RbmSimResult,
-} from "./types";
+} from "./types.js";
 
 // ---------------------------------------------------------------------------
 

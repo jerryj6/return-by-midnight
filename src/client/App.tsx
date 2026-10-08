@@ -30,6 +30,7 @@ import {
   slugCmd,
   tokenStatusLabel,
 } from "./describe";
+import { RoomClient } from "./net/roomClient.js";
 
 const LEVELS: { level: RbmManifest; chapter: string; blurb: string }[] = [
   {
@@ -42,8 +43,33 @@ const LEVELS: { level: RbmManifest; chapter: string; blurb: string }[] = [
 const TOKEN_LETTER: Record<PropertyType, string> = { HEAVY: "H", BRIGHT: "B", NOISY: "N" };
 
 export default function App() {
-  const [screen, setScreen] = useState<"title" | "select" | "play">("title");
+  const [screen, setScreen] = useState<"title" | "select" | "play" | "lobby">("title");
   const [level, setLevel] = useState<RbmManifest>(RBM01);
+  const net = useRef<RoomClient | null>(null);
+  const netState = useRef<{ setGs?: (s: RbmPlayState) => void; levelId?: string }>({});
+  const [roomCode, setRoomCode] = useState<string | null>(null);
+  const [netErr, setNetErr] = useState<string | null>(null);
+  const foldRef = useRef<(p: unknown) => void>(() => {});
+
+  const goOnline = async (mode: "create" | "join", code?: string) => {
+    try {
+      const client = new RoomClient({
+        onJoin: (_a, rc) => setRoomCode(rc),
+        onState: (rs) => {
+          const r = rs as { levelId: string; state: RbmPlayState };
+          netState.current.levelId = r.levelId;
+          netState.current.setGs?.(r.state);
+        },
+        onCommand: (p) => foldRef.current(p),
+        onError: (_c, msg) => setNetErr(msg),
+      });
+      await client.connect();
+      net.current = client;
+      if (mode === "create") client.createRoom("rbm", level.levelId.toUpperCase());
+      else client.joinRoom(code ?? "");
+      setScreen("play");
+    } catch { setNetErr("Could not reach the room server."); }
+  };
 
   if (screen === "title") {
     return (
@@ -55,7 +81,30 @@ export default function App() {
           <button type="button" className="primary" data-testid="play-solo" onClick={() => setScreen("select")}>
             Play solo
           </button>
+          <button type="button" className="ghost" data-testid="play-coop" onClick={() => setScreen("lobby")}>
+            Crew up
+          </button>
+          {netErr && <p className="fail">{netErr}</p>}
         </div>
+      </main>
+    );
+  }
+
+  if (screen === "lobby") {
+    let codeInput = "";
+    return (
+      <main className="select-screen">
+        <h1>Assemble the crew</h1>
+        <p>Share a room code; every order lands on every planner's board.</p>
+        <div className="actions">
+          <button type="button" className="primary" onClick={() => void goOnline("create")}>
+            Host a room ({level.levelId.toUpperCase()})
+          </button>
+          <input placeholder="Room code" onChange={(e) => (codeInput = e.target.value)} />
+          <button type="button" onClick={() => void goOnline("join", codeInput)}>Join</button>
+        </div>
+        {netErr && <p className="fail">{netErr}</p>}
+        <button type="button" className="ghost" onClick={() => setScreen("title")}>Back</button>
       </main>
     );
   }
@@ -90,12 +139,36 @@ export default function App() {
     );
   }
 
-  return <PlayScreen key={level.levelId} level={level} onExit={() => setScreen("select")} />;
+  return (
+    <PlayScreen
+      key={`${level.levelId}-${roomCode ?? "solo"}`}
+      level={level}
+      onExit={() => setScreen("select")}
+      net={net}
+      netState={netState}
+      foldRef={foldRef}
+      roomCode={roomCode}
+    />
+  );
 }
 
 // ---------------------------------------------------------------------------
 
-function PlayScreen({ level, onExit }: { level: RbmManifest; onExit: () => void }) {
+function PlayScreen({
+  level,
+  onExit,
+  net,
+  netState,
+  foldRef,
+  roomCode,
+}: {
+  level: RbmManifest;
+  onExit: () => void;
+  net: React.MutableRefObject<RoomClient | null>;
+  netState: React.MutableRefObject<{ setGs?: (s: RbmPlayState) => void; levelId?: string }>;
+  foldRef: React.MutableRefObject<(p: unknown) => void>;
+  roomCode: string | null;
+}) {
   const engine = useMemo(() => new RbmEngine(), []);
   const [gs, setGs] = useState<RbmPlayState>(() => engine.createInitialState(level));
   const [scrub, setScrub] = useState<number | null>(null);
@@ -124,6 +197,10 @@ function PlayScreen({ level, onExit }: { level: RbmManifest; onExit: () => void 
   const viewingPast = scrub !== null && timeline !== null && scrub < timeline.length - 1;
 
   function act(payload: RbmActionPayload): boolean {
+    if (net.current) {
+      net.current.command(payload);
+      return true;
+    }
     const action: RbmAction = {
       actorId: "solo",
       commandId: `ui-${++seq.current}`,
@@ -151,12 +228,27 @@ function PlayScreen({ level, onExit }: { level: RbmManifest; onExit: () => void 
     return true;
   }
 
+  // Co-op: server broadcasts accepted command payloads; fold them through the
+  // engine locally (deterministic ⇒ identical state on every client).
+  netState.current.setGs = setGs;
+  foldRef.current = (p: unknown) => {
+    const res = engine.applyAction(level, gs, {
+      actorId: "coop",
+      commandId: `net-${++seq.current}`,
+      baseRevision: gs.revision,
+      payload: p as RbmActionPayload,
+    });
+    setGs(res.state);
+    setScrub(null);
+  };
+
   return (
     <main className="play-screen">
       <header className="topbar">
         <div>
           <span className="level-id">{level.levelId.toUpperCase()}</span>
           <h1>{level.title}</h1>
+          {roomCode && <span className="badge">Crew {roomCode}</span>}
         </div>
         <div className="topbar-actions">
           <button type="button" className="ghost" data-testid="undo" onClick={() => act({ type: "history.undo" })}>

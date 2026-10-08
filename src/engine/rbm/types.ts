@@ -1,7 +1,7 @@
 // Return by Midnight — type vocabulary.
 // Source: DEVIN-CLOUD-MASTER-HANDOFF.md, sections RBM-A..F (esp. RBM-001..012,
 // RBM-C "The Weight of Evidence") and IV.5. Terminology follows the master.
-import type { Beat, EntityId, GameEvent, RunEvaluation } from "../contracts";
+import type { Beat, EntityId, GameEvent, RunEvaluation } from "../contracts.js";
 
 export const RBM_RULES_VERSION = "rbm-rules/1.0.0";
 

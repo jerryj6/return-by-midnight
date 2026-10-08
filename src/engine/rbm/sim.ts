@@ -11,7 +11,7 @@
 // Outcomes are evaluated at the level's verification horizon, which is an
 // end-of-beat point (RBM-012): reaching the pad before beat 4 is provisional.
 import { sha256Hex } from "../hash.js";
-import type { Beat, EntityId, GameEvent, PredicateResult, RunEvaluation } from "../contracts";
+import type { Beat, EntityId, GameEvent, PredicateResult, RunEvaluation } from "../contracts.js";
 import {
   type RbmBeatSnapshot,
   type RbmCrewCommand,
@@ -25,7 +25,7 @@ import {
   type RbmSimState,
   type RbmTokenDef,
   type RbmTokenState,
-} from "./types";
+} from "./types.js";
 
 // ---------------------------------------------------------------------------
 // canonical hashing / stable stringify (unordered collections made explicit)

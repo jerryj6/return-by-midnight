@@ -13,8 +13,8 @@
 //    exit is opaque and blocks the far segment.
 //  - Verification horizon: end of beat 4 (RBM-012). Pad arrival earlier is
 //    provisional extraction only.
-import type { RbmManifest, RbmPlan } from "../../engine/rbm/types";
-import { RBM_RULES_VERSION } from "../../engine/rbm/types";
+import type { RbmManifest, RbmPlan } from "../../engine/rbm/types.js";
+import { RBM_RULES_VERSION } from "../../engine/rbm/types.js";
 
 export const RBM01: RbmManifest = {
   levelId: "rbm-01",
