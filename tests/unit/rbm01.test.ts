@@ -261,7 +261,7 @@ it("undo across a committed loan restores the prior plan exactly", () => {
 
 it("accept-result succeeds only after a successful test run", () => {
   // failing plan cannot be accepted
-  let bad = commitPlan(rbm01PlanWithDue(4));
+  const bad = commitPlan(rbm01PlanWithDue(4));
   const failAccept: RbmAction = { actorId: "t", commandId: "acc-bad", baseRevision: bad.revision, payload: { type: "result.accept" } };
   expect(engine.validateAction(RBM01, bad, failAccept).reason).toBe("no-successful-run");
   // winning plan accepts
