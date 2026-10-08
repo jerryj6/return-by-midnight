@@ -19,14 +19,14 @@ reason — 0 inexpressible, 0 drift.**
 | RBM-07 | fails:capture ×1, fails:gate-closed ×2, fails:plan-complete ×1, rejects:manifest-over-budget ×1, rejects:overlapping-loan ×1 |
 | RBM-08 | fails:capture ×1, fails:gate-closed ×3, rejects:manifest-over-budget ×1 |
 | RBM-09 | fails:capture ×1, fails:gate-closed ×1, fails:outcome ×1, fails:tokenHome ×1, rejects:overlapping-loan ×1 |
-| RBM-10 | fails:capture ×1, fails:gate-closed ×2, rejects:incompatible-host ×1, rejects:manifest-over-budget ×1 |
+| RBM-10 | fails:capture ×1, fails:gate-closed ×1, rejects:incompatible-host ×1, rejects:manifest-over-budget ×1, **succeeds ×1** (bell-shut-early — recarded TOLERATED refine-11) |
 | RBM-11 | fails:capture ×2, fails:gate-closed ×2, rejects:incompatible-host ×1, rejects:manifest-over-budget ×1, rejects:overlapping-loan ×1 |
 | RBM-12 | fails:capture ×3, fails:gate-closed ×2, fails:plan-complete ×1, rejects:manifest-over-budget ×1 |
 
-(Totals: fails:capture 13, fails:gate-closed 15, fails:outcome 7,
+(Totals: fails:capture 13, fails:gate-closed 14, fails:outcome 7,
 fails:plan-complete 3, fails:tokenHome 4, rejects:overlapping-loan 8,
 rejects:manifest-over-budget 7, rejects:incompatible-host 2,
-rejects:loan-to-own-home 1, succeeds 1 = **61**.)
+rejects:loan-to-own-home 1, succeeds 2 = **61**.)
 
 ## Inexpressibility check
 

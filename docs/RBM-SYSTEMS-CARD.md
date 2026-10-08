@@ -107,3 +107,15 @@ accepts any rowId). Design consequence: co-op roles coordinate by convention
 (the coopNote), not by enforcement — a seat that writes over a teammate's
 slot wins silently; players wanting hard role separation need a rules-layer
 ask, not an engine change.
+
+### Post-accept mutability (refine-12 finding, AUTOMATED)
+
+Same last-write-wins rule applies *after* a verdict is accepted: a scripted
+third-party overwrite on an accepted rbm-11 board folded on every client —
+the command grid silently diverged from the accepted verdict while the
+accepted banner stayed up. The board is never frozen: `command.queue`/
+`command.clear`/`manifest.*` keep folding post-accept, and no staleness flag
+marks the verdict as superseded. Coordinator decision needed: freeze inputs
+post-accept, mark the banner "superseded" on later writes, or accept as
+designed (live planning surface). Reported honestly — current behavior is
+mutable-by-default.

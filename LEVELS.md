@@ -323,3 +323,32 @@ nearest *offerable* dues (3–4) complete the run. Recarded as TOLERATED
 New check worth wiring: any carded approach whose mechanism depends on a
 manifest field should assert the field value is UI-offerable — a 'ui-offerable'
 assertion is meaningful for due beats specifically (the only bounded select).
+
+## Role-necessity sweep — all 12 levels (AUTOMATED, refine-12)
+
+Drop-each-crew's-entire-command-set probe. Every *commanded* crew member is
+load-bearing on every level — **30/30 streams required**:
+
+| Level | roster | commanded | all load-bearing? | unused slots |
+|---|---|---|---|---|
+| RBM-02 | 2 | 1 (helper) | yes | crew-operator (bench) |
+| RBM-03 | 2 | 2 | yes | — |
+| RBM-04 | 2 | 1 (helper) | yes | crew-operator (bench) |
+| RBM-05 | 2 | 2 | yes | — |
+| RBM-06 | 2 | 2 | yes | — |
+| RBM-07 | 3 | 3 | yes | — |
+| RBM-08 | 4 | 4 | yes | — |
+| RBM-09 | 3 | 3 | yes | — |
+| RBM-10 | 5 | 4 | yes | (1 bench) |
+| RBM-11 | 5 | 4 | yes | (1 bench) |
+| RBM-12 | 5 | 4 | yes | (1 bench) |
+
+Bench crew (02/04 operator, 10–12's fifth) are scene fixtures, not coopNote
+claims — the load-bearing rule applies to *commanded* streams only.
+
+## Due-band edge probe (refine-12)
+
+All 61 carded approaches' manifest dues audited against each level's
+`legalDueBeats` band and all start beats against horizons: **100%
+UI-reachable now** (the rbm-10 due-2 entry was recarded TOLERATED in
+refine-11). No further unselectable-value defects exist in the card set.
