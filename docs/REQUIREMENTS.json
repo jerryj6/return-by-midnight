@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "gameId": "return-by-midnight",
+  "masterSha256": "9eafb3af47415a2015a9d0842271a6524f6aca2536ab714721c79438b135eea7",
+  "note": "Requirement ledger per master IV.1. Every mandatory source requirement gets a stable ID with falsifiable acceptance, owner, verifier, implementation paths, verification evidence, status.",
+  "levels": [
+    {
+      "id": "RBM-01",
+      "status": "not_started"
+    },
+    {
+      "id": "RBM-02",
+      "status": "not_started"
+    },
+    {
+      "id": "RBM-03",
+      "status": "not_started"
+    },
+    {
+      "id": "RBM-04",
+      "status": "not_started"
+    },
+    {
+      "id": "RBM-05",
+      "status": "not_started"
+    },
+    {
+      "id": "RBM-06",
+      "status": "not_started"
+    },
+    {
+      "id": "RBM-07",
+      "status": "not_started"
+    },
+    {
+      "id": "RBM-08",
+      "status": "not_started"
+    },
+    {
+      "id": "RBM-09",
+      "status": "not_started"
+    },
+    {
+      "id": "RBM-10",
+      "status": "not_started"
+    },
+    {
+      "id": "RBM-11",
+      "status": "not_started"
+    },
+    {
+      "id": "RBM-12",
+      "status": "not_started"
+    }
+  ],
+  "requirements": []
+}
