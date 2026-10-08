@@ -31,6 +31,7 @@ import {
   tokenStatusLabel,
 } from "./describe";
 import { RoomClient } from "./net/roomClient.js";
+import { rbmAudio } from "./audio.js";
 
 const BLURBS: Record<string, { chapter: string; blurb: string }> = {
   "RBM-01": {
@@ -190,6 +191,7 @@ function PlayScreen({
 }) {
   const engine = useMemo(() => new RbmEngine(), []);
   const [gs, setGs] = useState<RbmPlayState>(() => engine.createInitialState(level));
+  const [muted, setMuted] = useState(false);
   const [scrub, setScrub] = useState<number | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [focusedRow, setFocusedRow] = useState<string | null>(null);
@@ -234,11 +236,23 @@ function PlayScreen({
     const res = engine.applyAction(level, gs, action);
     const rej = res.events.find((e) => e.type === "action.rejected");
     if (rej) {
+      rbmAudio.play("command.deny");
       setToast(String((rej.data as Record<string, unknown> | undefined)?.reason ?? "rejected"));
       return false;
     }
     setToast(null);
     setGs(res.state);
+    for (const e of res.events) {
+      if (e.type === "manifest.row.commit") rbmAudio.play("loan.tag");
+      else if (e.type === "manifest.row.retract") rbmAudio.play("loan.retract");
+      else if (e.type === "command.queued") rbmAudio.play("ui.tick");
+      else if (e.type === "result.accepted") rbmAudio.play("midnight.strike");
+    }
+    if (payload.type === "test.run") {
+      const tr = res.events.find((e) => e.type === "test.run");
+      const ok = (tr?.data as Record<string, unknown> | undefined)?.success === true;
+      rbmAudio.play(ok ? "plan.verify" : "plan.contradict");
+    }
     if (payload.type === "test.run") {
       setScrub(null); // follow the run's final beat
     } else if (payload.type === "manifest.commit" || payload.type === "manifest.retract" || payload.type === "command.queue" || payload.type === "command.clear" || payload.type === "plan.reset") {
@@ -275,6 +289,9 @@ function PlayScreen({
           </button>
           <button type="button" className="ghost" data-testid="reset-plan" onClick={() => act({ type: "plan.reset" })}>
             Reset plan
+          </button>
+          <button type="button" className="ghost" onClick={() => { const m = !muted; rbmAudio.setMuted(m); setMuted(m); }}>
+            {muted ? "Sound off" : "Sound on"}
           </button>
           <button type="button" className="ghost" onClick={onExit}>
             Rooms
