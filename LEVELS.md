@@ -352,3 +352,36 @@ All 61 carded approaches' manifest dues audited against each level's
 `legalDueBeats` band and all start beats against horizons: **100%
 UI-reachable now** (the rbm-10 due-2 entry was recarded TOLERATED in
 refine-11). No further unselectable-value defects exist in the card set.
+
+## Undo/replay determinism soak (AUTOMATED, refine-15 — scripts/undo-soak.ts)
+
+Per level: winning plan applied via applyAction (commits + orders sorted by
+beat), canonicalHash recorded at every prefix. Undo K ∈ {1, 3, all} → hash
+must equal the recorded prefix; re-apply popped payloads → hash must return
+to tip. Divergence check: undo → plan.reset → hash changes, manifest clears.
+
+| Level | actions | undo-1 | undo-3 | undo-all | diverge |
+|---|---|---|---|---|---|
+| RBM-01 | 3 | ✓ | ✓(=all) | ✓ | ✓ |
+| RBM-02 | 4 | ✓ | ✓ | ✓ | ✓ |
+| RBM-03 | 8 | ✓ | ✓ | ✓ | ✓ |
+| RBM-04 | 5 | ✓ | ✓ | ✓ | ✓ |
+| RBM-05 | 6 | ✓ | ✓ | ✓ | ✓ |
+| RBM-06 | 8 | ✓ | ✓ | ✓ | ✓ |
+| RBM-07 | 9 | ✓ | ✓ | ✓ | ✓ |
+| RBM-08 | 11 | ✓ | ✓ | ✓ | ✓ |
+| RBM-09 | 9 | ✓ | ✓ | ✓ | ✓ |
+| RBM-10 | 14 | ✓ | ✓ | ✓ | ✓ |
+| RBM-11 | 16 | ✓ | ✓ | ✓ | ✓ |
+| RBM-12 | 21 | ✓ | ✓ | ✓ | ✓ |
+
+RESULT: PASS — undo+replay deterministic, hash-exact, on all 12 levels.
+
+## Hint-ladder audit, all 12 (refine-15)
+
+Criteria: tier-1 gestures at the mechanic without spoiling numbers; tier-2
+names the binding constraint; tier-3 routes to a verified plan. Result:
+**36/36 tiers clean — 0 spoilers, 0 vacuous, 0 unverified routes.**
+Spot-verified claims via sim: rbm-11's alternative schedule (H@2~4/N@6~7)
+WINS; rbm-04 due-4 and due-5 both win (card routes to due-4); rbm-10
+N-due-3 alternative WINS (the tolerated bell shortcut).

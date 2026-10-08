@@ -81,3 +81,58 @@ that makes it fail; never leave silent successes unexplained.
       manifest or orders after a failed run.
 - [ ] No silent successes: a completing plan the card calls a failure is
       either carded TOLERATED with reason or gets a predicate.
+
+---
+
+## Refine-15 — schedule legibility (Payday × Mark of the Ninja × layered planning)
+
+Seed: how planning-forward stealth/heist games keep a *schedule* readable
+under pressure, and what a post-release "inspector" surface needs to answer.
+
+### H6. The plan is always one glance deep (Payday's pre-planning board)
+
+Payday's planning phase renders the whole job as a single asset map —
+every asset placed is a dot, every route a line; nothing lives in submenus.
+RBM's manifest+order grid is already one-glance, EXCEPT one surface:
+**the resolution order inside a beat**. Within a beat, crew acts then
+plates settle then scans fire — the player must *predict* the order, but
+only the timeline scrubber shows it, after a run. Inspector spec input:
+a per-beat resolution sub-timeline (crew moves → returns → plate settles →
+scan) rendered inline on the order row — the schedule's third dimension
+made legible without simulating.
+
+### H7. Predict before you commit (MotN's freeze-window contract)
+
+Mark of the Ninja's planning freeze shows exactly which enemies will see
+the move BEFORE you take it — prediction is a first-class affordance, not
+an inference. RBM analogue: the inspector should answer "if I post X at
+beat N, what opens/closes when?" — a hover-state projection over the
+command select, sourced from the same legalDueBeats/plate-wiring tables the
+cards use. Engine already computes everything needed; the inspector is a
+read surface over `initialSimState` + the command's own projected effect.
+
+### H8. Suspense is a countdown you can read (alarm-window design)
+
+Both genres build tension the same way: a legible countdown the player
+opted into. RBM's equivalent is the due column — the loan window IS the
+suspense dial (verified: rbm-07's ocean of winners still feels tight
+because the returns are visible). Inspector rule: every manifest row
+should show its *pressure* — the beats where that row's return is
+load-bearing (from the necessity probes), so the player reads which
+deadlines are structural vs slack.
+
+### H9. Post-release inspector — concrete spec inputs (for DEBT.md)
+
+Priority-ordered, all pure reads over existing state:
+1. **Per-beat resolution sub-timeline** — crew action → token returns →
+   plate settles → scans, inline on each beat's order row. Source: the
+   engine's per-beat ordering (documented in RBM-SYSTEMS-CARD).
+2. **Pressure column on manifest rows** — flag rows whose removal fails
+   the plan (the load-bearing data already computed by role-necessity
+   probes; 30/30 streams required, so today every row shows "required" —
+   the useful variant is *which beats* the row is load-bearing on).
+3. **Command projection hover** — for each offered option in a cmd
+   select, the predicted next-state diff (cell occupancy, plate states).
+   Source: one `applyAction` dry-run — engine is pure, this is cheap.
+4. **Verdict cross-links** — clicking a failed predicate scrolls the
+   order grid to the causal beat (failure detail already carries it).
