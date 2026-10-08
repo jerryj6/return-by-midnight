@@ -17,7 +17,7 @@ import type {
   RbmManifest,
   RbmSimState,
 } from "../engine/rbm/types.js";
-import { RBM01 } from "../content/levels/rbm01-weight-of-evidence.js";
+import { LEVELS as LEVEL_DEFS } from "../content/levels/index.js";
 import SceneView from "./SceneView";
 import TimelineView from "./TimelineView";
 import HintLadder from "./HintLadder";
@@ -32,19 +32,38 @@ import {
 } from "./describe";
 import { RoomClient } from "./net/roomClient.js";
 
-const LEVELS: { level: RbmManifest; chapter: string; blurb: string }[] = [
-  {
-    level: RBM01,
+const BLURBS: Record<string, { chapter: string; blurb: string }> = {
+  "RBM-01": {
     chapter: "Chapter I — Discovery",
     blurb: "A safe too heavy to carry, a crate too light to hold the exit. Borrow weight; let the return close the door behind you.",
   },
-];
+  "RBM-02": {
+    chapter: "Chapter I — Discovery",
+    blurb: "Darkness hides the crossing; the same light must wake the vault. One lamp, two jobs, one due beat.",
+  },
+  "RBM-03": {
+    chapter: "Chapter I — Discovery",
+    blurb: "A toy holds a plate and holds a rattle. Borrow the noise, move the weight, let the rattle come home on cue.",
+  },
+  "RBM-04": {
+    chapter: "Chapter II — Composition",
+    blurb: "The owner rides while its weight is away. Schedule the return for where the owner will be — not where it sat.",
+  },
+};
+
+const LEVELS: { level: RbmManifest; chapter: string; blurb: string }[] = LEVEL_DEFS.map(
+  ({ id, def }) => ({
+    level: def,
+    chapter: BLURBS[id]?.chapter ?? `Contract ${id}`,
+    blurb: BLURBS[id]?.blurb ?? def.title,
+  }),
+);
 
 const TOKEN_LETTER: Record<PropertyType, string> = { HEAVY: "H", BRIGHT: "B", NOISY: "N" };
 
 export default function App() {
   const [screen, setScreen] = useState<"title" | "select" | "play" | "lobby">("title");
-  const [level, setLevel] = useState<RbmManifest>(RBM01);
+  const [level, setLevel] = useState<RbmManifest>(LEVEL_DEFS[0].def);
   const net = useRef<RoomClient | null>(null);
   const netState = useRef<{ setGs?: (s: RbmPlayState) => void; levelId?: string }>({});
   const [roomCode, setRoomCode] = useState<string | null>(null);
