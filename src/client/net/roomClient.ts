@@ -68,7 +68,8 @@ export class RoomClient {
       // RoomState = snapshot decoded + history folded by adapter (engine-side
       // the fold is the App's job: we emit the decoded snapshot then payloads).
       this.ev.onState?.(snap ? JSON.parse(b64decode(snap.data)) : null);
-      for (const h of history) this.ev.onCommand?.(h.payload, -1);
+      for (const h of history)
+        this.ev.onCommand?.(h.payload, (h as { revision?: number }).revision ?? -1);
     } else if (m.type === "state_patch") {
       this.revision = m.revision as number;
       this.ev.onCommand?.(m.payload, this.revision);

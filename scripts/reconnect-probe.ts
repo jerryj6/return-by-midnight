@@ -62,6 +62,21 @@ async function main() {
   const after = await snap(p3);
   console.log(after === before ? "PASS — rejoin state byte-exact (rows+orders)" : `MISMATCH\nP2: ${before.slice(0, 400)}\nP3: ${after.slice(0, 400)}`);
   await p3.screenshot({ path: "/tmp/reconnect-p3.png", fullPage: true });
+
+  // --- Scenario 2: fresh seat joins mid-plan (never connected before).
+  const p4 = await (await browser.newContext()).newPage();
+  await nav(p4, "join");
+  await p4.fill('input[placeholder="Room code"]', code!);
+  await p4.click('button:has-text("Join")');
+  const ok4 = await p4.waitForSelector('[data-testid="scene"]', { timeout: 6000 }).then(() => true).catch(() => false);
+  if (!ok4) {
+    console.log("LATE-JOIN FAILED — could not join active room");
+  } else {
+    await p4.waitForTimeout(800);
+    const late = await snap(p4);
+    console.log(late === before ? "PASS — late joiner state byte-exact" : `LATE-JOIN MISMATCH\nP2: ${before.slice(0, 400)}\nP4: ${late.slice(0, 400)}`);
+    await p4.screenshot({ path: "/tmp/latejoin-p4.png", fullPage: true });
+  }
   await browser.close();
 }
 main().catch((e) => { console.error("ERR", e.message); process.exit(1); });

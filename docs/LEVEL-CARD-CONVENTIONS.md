@@ -201,3 +201,10 @@ spot-checks (rejected token-sets re-completed with committed rows: 0 misses).
 - **rbm-01 coop fold anomaly: probe-side, resolved.** `pm:` @2 folds back to
   the writer's board correctly (`scripts/rbm01-fold-probe.ts`); the earlier
   observation was navigation timing, not an engine/net defect.
+
+## §13 — Refine-14: sync parity + prefs
+
+- Superseded marking now parity-exact for late joiners (acceptRev tracked
+  through the history fold, not just the live phase flip).
+- reconnect-probe kept with two scenarios (drop+rejoin, mid-plan late join).
+- Mute pref persists via localStorage.

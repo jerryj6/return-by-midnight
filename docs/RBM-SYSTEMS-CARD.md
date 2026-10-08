@@ -133,3 +133,15 @@ mutable-by-default.
   `pendingFolds` rather than folding into an unmounted instance.
 - **Burst hazard**: folds apply onto a `gsRef` mirror, not render-captured
   `gs`, so back-to-back `state_patch` frames can't drop earlier writes.
+
+### Refine-14 sync notes (AUTOMATED)
+
+- **Superseded parity for late joiners**: `roomClient` now passes each
+  history entry's real revision into `onCommand`; the fold tracks
+  `result.accept` payloads and marks `acceptRev` — a joiner replaying a
+  post-accept backlog raises the superseded banner identically to live
+  boards (`post-accept-probe.ts` late-join case: PASS).
+- **Mute persists** via `localStorage["rbm-muted"]`, synced to the audio
+  engine on mount.
+- **Reconnect probe kept as regression**: `reconnect-probe.ts` covers
+  host-drop-then-rejoin AND fresh-seat late-join mid-plan — both byte-exact.

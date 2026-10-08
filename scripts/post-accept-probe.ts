@@ -98,6 +98,23 @@ async function main() {
     ? `boards converge post-accept; superseded-banner P1=${s1} P2=${s2} — ${s1 && s2 ? "PASS (verdict flagged on all boards)" : "banner still claims stale verdict"}`
     : `unexpected: P1=${v1} P2=${v2}`);
   await p1.screenshot({ path: "/tmp/postaccept-p1.png", fullPage: true });
+
+  // Late joiner parity: P3 joins AFTER the superseded write — its backlog
+  // replay must mark acceptRev and raise the superseded banner too.
+  const p3 = await (await browser.newContext()).newPage();
+  await pickLevelThenLobby(p3);
+  await p3.fill('input[placeholder="Room code"]', code!);
+  await p3.click('button:has-text("Join")');
+  const joined = await p3.waitForSelector('[data-testid="scene"]', { timeout: 8000 }).then(() => true).catch(() => false);
+  if (!joined) {
+    console.log("LATE JOIN FAILED — no scene");
+  } else {
+    const s3 = await p3.waitForSelector('[data-testid="superseded-banner"]', { timeout: 6000 }).then(() => true).catch(() => false);
+    const b3 = await p3.locator('[data-testid="accepted-banner"]').isVisible().catch(() => false);
+    const v3 = await p3.locator(`[data-testid="${slot}"]`).inputValue().catch(() => "MISSING");
+    console.log(`P3 late join → superseded=${s3} accepted-stale=${b3} slot="${v3}" — ${s3 && v3 === alt ? "PASS (parity with live boards)" : "GAP"}`);
+    await p3.screenshot({ path: "/tmp/postaccept-p3.png", fullPage: true });
+  }
   await browser.close();
 }
 

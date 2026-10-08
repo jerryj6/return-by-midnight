@@ -70,14 +70,16 @@ export default function App() {
     setGs?: ((s: RbmPlayState) => void) | undefined;
     levelId?: string;
     pendingState?: RbmPlayState | undefined;
-    pendingFolds?: unknown[] | undefined;
+    pendingFolds?: [unknown, number | undefined][] | undefined;
   }>({});
   const [roomCode, setRoomCode] = useState<string | null>(null);
   const [netErr, setNetErr] = useState<string | null>(null);
   // Before PlayScreen mounts, folds buffer in pendingFolds instead of noop —
   // otherwise a joiner's snapshot+history backlog is silently dropped.
-  const foldRef = useRef<(p: unknown) => void>((p) => {
-    (netState.current.pendingFolds ??= []).push(p);
+  // Fold entries are [payload, revision] so the backlog can mark the accept
+  // revision for the superseded-verdict banner on late joiners too.
+  const foldRef = useRef<(p: unknown, rev?: number) => void>((p, rev) => {
+    (netState.current.pendingFolds ??= []).push([p, rev]);
   });
 
   const goOnline = async (mode: "create" | "join", code?: string) => {
@@ -96,7 +98,7 @@ export default function App() {
           if (netState.current.setGs) netState.current.setGs(r.state);
           else netState.current.pendingState = r.state;
         },
-        onCommand: (p) => foldRef.current(p),
+        onCommand: (p, rev) => foldRef.current(p, rev),
         onError: (_c, msg) => setNetErr(msg),
       });
       await client.connect();
@@ -208,14 +210,15 @@ function PlayScreen({
     setGs?: ((s: RbmPlayState) => void) | undefined;
     levelId?: string;
     pendingState?: RbmPlayState | undefined;
-    pendingFolds?: unknown[] | undefined;
+    pendingFolds?: [unknown, number | undefined][] | undefined;
   }>;
-  foldRef: React.MutableRefObject<(p: unknown) => void>;
+  foldRef: React.MutableRefObject<(p: unknown, rev?: number) => void>;
   roomCode: string | null;
 }) {
   const engine = useMemo(() => new RbmEngine(), []);
   const [gs, setGs] = useState<RbmPlayState>(() => engine.createInitialState(level));
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(() => localStorage.getItem("rbm-muted") === "1");
+  useEffect(() => { rbmAudio.setMuted(muted); }, []); // sync persisted pref on mount
   const [scrub, setScrub] = useState<number | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [focusedRow, setFocusedRow] = useState<string | null>(null);
@@ -302,7 +305,7 @@ function PlayScreen({
   // a stale render-time gs (back-to-back state_patches between renders).
   const gsRef = useRef(gs);
   gsRef.current = gs;
-  foldRef.current = (p: unknown) => {
+  foldRef.current = (p: unknown, rev?: number) => {
     const res = engine.applyAction(level, gsRef.current, {
       actorId: "coop",
       commandId: `net-${++seq.current}`,
@@ -310,6 +313,8 @@ function PlayScreen({
       payload: p as RbmActionPayload,
     });
     gsRef.current = res.state;
+    if ((p as RbmActionPayload).type === "result.accept")
+      acceptRevRef.current = rev && rev > 0 ? rev : res.state.revision;
     setGs(res.state);
     setScrub(null);
   };
@@ -319,15 +324,15 @@ function PlayScreen({
     setGs(netState.current.pendingState);
     netState.current.pendingState = undefined;
   }
-  for (const p of netState.current.pendingFolds ?? []) foldRef.current(p);
+  for (const [p, rev] of netState.current.pendingFolds ?? []) foldRef.current(p, rev);
   netState.current.pendingFolds = [];
   // On unmount, re-arm the buffer: folds that land between sessions must
   // queue for the next mount, not apply into a dead instance.
   useEffect(
     () => () => {
       netState.current.setGs = undefined;
-      foldRef.current = (p) => {
-        (netState.current.pendingFolds ??= []).push(p);
+      foldRef.current = (p, rev) => {
+        (netState.current.pendingFolds ??= []).push([p, rev]);
       };
     },
     [netState, foldRef],
@@ -348,7 +353,7 @@ function PlayScreen({
           <button type="button" className="ghost" data-testid="reset-plan" onClick={() => act({ type: "plan.reset" })}>
             Reset plan
           </button>
-          <button type="button" className="ghost" onClick={() => { const m = !muted; rbmAudio.setMuted(m); setMuted(m); }}>
+          <button type="button" className="ghost" onClick={() => { const m = !muted; rbmAudio.setMuted(m); setMuted(m); localStorage.setItem("rbm-muted", m ? "1" : "0"); }}>
             {muted ? "Sound off" : "Sound on"}
           </button>
           <button type="button" className="ghost" onClick={onExit}>
