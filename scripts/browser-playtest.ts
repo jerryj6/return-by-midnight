@@ -50,6 +50,40 @@ const PLANS: LevelPlan[] = [
     },
   },
   {
+    id: "rbm-04",
+    rows: [{ token: "TOKEN-H", to: "prop-crate", start: 2, due: 4 }],
+    commands: [
+      { beat: 2, crew: "crew-helper", slug: "pickup:prop-safe" },
+      { beat: 3, crew: "crew-helper", slug: "move:cell-lobby" },
+      { beat: 4, crew: "crew-helper", slug: "move:cell-vault" },
+      { beat: 6, crew: "crew-helper", slug: "move:pad-out" },
+    ],
+    // Enum-proven: startBeat=2 forced — start 3 (offered in the UI) fails.
+    failProbe: {
+      note: "TOKEN-H start 3 (enum-proven forced start is 2)",
+      rows: [{ token: "TOKEN-H", to: "prop-crate", start: 3, due: 4 }],
+    },
+  },
+  {
+    id: "rbm-09",
+    rows: [{ token: "TOKEN-B", to: "prop-candlestick", start: 1, due: 6 }],
+    commands: [
+      { beat: 3, crew: "crew-helper", slug: "pickup:prop-stand" },
+      { beat: 4, crew: "crew-helper", slug: "move:cell-junction" },
+      { beat: 4, crew: "crew-operator", slug: "move:cell-dark" },
+      { beat: 4, crew: "crew-runner", slug: "move:cell-loft" },
+      { beat: 5, crew: "crew-helper", slug: "drop" },
+      { beat: 5, crew: "crew-operator", slug: "pm:prop-idol-dark:pad-out" },
+      { beat: 5, crew: "crew-runner", slug: "pm:prop-idol-loft:pad-out" },
+      { beat: 6, crew: "crew-helper", slug: "move:pad-out" },
+    ],
+    // "never" is offered but loses — BRIGHT must be home for the re-sited stand.
+    failProbe: {
+      note: "TOKEN-B due never (kept forever — BRIGHT never re-sites)",
+      rows: [{ token: "TOKEN-B", to: "prop-candlestick", start: 1, due: null }],
+    },
+  },
+  {
     id: "rbm-11",
     rows: [
       { token: "TOKEN-H", to: "prop-scale-w", start: 2, due: 5 },

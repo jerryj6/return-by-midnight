@@ -93,3 +93,17 @@ test run → verdict lists every failed predicate with expected-vs-actual detail
 §5 UI-text coverage) → edit manifest/commands → re-run → accept gated on
 success. `history.undo` is the fast-retry half of the loop; no confirmation
 (FLOW-05).
+
+## Co-op conflict rule — verified live (refine-11, AUTOMATED)
+
+`command.queue` validates only beat range, crew identity, and command shape —
+there is **no seat claim, lock, or ownership check** on a (beat, crew) slot.
+Server-side actions serialize in revision order (`actorId@revision`), so the
+rule is **last-write-wins**: any client can overwrite another player's order
+and every board converges to the newest value. Verified with two scripted
+clients writing different orders to `cmd-3-crew-helper` — both boards folded
+to the second write. Manifest rows are similarly unowned (`manifest.retract`
+accepts any rowId). Design consequence: co-op roles coordinate by convention
+(the coopNote), not by enforcement — a seat that writes over a teammate's
+slot wins silently; players wanting hard role separation need a rules-layer
+ask, not an engine change.

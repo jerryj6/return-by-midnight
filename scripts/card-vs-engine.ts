@@ -165,7 +165,9 @@ const PROBES: Record<string, Record<string, Probe>> = {
   },
   "rbm-10": {
     "linger-in-the-vestibule": { kind: "sim", plan: plan(rbm10ReferencePlan, (p) => (p.commands = { 1: { "crew-lookout": { type: "move", to: "pad-out" } }, 3: { "crew-lookout": { type: "move", to: "cell-foyer" } }, 4: { "crew-lookout": { type: "move", to: "cell-vestibule" } } })), mechanism: (r) => (r.events.some((e) => e.type === "guard.capture" && e.data?.["crewId"] === "crew-lookout" && e.data?.["cellId"] === "cell-vestibule") ? "fails:capture" : r.evaluation.success ? "succeeds" : "fails:outcome") },
-    "bell-shut-early": { kind: "sim", plan: plan(rbm10ReferencePlan, (p) => (p.rows = p.rows.map((r) => (r.tokenId === "TOKEN-N" ? { ...r, dueBeat: 2 } : r)))), mechanism: (r) => (rejectedAt(r, 3, "crew-helper", "gate-closed") ? "fails:gate-closed" : r.evaluation.success ? "succeeds" : "fails:outcome") },
+    // Recarded TOLERATED (refine-11): due 2 was unselectable anyway; the
+    // offerable early dues 3/4 complete the run — a tolerated shortcut.
+    "bell-shut-early": { kind: "sim", plan: plan(rbm10ReferencePlan, (p) => (p.rows = p.rows.map((r) => (r.tokenId === "TOKEN-N" ? { ...r, dueBeat: 3 } : r)))), mechanism: (r) => (r.evaluation.success ? "succeeds" : "fails:outcome") },
     "never-return-the-rattle": { kind: "sim", plan: plan(rbm10ReferencePlan, (p) => (p.rows = p.rows.map((r) => (r.tokenId === "TOKEN-N" ? { ...r, dueBeat: null } : r)))), mechanism: (r) => (rejectedAt(r, 6, "crew-runner", "gate-closed") ? "fails:gate-closed" : r.evaluation.success ? "succeeds" : "fails:outcome") },
     "borrower-mismatch": { kind: "rows", rows: () => [{ rowId: "mismatch", tokenId: "TOKEN-B", fromHostId: "prop-lamp", toHostId: "prop-decoy", startBeat: 1, dueBeat: 5 }] },
     "manifest-over-budget": { kind: "rows", rows: () => { const rows = rbm10ReferencePlan().rows; return [...rows, { rowId: "row-three", tokenId: "TOKEN-N", fromHostId: "prop-toy", toHostId: "prop-decoy", startBeat: 6, dueBeat: null }]; } },

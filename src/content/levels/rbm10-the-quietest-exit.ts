@@ -264,8 +264,8 @@ export const RBM10_CARD: LevelCard = {
     },
     {
       name: "bell-shut-early",
-      summary: "Due the rattle at beat 2: the sack goes quiet before the helper leaves the bell loft.",
-      expectedFailure: "gate-bell seals at the beat-2 settle; her beat-3 exit is rejected gate-closed and the bell idol is stranded.",
+      summary: "Due the rattle early — even at the first offerable beat (3) the bell's work is already done.",
+      expectedFailure: "TOLERATED — the plan completes at due 3 or 4; the bell's return only has to land before the gallery crossing, which beat 3 still beats. (An earlier due of 2 would strand the idol at gate-closed, but due 2 is below the offerable band.)",
     },
     {
       name: "never-return-the-rattle",

@@ -311,3 +311,15 @@ Live-client win + fail probes (`scripts/browser-playtest.ts`):
   expected-vs-actual detail; accept correctly withheld.
 - **RBM-06** — H→crate @1~5 + the seven-command two-crew run wins; accepted.
   Fail probe (due 4 — enum-proven forced due is 5) fails with detail.
+
+## Manifest-shape audit (refine-11): offerable vs unreachable
+
+Cross-checked all 61 carded approaches' manifests against each level's
+`legalDueBeats` band. **60/61 are UI-reachable** (or command-level, which has
+no offerability dimension). The one exception — **RBM-10 `bell-shut-early`
+required due 2, below its band [3..7,never]** — was doubly misleading: the
+nearest *offerable* dues (3–4) complete the run. Recarded as TOLERATED
+(due-3/4 win; probe now asserts `succeeds`) and the audit table updated.
+New check worth wiring: any carded approach whose mechanism depends on a
+manifest field should assert the field value is UI-offerable — a 'ui-offerable'
+assertion is meaningful for due beats specifically (the only bounded select).
