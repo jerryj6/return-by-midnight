@@ -182,8 +182,7 @@ export function rbm10ReferencePlan(): RbmPlan {
       2: { "crew-helper": { type: "move", to: "cell-bell" } },
       3: {
         "crew-helper": { type: "pickup-and-move", propId: "prop-idol-bell", to: "pad-out" },
-        // Foyer is dark at beat 3 — the lookout slips in before the return.
-        "crew-lookout": { type: "move", to: "cell-foyer" },
+
       },
       4: {
         "crew-lookout": { type: "move", to: "cell-vestibule" },
@@ -225,7 +224,6 @@ export function rbm10AlternatePlan(): RbmPlan {
       2: { "crew-helper": { type: "move", to: "cell-bell" } },
       3: {
         "crew-helper": { type: "pickup-and-move", propId: "prop-idol-bell", to: "pad-out" },
-        "crew-lookout": { type: "move", to: "cell-foyer" },
       },
       4: {
         "crew-lookout": { type: "move", to: "cell-vestibule" },
@@ -250,10 +248,10 @@ export const RBM10_CARD: LevelCard = {
   levelId: "rbm-10",
   insight: "Quiet work is sequencing: the rattle home early enough to satisfy the ledger, the lamp out long enough to cover the corridor — the two returns must not fight.",
   naiveApproach: "Linger in the vestibule to read the sweep — the one visit this level punishes.",
-  solutionPolicy: "Loosest band in the set: due 3–4 on row 0, ≥6 on row 1; the lookout beat-3 foyer visit is droppable (committed trace non-minimal).",
+  solutionPolicy: "Loosest band in the set: due 3–4 on row 0, ≥6 on row 1. (Beat-3 foyer detour removed from the committed trace — pad↔vestibule adjacency made it dead time; the vestibule lurk remains the only visit the level punishes.)",
   winningTraceSummary: [
     "Beat 1 — The rattle is lent to the decoy sack (the bell loft opens while it sings); the light to the attic lampstand (the attic opens). The vestibule is dark only while the gallery door stays shut.",
-    "Beats 2–4 — Helper clears the bell loft; lookout slips through the dark foyer into the vestibule.",
+    "Beats 2–4 — Helper clears the bell loft; the lookout holds on the pad, then ducks straight into the vestibule ahead of the returning watch.",
     "Beat 5 — Lookout leaves by the hatch before the rattle lands home: the return presses the toy, unbarring both gallery doors — and pours the west beam into the now-empty vestibule.",
     "Beats 6–7 — Runner takes the delivery window into the open gallery and out with the idol.",
     "Alternative — bring the rattle home at beat 3 and send the runner through the inside corridor instead: same take, earlier finish, a tighter bell window.",

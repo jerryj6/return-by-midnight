@@ -61,12 +61,12 @@ describe("depth: queued commands are load-bearing (redundancy set is exactly as 
    */
   const KNOWN_REDUNDANT: Record<string, Record<string, string[]>> = {
     "RBM-10": {
-      // lookout's foyer step is flavor-bound: without it her later
-      // vestibule commands are unreachable/dropped, she stays outside,
-      // and the extraction outcomes still pass — the vestibule idol is
-      // not outcome-bound.
-      "late-return": ["crew-lookout@3"],
-      "early-return": ["crew-lookout@3", "crew-runner@4"],
+      // lookout's foyer step WAS flavor-bound and is now removed from both
+      // committed traces (pad↔vestibule adjacency made it dead time).
+      // runner's early-return foyer step remains documented flavor: without
+      // it her gallery command is unreachable/dropped and the extraction
+      // still passes — the vestibule/gallery foyers are not outcome-bound.
+      "early-return": ["crew-runner@4"],
     },
   };
 

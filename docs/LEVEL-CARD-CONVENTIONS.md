@@ -43,13 +43,36 @@ Authors may either tighten the level or document the band; silent looseness is t
 | RBM-07 | row 0 `dueBeat` 3–4; row 2 `dueBeat` 3–6 and `startBeat` 2–3 (the "all run long" jingle framing is not binding); four ±1 retimes. |
 | RBM-08 | row 0 `dueBeat` 5–7, `startBeat` 3–4; row 1 `dueBeat` ≥3, `startBeat` 2; row 2 `dueBeat` 5–7, `startBeat` 1–5; six ±1 retimes. Widest in the set. |
 | RBM-09 | `dueBeat` 4,5,7 win (ref 6); `startBeat` 2,3 win; four ±1 retimes. |
-| RBM-10 | row 0 `dueBeat` 3–4, `startBeat` 2; row 1 `dueBeat` ≥6, `startBeat` 2–5; **lookout's beat-3 foyer visit is droppable** (trace non-minimal); eight ±1 retimes. Loosest in the set — worth a look since the finale should demand *more* precision, not less. |
+| RBM-10 | row 0 `dueBeat` 3–4, `startBeat` 2; row 1 `dueBeat` ≥6, `startBeat` 2–5; eight ±1 retimes. Still the loosest timing band in the set — designed multiplicity, kept deliberately (the finale's precision lives in the vestibule lurk, not the manifest). Trace was made minimal in refine-2 (see §5). |
 
 Policy: where a tolerance is *designed* multiplicity, add one "Tolerance note" line to the
 card's trace summary. Where it undercuts the taught lesson (rbm-02's dark tripwire), the
 card marks the shortcut `TOLERATED`.
 
-## 4. Enrichment fields (optional, PFT-style)
+## 5. Refine-2 engine-semantics findings (AUTOMATED)
+
+- **RBM-10 committed traces made minimal.** The lookout's beat-3 foyer visit was dead
+  time: `pad-out↔cell-vestibule` is a direct edge and her vestibule lurk only needs to
+  be in place by beat 5. Removed from both `rbm10ReferencePlan` and
+  `rbm10AlternatePlan`; card trace + `solutionPolicy` updated. Tightening was
+  considered (cut the `pad↔vest` edge, forcing pad→foyer→vest): the reroute's
+  feasibility depends on `gate-gallery` opening and the ungated `beam-foyer` window
+  (guard-1 sits west at beats 6–7), and removing an edge changes the level's geometry
+  and identity — a level-author call, not a card-side fix. Minimal trace chosen.
+- **CoopNote roles verified non-degenerate (AUTOMATED).** Per-role command-removal
+  probes on rbm-08/10: dropping any manifest row or any crew member's entire command
+  set fails the run. rbm-10 is a clean 1:1 — helper=bell, runner=gallery,
+  operator=attic, lookout=vestibule, each owning exactly one outcome.
+- **`history.undo` is safe across `manifest.commit` boundaries.** Checkpoints are
+  LIFO full-state snapshots pushed on every non-undo action. Undoing past a committed
+  row cleanly un-commits it — but only after popping every action queued since. A
+  player cannot surgically un-commit a loan while keeping its downstream effects
+  (verified: commit → queue → undo pops the command, then the row). No escape hatch.
+- **Degenerate-solve sweep rbm-06/07/09 clean.** Dropping any single crew member's
+  commands or any manifest row from the committed plans fails the run; no
+  single-crew or row-less shortcut exists.
+
+## 6. Enrichment fields (optional, PFT-style)
 
 Cards may carry `insight`, `naiveApproach`, and `solutionPolicy` — see the interface
 comments in `src/content/levels/level-card.ts`. All are documentation-only; no engine or

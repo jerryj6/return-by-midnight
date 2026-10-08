@@ -251,6 +251,25 @@ for (const [level, card] of CARDED) {
     warns++;
   }
   console.log(`ok    ${level.levelId}: coopNote ${card.coopNote.length} roles vs ${p.rows.length} rows, ${crewWithCommands.size}/${crewIds.length} crew commanded`);
+
+  // Deep-check (refine-2): every coopNote role must be load-bearing, not
+  // make-work. Dropping any manifest row or any crew member's entire command
+  // set must fail the run — a role the plan can complete without is degenerate.
+  for (let i = 0; i < p.rows.length; i++) {
+    const cut: RbmPlan = { rows: p.rows.filter((_, j) => j !== i), commands: JSON.parse(JSON.stringify(p.commands)) as RbmPlan["commands"] };
+    if (simulate(level, cut, SEED).evaluation.success) {
+      console.log(`FAIL  ${level.levelId}: coopNote degenerate — dropping row[${i}] ${p.rows[i]!.rowId} still completes`);
+      fails++;
+    }
+  }
+  for (const crew of crewWithCommands) {
+    const cmds = JSON.parse(JSON.stringify(p.commands)) as RbmPlan["commands"];
+    for (const b of Object.keys(cmds)) delete cmds[Number(b)]![crew];
+    if (simulate(level, { rows: p.rows, commands: cmds }, SEED).evaluation.success) {
+      console.log(`FAIL  ${level.levelId}: coopNote degenerate — ${crew} contributes nothing`);
+      fails++;
+    }
+  }
 }
 
 // --- 4. Delete-one-command minimality sweep (warning class — never fails)
