@@ -177,4 +177,39 @@ export const RBM_HINTS: Record<string, HintLadderContent> = {
       ],
     },
   },
+  "rbm-11": {
+    tiers: [
+      "Both wings want the same two keys — read which stand takes which property.",
+      "A token must come home before it can be posted again; the return beat is your shift boundary.",
+      "Book the two corridor postings for the same early window — the windows are the second job, not a second pair.",
+    ],
+    solution: {
+      caption: "A complete operation (spoiler)",
+      lines: [
+        "Beat 1 — Everyone waits under the dome; the manifest posts HEAVY to the west scale and NOISY to the east chime (both due end of beat 5).",
+        "Beats 2–5 — Early shift: both corridors stand open. Helpers take the mouth idols deep; scouts follow to the far ends.",
+        "Beat 5 (return phase) — Both tokens come home: the corridor doors slam. Anyone still outside a wing stays outside.",
+        "Beat 6 — The crossover: the same HEAVY now opens the EAST window, the same NOISY the WEST window (posted at beat 6 — the earliest legal reloan after the beat-5 return).",
+        "Beats 6–7 — Mouth runners step out the windows with the idols; the deep pair lift the scrolls out.",
+        "Beats 8–9 — Nobody moves. Windows slam at the end of beat 8; the midnight sweep reaches through them and finds the pad dark.",
+        "Alternative — asymmetric 4/6→5/7 schedule: book HEAVY's west leg early (due 4) and let NOISY's window stretch to 7; same crossover, earlier east wing.",
+      ],
+    },
+  },
+  "rbm-12": {
+    tiers: [
+      "The two exit doors want opposite things — one opens when a token comes home, one while another is still out.",
+      "Watch the desk and window telltales; the crossing is legal while both are lit.",
+      "Post HEAVY early — its return is what unlocks the inner door, and the museum is lending you the key.",
+    ],
+    solution: {
+      caption: "A complete operation (spoiler)",
+      lines: [
+        "Post HEAVY to its early window and NOISY to the long one — the plate under HEAVY's home prop means its return unlocks the inner door.",
+        "The crossing window is [HEAVY home ∧ NOISY still out]: legal while both telltales are lit. Queue nothing after beat 7.",
+        "The beat-8 NOISY return seals the outer door before the beat-9 sweep — the last mechanical event of the campaign is a return.",
+        "Alternative — tight-window group crossing: stagger nothing, move everyone through in the single shared beat the two windows overlap.",
+      ],
+    },
+  },
 };

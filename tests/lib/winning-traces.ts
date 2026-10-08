@@ -16,6 +16,8 @@ import { rbm07ReferencePlan, rbm07AlternatePlan } from "../../src/content/levels
 import { rbm08ReferencePlan, rbm08AlternatePlan } from "../../src/content/levels/rbm08-last-call.js";
 import { rbm09ReferencePlan } from "../../src/content/levels/rbm09-the-moving-deposit.js";
 import { rbm10ReferencePlan, rbm10AlternatePlan } from "../../src/content/levels/rbm10-the-quietest-exit.js";
+import { rbm11ReferencePlan, rbm11AlternatePlan } from "../../src/content/levels/rbm11-night-shift.js";
+import { rbm12ReferencePlan, rbm12AlternatePlan } from "../../src/content/levels/rbm12-midnight-returns.js";
 
 export interface WinningTrace {
   readonly name: string;
@@ -50,6 +52,14 @@ export const WINNING_TRACES: Record<string, readonly WinningTrace[]> = {
   "RBM-10": [
     { name: "late-return", plan: rbm10ReferencePlan },
     { name: "early-return", plan: rbm10AlternatePlan },
+  ],
+  "RBM-11": [
+    { name: "crossover-shift", plan: rbm11ReferencePlan },
+    { name: "asymmetric-shift", plan: rbm11AlternatePlan },
+  ],
+  "RBM-12": [
+    { name: "wide-window", plan: rbm12ReferencePlan },
+    { name: "tight-window", plan: rbm12AlternatePlan },
   ],
 };
 
