@@ -168,3 +168,22 @@ spot-checks (rejected token-sets re-completed with committed rows: 0 misses).
   Part 5 (co-op) — role-load-bearing check + scripted 2-player lockstep
   playtest above. Remaining parts are process/portfolio-level (1, 2, 6, 7,
   11–14) — no further card-side sweep applicable to RBM content.
+
+## §10 Refine-8 — hint-ladder concreteness + enum re-verification
+
+- **Hint-ladder audit (all 12):** every tier must name the concrete entity it
+  references (token/prop/crew/beat). Six vague tiers fixed on 06/09/11/12
+  (e.g. "the far anchor" → `cell-junction`; abstract "two doors" →
+  inner/outer with their plate mechanics + beats). Ladders on 01–08/10
+  already cited beats, tokens, and doors — clean.
+- **Enumeration re-verified:** second full 12-level sweep, family counts
+  unchanged — rbm-12 exactly 4 (canonical + 3 split-posting), every other
+  level exactly 1. The upstream joiner-levelId fix does not affect any
+  content under this package's scope.
+
+## 10. Refine-9 — co-op scale, a11y, fail-reason coverage
+
+- **3-player co-op verified live (AUTOMATED).** rbm-12's manifest+orders sharded across three independent clients (P1: H row + helper; P2: B row + scout; P3: N row + runner+operator). All 3 boards showed identical 3 rows + 18 orders; success verdict + accepted banner on every seat. `scripts/browser-playtest-coop.ts` now takes `PLANS[level] = PlayerShare[]` — N seats from one table entry.
+- **Keyboard/a11y pass + fix.** Scripted Tab/focus-visible walk (title → select → board → commit → verdict): native controls were already tabbable; the real gap was SVG scene entities — `<g>` click targets with no role/tabIndex/keys. `SceneView` entities + loan threads now carry `role="button" tabIndex={0}` + Enter/Space activation (`entKey` helper) and a `.scene g[role="button"]:focus` ring. `scripts/browser-a11y-probe.ts` re-verifies: all interactive elements semantic or role-annotated.
+- **Fail-reason audit documented.** `docs/WRONG-APPROACH-AUDIT.md` — all 61 carded approaches resolve to asserted mechanisms; none inexpressible. Four manifest-shape rejection classes (start-out-of-range, due-not-offered, due-before-start, duplicate-row-id) remain uncarded — not defects, noted for parity.
+- **Research entry.** `docs/DESIGN-RESEARCH-HEIST.md` — 5 techniques from Heat Signature/Monaco/Quadrilateral Cowboy (scrubbed-failure legibility, role asymmetry via physical partitioning, tiny typed vocab with coupling-based difficulty, sub-10s iterate loop, silent-success trap) + applied checklist.

@@ -271,3 +271,8 @@ select, .row-builder select {
 .title-art{max-width:340px;width:70%;border-radius:12px;border:1px solid #3a4257;margin:0 auto 18px;display:block}
 
 .side-pane { background-image: url(/assets/rbm-material-sheet.png); background-size: 480px; background-blend-mode: soft-light; }
+
+/* Keyboard focus on SVG scene entities (role=button <g>) — mirror the
+   .selected affordance so Tab reveals the same target Enter selects. */
+.scene g[role="button"]:focus-visible { outline: 2px solid #e8c86a; outline-offset: 3px; border-radius: 4px; }
+.scene g[role="button"]:focus { outline: 2px solid #e8c86a; outline-offset: 3px; }

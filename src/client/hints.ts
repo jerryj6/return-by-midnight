@@ -96,7 +96,7 @@ export const RBM_HINTS: Record<string, HintLadderContent> = {
     tiers: [
       "The job needs one thing carried and one thing weighed — and the only weight-token in the ledger can't do both at the same instant. The return lands the mass wherever the borrowed item *is*, not where it was.",
       "Borrow the HEAVY token to make the load portable, then let the loan expire *after* the load reaches the vault — the returning mass settles inside the vault and trips its weight-sense. Due it too early and the weight lands on the carried safe mid-route.",
-      "Commit TOKEN-H with due at the end of beat 5. Get the safe moving early, and don't touch the second crew member's job until the mass is on its way back.",
+      "Commit TOKEN-H with due at the end of beat 5. Get the safe moving early, and hold the operator's vault-window job (beats 6–7) until the mass is on its way back.",
     ],
     solution: {
       caption: "A complete operation (spoiler)",
@@ -146,7 +146,7 @@ export const RBM_HINTS: Record<string, HintLadderContent> = {
     tiers: [
       "Only one loan tonight, and the place it must land *moves*. The deposit's anchor isn't where you aim it — it's where the anchor will be when the token comes home.",
       "pickup-and-move takes an aim: name the *destination* the token should settle into, not the cell it leaves from. Aiming at the wrong anchor completes the carry but returns to a home that isn't listening.",
-      "Schedule the single loan due at 6 and aim the deposit at the *far* anchor — the one that will have arrived, not the one standing there at pickup time.",
+      "Schedule the single loan due at 6 and aim the deposit at the junction stand (cell-junction) — the anchor that will have arrived, not the one standing at pickup time.",
     ],
     solution: {
       caption: "A complete operation (spoiler)",
@@ -179,9 +179,9 @@ export const RBM_HINTS: Record<string, HintLadderContent> = {
   },
   "rbm-11": {
     tiers: [
-      "Both wings want the same two keys — read which stand takes which property.",
-      "A token must come home before it can be posted again; the return beat is your shift boundary.",
-      "Book the two corridor postings for the same early window — the windows are the second job, not a second pair.",
+      "Both wings want the same two keys: the HEAVY token serves the west scale and the NOISY token the east chime — read which stand takes which property.",
+      "A token must come home before it can be reloaned: HEAVY and NOISY each post twice — the corridor legs first, the window legs second — and the beat-5 return is the shift boundary between them.",
+      "Book the corridor postings to the scales and chimes for the same early window (start 2, due 5); the two window postings are the second shift, not a second pair of tokens — the crossover swap happens at beat 6.",
     ],
     solution: {
       caption: "A complete operation (spoiler)",
@@ -198,9 +198,9 @@ export const RBM_HINTS: Record<string, HintLadderContent> = {
   },
   "rbm-12": {
     tiers: [
-      "The two exit doors want opposite things — one opens when a token comes home, one while another is still out.",
-      "Watch the desk and window telltales; the crossing is legal while both are lit.",
-      "Post HEAVY early — its return is what unlocks the inner door, and the museum is lending you the key.",
+      "The two exit doors want opposite things: the INNER door opens when a token comes HOME (the plate under HEAVY's home prop presses on its return), the OUTER door stays open while NOISY is still out on loan.",
+      "Watch the desk sensor and window sensor telltales — the exit crossing is legal only while both are lit: HEAVY home again AND NOISY still posted to the outer chime.",
+      "Post HEAVY to the hall scale at beat 2, due 4 — its return presses the home plate and unlocks the inner door at beat 5. NOISY goes to the exit chime at 5, due 8 — it must still be out through the crossing.",
     ],
     solution: {
       caption: "A complete operation (spoiler)",

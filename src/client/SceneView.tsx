@@ -42,6 +42,11 @@ function litCells(guard: RbmGuardDef, post: string, sim: RbmSimState): string[] 
 const TOKEN_GLYPH: Record<string, string> = { HEAVY: "◆", BRIGHT: "✶", NOISY: "≈" };
 
 export default function SceneView({ level, sim, rows, selectedId, focusedRow, onSelect, onFocusRow }: Props) {
+  // Scene entities are click targets; give keyboard users the same path
+  // (role=button + Enter/Space activation) since <g> isn't natively tabbable.
+  const entKey = (fn: () => void) => (ev: React.KeyboardEvent) => {
+    if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); ev.stopPropagation(); fn(); }
+  };
   const pos = (cellId: string) => cellPos(level, cellId);
 
   const carriedIds = new Set(
@@ -190,7 +195,7 @@ export default function SceneView({ level, sim, rows, selectedId, focusedRow, on
         const my = Math.min(a.y, b.y) - 46;
         const focused = focusedRow === r.rowId;
         return (
-          <g key={r.rowId} onClick={(ev) => { ev.stopPropagation(); onFocusRow(focused ? null : r.rowId); }} className="loan-thread-hit">
+          <g key={r.rowId} role="button" tabIndex={0} onKeyDown={entKey(() => onFocusRow(focused ? null : r.rowId))} onClick={(ev) => { ev.stopPropagation(); onFocusRow(focused ? null : r.rowId); }} className="loan-thread-hit">
             <path d={`M ${a.x} ${a.y - 18} Q ${mx} ${my} ${b.x} ${b.y - 18}`} className={focused ? "loan-thread focused" : "loan-thread"} stroke={color} />
             <circle cx={a.x} cy={a.y - 18} r="4" fill={color} />
             <circle cx={b.x} cy={b.y - 18} r="4" fill={color} />
@@ -211,6 +216,9 @@ export default function SceneView({ level, sim, rows, selectedId, focusedRow, on
           <g
             key={p.id}
             className={`prop ${selected ? "selected" : ""}`}
+            role="button"
+            tabIndex={0}
+            onKeyDown={entKey(() => onSelect(selected ? null : p.id))}
             onClick={(ev) => { ev.stopPropagation(); onSelect(selected ? null : p.id); }}
             data-testid={`ent-${p.id}`}
           >
@@ -234,6 +242,9 @@ export default function SceneView({ level, sim, rows, selectedId, focusedRow, on
           <g
             key={c.id}
             className={`crew ${selected ? "selected" : ""} ${s.captured ? "captured" : ""}`}
+            role="button"
+            tabIndex={0}
+            onKeyDown={entKey(() => onSelect(selected ? null : c.id))}
             onClick={(ev) => { ev.stopPropagation(); onSelect(selected ? null : c.id); }}
             data-testid={`ent-${c.id}`}
           >
@@ -258,6 +269,9 @@ export default function SceneView({ level, sim, rows, selectedId, focusedRow, on
           <g
             key={g.id}
             className={`guard ${selected ? "selected" : ""}`}
+            role="button"
+            tabIndex={0}
+            onKeyDown={entKey(() => onSelect(selected ? null : g.id))}
             onClick={(ev) => { ev.stopPropagation(); onSelect(selected ? null : g.id); }}
             data-testid={`ent-${g.id}`}
           >
