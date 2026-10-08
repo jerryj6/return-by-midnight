@@ -108,7 +108,9 @@ export default function SceneView({ level, sim, rows, selectedId, focusedRow, on
             <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} className={e.gateId ? "edge gated" : "edge"} />
             {e.gateId ? (
               <g className={gated ? "gate open" : "gate closed"}>
-                <rect x={(a.x + b.x) / 2 - 7} y={(a.y + b.y) / 2 - 26} width="14" height="52" rx="3" />
+                <image href={`/assets/sprites/props/rbm-prop-states-${gated ? "06" : "05"}.png`}
+                  x={(a.x + b.x) / 2 - 26} y={(a.y + b.y) / 2 - 40} width="52" height="60"
+                  preserveAspectRatio="xMidYMid meet" />
                 <text x={(a.x + b.x) / 2} y={(a.y + b.y) / 2 + 40} className="gate-label">
                   {gated ? "open" : "shut"}
                 </text>
@@ -161,7 +163,9 @@ export default function SceneView({ level, sim, rows, selectedId, focusedRow, on
           const pressed = sim.devices[d.id]?.pressed === true;
           return (
             <g key={d.id} className={pressed ? "device plate pressed" : "device plate"}>
-              <rect x={cp.x + o.x - 30} y={cp.y + o.y - 8} width="60" height="14" rx="4" />
+              <image href={`/assets/sprites/props/rbm-prop-states-${pressed ? "04" : "07"}.png`}
+                x={cp.x + o.x - 30} y={cp.y + o.y - 26} width="60" height="34"
+                preserveAspectRatio="xMidYMid meet" />
               <text x={cp.x + o.x} y={cp.y + o.y + 24} className="device-label">
                 plate {pressed ? "pressed" : "up"}
               </text>
@@ -210,7 +214,8 @@ export default function SceneView({ level, sim, rows, selectedId, focusedRow, on
             onClick={(ev) => { ev.stopPropagation(); onSelect(selected ? null : p.id); }}
             data-testid={`ent-${p.id}`}
           >
-            <rect x={pt.x - 22} y={pt.y - 20} width="44" height="38" rx="6" className={p.id.includes("safe") ? "prop-safe" : "prop-crate"} />
+            <image href={`/assets/sprites/props/rbm-prop-states-${p.id.includes("safe") ? "00" : "02"}.png`}
+              x={pt.x - 26} y={pt.y - 34} width="52" height="48" preserveAspectRatio="xMidYMid meet" />
             {p.restingOn ? <rect x={pt.x - 26} y={pt.y + 14} width="52" height="6" rx="3" className="prop-rest" /> : null}
             <text x={pt.x} y={pt.y + 34} className="ent-label">
               {nameOf(p.id)}{carried ? " (carried)" : ""} ·m{mass}
