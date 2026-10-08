@@ -58,8 +58,7 @@ the actual build in this repository; pending items are flagged **PENDING**.
 
 ## 3. Assets checklist
 
-- [ ] **Cover art** — `public/assets/rbm-cover.png` exists at **1672×941**;
-      **PENDING:** export the final submission cover at **2400×1350**.
+- [x] **Cover art** — `public/assets/rbm-cover.png` (1672×941, title screen) plus the submission final `public/assets/rbm-cover-2400.png` at **2400×1350** (SHA in art manifest).
 - [ ] **Screenshots** (≥1920×1080, fresh profile):
   - Title — `/` with `play-solo`/`play-coop` visible.
   - Level select — grid of RBM-01…RBM-12 after `play-solo`.
@@ -101,7 +100,7 @@ the actual build in this repository; pending items are flagged **PENDING**.
 - [ ] Kind: HTML / browser game; viewport 1280×800, embed enabled
 - [ ] Upload zipped `dist/` or link the hosted deployment URL — confirm the
       surface accepts external-URL entries
-- [ ] Cover: 2400×1350 final (from current 1672×941 source)
+- [x] Cover: 2400×1350 final (rbm-cover-2400.png)
 - [ ] Screenshots ×4, trailer video
 - [ ] Tags: `puzzle`, `heist`, `scheduling`, `logic`, `co-op`,
       `browser-game`, `singleplayer`, `multiplayer`

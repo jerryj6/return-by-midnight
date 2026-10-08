@@ -338,6 +338,12 @@
    "sha256": "8337cfad3135e53960bea83ce6079456fbc7fb256347923ded9f5148c36594f9",
    "bytes": 105833,
    "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/rbm-cover-2400.png",
+   "sha256": "1c012e15351f6baaad3a463959004bfbc34273b50fee91bbc254b34932375a72",
+   "bytes": 4954221,
+   "source": "ChatGPT Desktop generated; submission-final 2400x1350 upscale of the cover anchor (AI render + exact-size crop/resample)"
   }
  ]
 }
