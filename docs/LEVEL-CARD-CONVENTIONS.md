@@ -137,3 +137,34 @@ spot-checks (rejected token-sets re-completed with committed rows: 0 misses).
 - **Minimality on 11/12 clean (AUTOMATED):** row-drop, crew-drop, and
   delete-one-command sweeps fail on all four committed plans (ref+alt) —
   no dead command, no freeloader row, no single-crew shortcut.
+
+## §9 Refine-7 — scripted co-op playtest + full enumeration sweep
+
+- **Scripted 2-player co-op playtest on rbm-11 (AUTOMATED, not a human test):**
+  `scripts/browser-playtest-coop.ts` drives two independent browser contexts
+  against the dist+ws server — host creates a room via the lobby, guest joins
+  by the rendered room code. Manifest rows and orders were deliberately split
+  across clients (host: helper+runner + 2 rows; guest: scout+operator + 2
+  rows). Verified: 4/4 committed rows and all 12 orders replicate identically
+  on both boards (lockstep), 4/4 crew commanded through the UI, `test.run` on
+  the host yields the success verdict on BOTH clients, `result.accept` on the
+  host lands the accepted banner on BOTH. This is the deepest automated co-op
+  check on the set — combined with §6's role-load-bearing check it covers the
+  coopNote claims end-to-end.
+- **Full enumeration sweep complete — all 12 levels.** The enumerator gained
+  a third plate polarity for rbm-08 (`whenPressed:"close"` on a home prop —
+  "dark lamp" doors: the gate opens while the home token is AWAY on loan, the
+  inverse of rbm-12's home-pressured plate). Result: every level except
+  rbm-12 has exactly ONE token→host routing family — no undiscovered
+  alternate routes exist anywhere in the set. rbm-12's 4 families (canonical
+  + 3 split-posting variants) are the only multi-family level.
+- **Enumerator audit fix:** padded spot-checks must test the rejected
+  per-token row-SET intact — padding one row of a rejected pair fakes a
+  "prefilter miss" on a correct rejection (found on rbm-10, fixed).
+- **Bible-part sweep status:** Part 3 (puzzle structure) — applied in the
+  audit pass; Part 4 (systems) — RBM-SYSTEMS-CARD.md; Part 8 (feel loop) —
+  mapped onto the verdict UI; Part 9 (onboarding) — early-level audits;
+  Part 10 (content pipeline) — these conventions + `check:content`;
+  Part 5 (co-op) — role-load-bearing check + scripted 2-player lockstep
+  playtest above. Remaining parts are process/portfolio-level (1, 2, 6, 7,
+  11–14) — no further card-side sweep applicable to RBM content.

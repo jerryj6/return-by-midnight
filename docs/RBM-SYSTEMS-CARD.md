@@ -26,15 +26,20 @@ cells / edges (optionally `gateId`-gated) / props (`baseMass`, `accepts`,
 **transition** targets gates: `whenPressed: open|close`), sensors
 (`requiresProperty`), gates (`initiallyOpen`).
 
-**Plate polarity has two classes.** Normal plates sit under a *posting* prop
+**Plate polarity has three classes.** Normal plates sit under a *posting* prop
 (scale/chime/stand with an `accepts` list) and are pressed while a loan is
 hosted. **Home-pressured (inverted) plates** sit under a token's *home* prop
 (`restingOn` the `homeEntityId`): pressed only while the token is home, so a
 posting *opens the gate when it ENDS* — the return is the key (rbm-12's
-`plate-inner`/`gate-inner`). An inverted gate's open window is the gap
+`plate-inner`/`gate-inner`, rbm-08's `plate-toy`/`gate-e1`, rbm-10's
+`plate-toy`→both gallery doors). An inverted gate's open window is the gap
 *between* a token's loans, not inside one; a second posting of the same token
-re-locks it mid-window. Homes are implicit via `homeEntityId` — home props
-MUST carry `accepts: []`.
+re-locks it mid-window. **Press-to-close ("dark-lamp") plates** target gates
+with `whenPressed: "close"`: the gate is open only while the plate is
+UNpressed, so on a home prop the door opens while the token is *away on loan*
+— the posting itself is the key (rbm-08's `plate-lamp`→`gate-n1`/`gate-lobby`;
+posting B's lamp out is what opens the north corridor). Homes are implicit
+via `homeEntityId` — home props MUST carry `accepts: []`.
 
 ## Property effects (the three tools)
 

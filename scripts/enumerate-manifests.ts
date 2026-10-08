@@ -12,13 +12,17 @@
 // token (no committed plan ever needs more). Commands stay fixed — this maps
 // the manifest alternates, not the choreography space.
 import { simulate } from "../src/engine/rbm/sim.js";
-import type { LoanManifestRow, RbmManifest, RbmPlan } from "../src/engine/rbm/types.js";
+import type { LoanManifestRow, RbmDeviceDef, RbmManifest, RbmPlan } from "../src/engine/rbm/types.js";
+import { RBM01, rbm01ReferencePlan } from "../src/content/levels/rbm01-weight-of-evidence.js";
 import { RBM02, rbm02ReferencePlan } from "../src/content/levels/rbm02-lights-out-lights-back.js";
 import { RBM03, rbm03ReferencePlan } from "../src/content/levels/rbm03-quiet-then-quite-loud.js";
 import { RBM04, rbm04ReferencePlan } from "../src/content/levels/rbm04-the-traveling-owner.js";
 import { RBM05, rbm05ReferencePlan } from "../src/content/levels/rbm05-one-light-two-jobs.js";
 import { RBM06, rbm06ReferencePlan } from "../src/content/levels/rbm06-the-door-that-pays-you-back.js";
 import { RBM07, rbm07ReferencePlan } from "../src/content/levels/rbm07-double-booking.js";
+import { RBM08, rbm08ReferencePlan } from "../src/content/levels/rbm08-last-call.js";
+import { RBM09, rbm09ReferencePlan } from "../src/content/levels/rbm09-the-moving-deposit.js";
+import { RBM10, rbm10ReferencePlan } from "../src/content/levels/rbm10-the-quietest-exit.js";
 import { RBM11, rbm11ReferencePlan } from "../src/content/levels/rbm11-night-shift.js";
 import { RBM12, rbm12ReferencePlan } from "../src/content/levels/rbm12-midnight-returns.js";
 
@@ -27,9 +31,10 @@ const SEED = "enumerate";
 interface CandidateRow { tokenId: string; fromHostId: string; toHostId: string; startBeat: number; dueBeat: number | null }
 
 const levels: [RbmManifest, () => RbmPlan][] = [
-  [RBM02, rbm02ReferencePlan], [RBM03, rbm03ReferencePlan], [RBM04, rbm04ReferencePlan],
-  [RBM05, rbm05ReferencePlan], [RBM06, rbm06ReferencePlan], [RBM07, rbm07ReferencePlan],
-  [RBM11, rbm11ReferencePlan], [RBM12, rbm12ReferencePlan],
+  [RBM01, rbm01ReferencePlan], [RBM02, rbm02ReferencePlan], [RBM03, rbm03ReferencePlan],
+  [RBM04, rbm04ReferencePlan], [RBM05, rbm05ReferencePlan], [RBM06, rbm06ReferencePlan],
+  [RBM07, rbm07ReferencePlan], [RBM08, rbm08ReferencePlan], [RBM09, rbm09ReferencePlan],
+  [RBM10, rbm10ReferencePlan], [RBM11, rbm11ReferencePlan], [RBM12, rbm12ReferencePlan],
 ];
 const only = process.argv.find((a) => a.startsWith("--level="))?.split("=")[1];
 
@@ -114,6 +119,22 @@ interface GateReq { gateId: string; beats: number[] }
 /** (gate,beat) requirements of the committed reference plans, derived by hand
  *  from each plan's gated crossings (verified by the spot-check below). */
 const REQUIREMENTS: Record<string, GateReq[]> = {
+  "rbm-08": [
+    // Crossings at b4 (hall→north, hall→east, hall→lobby) and b5 (hall→vault).
+    // n1/lobby are press-to-CLOSE plates (dark-lamp = open doors): TOKEN-B must
+    // be away. e1 is home-pressured (rattle home on the toy). v1 is press-open.
+    { gateId: "gate-n1", beats: [4] },
+    { gateId: "gate-lobby", beats: [4] },
+    { gateId: "gate-e1", beats: [4] },
+    { gateId: "gate-v1", beats: [5] },
+  ],
+  "rbm-10": [
+    // bell loft crossed b2-3 (NOISY on the decoy), attic b5-6 (BRIGHT on the
+    // lampstand), gallery window b6-7 (NOISY home — home-pressured plate-toy).
+    { gateId: "gate-bell", beats: [2, 3] },
+    { gateId: "gate-attic", beats: [5, 6] },
+    { gateId: "gate-gallery-window", beats: [6, 7] },
+  ],
   "rbm-11": [
     { gateId: "gate-west", beats: [3, 4] },
     { gateId: "gate-east", beats: [3, 4] },
@@ -128,28 +149,50 @@ const REQUIREMENTS: Record<string, GateReq[]> = {
   ],
 };
 
-/** Plate id -> the prop resting on it -> whether it inverts (home-pressured). */
-function plateOf(level: RbmManifest, gateId: string): { hostId: string; tokenId: string | null; inverted: boolean } | null {
-  const plate = level.devices.find((d) => d.kind === "pressure-plate" && d.targets.some((t) => t.deviceId === gateId && t.whenPressed === "open"));
+/** The three plate polarities seen in committed levels:
+ *  - "host-open": posting a token onto the host presses the plate open
+ *    (ordinary lending host, whenPressed:"open")
+ *  - "home-open": the token weighted HOME presses the plate open — the gate
+ *    opens when the posting ENDS (rbm-12 gate-inner; whenPressed:"open" on a
+ *    homeEntityId prop)
+ *  - "away-open": the plate CLOSES gates while pressed, so the gate opens
+ *    while the home token is AWAY on loan (rbm-08's dark-lamp doors;
+ *    whenPressed:"close" on a homeEntityId prop)
+ *  - "away-open-host": whenPressed:"close" on a non-home host — open while
+ *    the host carries nothing (no committed level; handled for completeness) */
+type PlateMode = "host-open" | "home-open" | "away-open" | "away-open-host";
+
+function plateOf(level: RbmManifest, gateId: string): { hostId: string; tokenId: string | null; mode: PlateMode } | null {
+  const plate = level.devices.find(
+    (d): d is RbmDeviceDef & { kind: "pressure-plate"; targets: { deviceId: string; whenPressed: "open" | "close" }[] } =>
+      d.kind === "pressure-plate" && (d as { targets?: { deviceId: string }[] }).targets?.some((t) => t.deviceId === gateId) === true,
+  );
   if (!plate) return null;
+  const closeWhenPressed = plate.targets.some((t) => t.deviceId === gateId && t.whenPressed === "close");
   const host = level.props.find((p) => p.restingOn === plate.id);
   if (!host) return null;
   const homeToken = level.tokens.find((t) => t.homeEntityId === host.id);
-  return { hostId: host.id, tokenId: homeToken?.id ?? null, inverted: !!homeToken };
+  const mode: PlateMode = closeWhenPressed
+    ? homeToken ? "away-open" : "away-open-host"
+    : homeToken ? "home-open" : "host-open";
+  return { hostId: host.id, tokenId: homeToken?.id ?? null, mode };
 }
 
-/** Does row-set press `hostId` at every beat (or keep token home, if inverted)? */
+const activeAt = (rows: LoanManifestRow[], tokenId: string, b: number) =>
+  rows.some((r) => r.tokenId === tokenId && r.startBeat <= b && b <= (r.dueBeat ?? Number.POSITIVE_INFINITY));
+const hostedAt = (rows: LoanManifestRow[], hostId: string, b: number) =>
+  rows.some((r) => r.toHostId === hostId && r.startBeat <= b && b <= (r.dueBeat ?? Number.POSITIVE_INFINITY));
+
+/** Does the row-set satisfy the gate requirement at every listed beat? */
 function covers(rows: LoanManifestRow[], level: RbmManifest, req: GateReq): boolean {
   const plate = plateOf(level, req.gateId);
   if (!plate) return true;
   for (const b of req.beats) {
-    if (plate.inverted) {
-      // home-pressured: the home token must be home — no active row at b.
-      const out = rows.some((r) => r.tokenId === plate.tokenId && r.startBeat <= b && b <= (r.dueBeat ?? Number.POSITIVE_INFINITY));
-      if (out) return false;
-    } else {
-      const pressed = rows.some((r) => r.toHostId === plate.hostId && r.startBeat <= b && b <= (r.dueBeat ?? Number.POSITIVE_INFINITY));
-      if (!pressed) return false;
+    switch (plate.mode) {
+      case "host-open": if (!hostedAt(rows, plate.hostId, b)) return false; break;
+      case "home-open": if (plate.tokenId && activeAt(rows, plate.tokenId, b)) return false; break;
+      case "away-open": if (!plate.tokenId || !activeAt(rows, plate.tokenId, b)) return false; break;
+      case "away-open-host": if (hostedAt(rows, plate.hostId, b)) return false; break;
     }
   }
   return true;
@@ -160,7 +203,10 @@ function covers(rows: LoanManifestRow[], level: RbmManifest, req: GateReq): bool
 function owningToken(level: RbmManifest, req: GateReq): string | null {
   const plate = plateOf(level, req.gateId);
   if (!plate) return null;
-  if (plate.inverted) return plate.tokenId;
+  // Home-linked modes are owned by the home token; host-open by the accepted
+  // property's token; away-open-host by nobody (always satisfied).
+  if (plate.mode === "home-open" || plate.mode === "away-open") return plate.tokenId;
+  if (plate.mode === "away-open-host") return null;
   const host = level.props.find((p) => p.id === plate.hostId);
   const token = level.tokens.find((t) => host?.accepts.includes(t.property as never));
   return token?.id ?? null;
@@ -179,7 +225,10 @@ function manifestsFiltered(level: RbmManifest, reqs: GateReq[]): { sets: LoanMan
     if (!mine.length) continue;
     const keep = pt.choices.filter((rows) => mine.every((req) => covers(rows, level, req)));
     const drop = pt.choices.filter((rows) => !mine.every((req) => covers(rows, level, req)));
-    for (const rows of drop) for (const r of rows) eliminated.push([r]);
+    // Audit the REJECTED SET, not its rows: coverage decisions are made on the
+    // whole token-set, so padding a single row of a rejected pair would fake a
+    // miss on a correct rejection.
+    for (const rows of drop) eliminated.push(rows);
     pt.choices = keep;
   }
   const out: LoanManifestRow[][] = [[]];
