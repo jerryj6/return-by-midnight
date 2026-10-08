@@ -326,6 +326,17 @@ for (const [level, card] of CARDED) {
       console.log(`FAIL  ${level.levelId}: coopNote degenerate — ${crew} contributes nothing`);
       fails++;
     }
+    // Per-claim deep-check (refine-10): each crew member's FINAL beat must be
+    // load-bearing — the "scout must extract at 8"-class claim a coopNote
+    // makes is real only if dropping that last act sinks the run.
+    const lastBeat = Math.max(...Object.keys(p.commands).filter((b) => p.commands[Number(b)]?.[crew]).map(Number));
+    const cmds2 = JSON.parse(JSON.stringify(p.commands)) as RbmPlan["commands"];
+    delete cmds2[lastBeat]![crew];
+    if (Object.keys(cmds2[lastBeat]!).length === 0) delete cmds2[lastBeat];
+    if (simulate(level, { rows: p.rows, commands: cmds2 }, SEED).evaluation.success) {
+      console.log(`WARN  ${level.levelId}: ${crew}'s final act @${lastBeat} removable — claimed endgame not load-bearing`);
+      warns++;
+    }
   }
 }
 

@@ -259,3 +259,55 @@ the manifest).
 The tight non-band is also by design: RBM-02 `dueBeat` ≤2 fails to a lit-hall
 capture, and `TOKEN-B` at start 1 in RBM-08 fails outright — transition-gated
 doors need the baseline press recorded before a release can invert it.
+
+## Difficulty vectors (AUTOMATED, refine-10)
+
+Per-level complexity from committed data + enum sweep. `density` = winning
+manifests / manifests tried (lower = tighter manifest space); `orders`/`crew`
+from the committed reference plan; `families` = distinct token→host routings.
+
+| Level | rows | orders | crew | horizon | winners/tried | density | families |
+|---|---|---|---|---|---|---|---|
+| RBM-01 | 1 | 2 | 1 | 4 | 2/14 | 0.143 | 1 |
+| RBM-02 | 1 | 3 | 1 | 5 | 12/17 | 0.706 | 1 |
+| RBM-03 | 1 | 7 | 2 | 6 | 15/21 | 0.714 | 1 |
+| RBM-04 | 1 | 4 | 1 | 6 | 2/20 | 0.100 | 1 |
+| RBM-05 | 2 | 4 | 2 | 6 | 12/276 | 0.043 | 1 |
+| RBM-06 | 1 | 7 | 2 | 8 | 4/20 | 0.200 | 1 |
+| RBM-07 | 3 | 6 | 3 | 7 | 540/24128 | 0.022 | 1 |
+| RBM-08 | 3 | 8 | 4 | 7 | 1485/5600 | 0.265 | 1 |
+| RBM-09 | 1 | 8 | 3 | 7 | 12/29 | 0.414 | 1 |
+| RBM-10 | 2 | 12 | 4 | 8 | 60/90 | 0.667 | 1 |
+| RBM-11 | 4 | 12 | 4 | 9 | 324/1296 | 0.250 | 1 |
+| RBM-12 | 3 | 18 | 4 | 9 | 33000/92160 | 0.358 | 4 |
+
+### Read (honest curve report)
+
+The composite curve ramps (orders 2→18, crew 1→4, rows 1→4), but the three
+vectors deliberately do NOT move together — this is a non-monotonic design:
+
+- **Manifest tightness peaks mid-game.** The two most constrained levels are
+  RBM-07 (0.022) and RBM-05 (0.043) — both earlier than the loosest levels.
+  Mid-game is the "precision wall": one family, few winners, and RBM-04's
+  startBeat-2 forced point makes it harder than its size suggests.
+- **Back half relaxes the manifest, grows the execution.** RBM-09/10/12 are
+  the most permissive manifest spaces in the set (0.36–0.67), but the orders
+  count climbs 8→12→18 and crew 3→4. Difficulty moves from "find the one
+  window" to "coordinate the schedule" — the finale trades tightness for
+  breadth (4 families, two live sensors to read).
+- **Flagged inversions (by vector, not necessarily by player):** RBM-07 is
+  33× tighter on the manifest axis than RBM-09 two levels later; RBM-05 is
+  tighter than every level except 07; RBM-10's manifest is looser than
+  RBM-02/03's. If playtesters call 05/07 "too hard for their slot", the enum
+  data agrees — the wall is real and mid-placed. This is a design stance
+  (teach precision, then relax into orchestration), not a ramp defect.
+
+## Scripted solo playtests — RBM-01 & RBM-06 (AUTOMATED, refine-10)
+
+Live-client win + fail probes (`scripts/browser-playtest.ts`):
+
+- **RBM-01** — H→crate @1~3 + helper's two-command run wins; accepted banner.
+  Fail probe (due 4, outside the proven {1~3,2~3} windows) fails with
+  expected-vs-actual detail; accept correctly withheld.
+- **RBM-06** — H→crate @1~5 + the seven-command two-crew run wins; accepted.
+  Fail probe (due 4 — enum-proven forced due is 5) fails with detail.

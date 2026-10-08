@@ -19,6 +19,37 @@ interface LevelPlan { id: string; rows: Row[]; commands: Cmd[]; failProbe: { not
 // Committed winning plans, transcribed verbatim from the level files.
 const PLANS: LevelPlan[] = [
   {
+    id: "rbm-01",
+    rows: [{ token: "TOKEN-H", to: "prop-crate", start: 1, due: 3 }],
+    commands: [
+      { beat: 2, crew: "crew-helper", slug: "pm:prop-safe:cell-approach" },
+      { beat: 3, crew: "crew-helper", slug: "move:pad-out" },
+    ],
+    // Enum-proven: only windows {1~3, 2~3} win — due 4 must fail with detail.
+    failProbe: {
+      note: "TOKEN-H due 4 (outside the proven {1~3,2~3} winner windows)",
+      rows: [{ token: "TOKEN-H", to: "prop-crate", start: 1, due: 4 }],
+    },
+  },
+  {
+    id: "rbm-06",
+    rows: [{ token: "TOKEN-H", to: "prop-crate", start: 1, due: 5 }],
+    commands: [
+      { beat: 3, crew: "crew-helper", slug: "move:cell-hall" },
+      { beat: 4, crew: "crew-helper", slug: "move:cell-store" },
+      { beat: 5, crew: "crew-helper", slug: "pm:prop-ledger:cell-hall" },
+      { beat: 5, crew: "crew-operator", slug: "move:cell-hall" },
+      { beat: 6, crew: "crew-helper", slug: "move:pad-out" },
+      { beat: 6, crew: "crew-operator", slug: "move:cell-vault" },
+      { beat: 7, crew: "crew-operator", slug: "pm:prop-crown:pad-out" },
+    ],
+    // Enum-proven: due must be exactly 5 — due 4 (offered, but loses) fails.
+    failProbe: {
+      note: "TOKEN-H due 4 (enum-proven forced due is 5)",
+      rows: [{ token: "TOKEN-H", to: "prop-crate", start: 1, due: 4 }],
+    },
+  },
+  {
     id: "rbm-11",
     rows: [
       { token: "TOKEN-H", to: "prop-scale-w", start: 2, due: 5 },
