@@ -237,6 +237,8 @@ alternate that loses. Canonical rows/commands are the committed reference plans.
 | RBM-08 | `TOKEN-B` `dueBeat` 5–7, `startBeat` 3–4 (start 1 fails — the beat-1 settle must register the weighted lamp first); `TOKEN-N` `dueBeat` 3 also wins (due 6 fails — the early return is required); `TOKEN-H` `dueBeat` 5–7, `startBeat` 1–5. Widest band in the set. |
 | RBM-09 | `dueBeat` 4, 5, 7 (canonical 6); `startBeat` 2–3. The aim is NOT free: `cell-junction` is the only viable landing (aiming `cell-alcove` fails — the moved deposit must power the junction receiver). |
 | RBM-10 | `TOKEN-N` `dueBeat` 3–4, `startBeat` 2; `TOKEN-B` `dueBeat` ≥6, `startBeat` 2–5; the committed reference and the inside-corridor alternate are both carded routes. |
+| RBM-11 | Early-shift rows `dueBeat` 4–5, `startBeat` 1–3; late-shift rows `dueBeat` 7–8 with `startBeat` 6 forced (the forced home interval gates the crossover); the asymmetric-shift committed alternate is also carded. |
+| RBM-12 | `TOKEN-H` `dueBeat` 3–4, `startBeat` 1–3; `TOKEN-B` `dueBeat` 5–9 all win — widest due band in the set (the vault snatch is one beat of a wide posting), `startBeat` 1–4; `TOKEN-N` `dueBeat` 7–8, `startBeat` 1–6; the staggered and group-crossing committed alternates are both carded. |
 
 Loosest bands by design: RBM-08 (chain orchestration is the lesson, not clock
 arithmetic) and RBM-10 (precision lives in the vestibule lurk, not the manifest).

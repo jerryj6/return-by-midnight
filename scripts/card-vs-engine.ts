@@ -38,8 +38,9 @@ import { RBM07, RBM07_CARD, rbm07ReferencePlan } from "../src/content/levels/rbm
 import { RBM08, RBM08_CARD, rbm08PlanWithDue, rbm08ReferencePlan } from "../src/content/levels/rbm08-last-call.js";
 import { RBM09, RBM09_CARD, rbm09PlanWithAim, rbm09PlanWithDue, rbm09ReferencePlan } from "../src/content/levels/rbm09-the-moving-deposit.js";
 import { RBM10, RBM10_CARD, rbm10ReferencePlan } from "../src/content/levels/rbm10-the-quietest-exit.js";
-import { RBM11, RBM11_CARD, rbm11ReferencePlan } from "../src/content/levels/rbm11-night-shift.js";
-import { RBM12, RBM12_CARD, rbm12ReferencePlan } from "../src/content/levels/rbm12-midnight-returns.js";
+import { RBM11, rbm11ReferencePlan } from "../src/content/levels/rbm11-night-shift.js";
+import { RBM12, rbm12ReferencePlan } from "../src/content/levels/rbm12-midnight-returns.js";
+import { CARDS } from "../src/content/levels/index.js";
 
 const SEED = "card-vs-engine";
 const engine = new RbmEngine();
@@ -169,6 +170,54 @@ const PROBES: Record<string, Record<string, Probe>> = {
     "borrower-mismatch": { kind: "rows", rows: () => [{ rowId: "mismatch", tokenId: "TOKEN-B", fromHostId: "prop-lamp", toHostId: "prop-decoy", startBeat: 1, dueBeat: 5 }] },
     "manifest-over-budget": { kind: "rows", rows: () => { const rows = rbm10ReferencePlan().rows; return [...rows, { rowId: "row-three", tokenId: "TOKEN-N", fromHostId: "prop-toy", toHostId: "prop-decoy", startBeat: 6, dueBeat: null }]; } },
   },
+  "rbm-11": {
+    // HEAVY posted to both wings' scales across the same window — one token,
+    // two posts: overlap (same-token rows sharing beats 2–5).
+    "wing-local-booking": { kind: "rows", rows: () => [
+      { rowId: "h-west", tokenId: "TOKEN-H", fromHostId: "prop-counter", toHostId: "prop-scale-w", startBeat: 2, dueBeat: 5 },
+      { rowId: "h-east", tokenId: "TOKEN-H", fromHostId: "prop-counter", toHostId: "prop-scale-e", startBeat: 2, dueBeat: 5 },
+    ] },
+    // NOISY onto a HEAVY scale — the property doesn't match the host.
+    "swap-the-keys": { kind: "rows", rows: () => [
+      { rowId: "n-on-scale", tokenId: "TOKEN-N", fromHostId: "prop-windup", toHostId: "prop-scale-w", startBeat: 2, dueBeat: 5 },
+    ] },
+    // Helper reaches the west deep end at beat 4 and tries the window at
+    // beat 5 — it opens only at beat 6 (NOISY's crossover posting).
+    "dark-window-exit": { kind: "sim", plan: plan(rbm11ReferencePlan, (p) => { p.commands[5] = { ...(p.commands[5] ?? {}), "crew-helper": { type: "move", to: "pad-out" } }; }), mechanism: (r) => (rejectedAt(r, 5, "crew-helper", "gate-closed") ? "fails:gate-closed" : r.evaluation.success ? "succeeds" : "fails:outcome") },
+    // West window posting due 9: gate-west-win still open when the midnight
+    // beam walks the pad — capture through the lit window.
+    "midnight-straggler": { kind: "sim", plan: plan(rbm11ReferencePlan, (p) => { p.rows = p.rows.map((r) => (r.rowId === "TOKEN-N->chime-w@6~8" ? { ...r, dueBeat: 9 } : r)); }), mechanism: (r) => (eventsOf(r, "guard.capture").length ? "fails:capture" : r.evaluation.success ? "succeeds" : "fails:outcome") },
+    // Into the west mouth at beat 2 while the dome beam still sits on it.
+    "early-wing-entry": { kind: "sim", plan: plan(rbm11ReferencePlan, (p) => { p.commands[2] = { "crew-helper": { type: "move", to: "cell-west" } }; }), mechanism: (r) => (captureAt(r, 2, "crew-helper") ? "fails:capture" : r.evaluation.success ? "succeeds" : "fails:outcome") },
+    // Only the early-shift rows: corridors open, windows never posted — the
+    // beat-6 exits are rejected and the crew is stranded inside.
+    "forget-the-second-posting": { kind: "sim", plan: plan(rbm11ReferencePlan, (p) => { p.rows = p.rows.slice(0, 2); }), mechanism: (r) => (rejectedAt(r, 6, "crew-helper", "gate-closed") ? "fails:gate-closed" : r.evaluation.success ? "succeeds" : "fails:outcome") },
+    // A fifth row past the four-row ledger.
+    "manifest-over-budget": { kind: "rows", rows: () => [...rbm11ReferencePlan().rows, { rowId: "row-five", tokenId: "TOKEN-N", fromHostId: "prop-windup", toHostId: "prop-chime-e", startBeat: 9, dueBeat: null }] },
+  },
+  "rbm-12": {
+    // Hall→exit crossing at beat 4 while HEAVY is still out — the inner door
+    // opens only when the return lands at the end of the due beat.
+    "cross-before-the-return": { kind: "sim", plan: plan(rbm12ReferencePlan, (p) => { p.commands[4] = { ...(p.commands[4] ?? {}), "crew-helper": { type: "move", to: "cell-exit" } }; }), mechanism: (r) => (rejectedAt(r, 4, "crew-helper", "gate-closed") ? "fails:gate-closed" : r.evaluation.success ? "succeeds" : "fails:outcome") },
+    // A second HEAVY posting (@5~8) after it came home: at its start beat
+    // HEAVY leaves the counter, plate-inner releases, gate-inner slams —
+    // the vault pair's beat-6 crossing is rejected and they are stranded.
+    "reloan-after-home": { kind: "sim", plan: plan(rbm12ReferencePlan, (p) => { p.rows = [...p.rows, { rowId: "h-again", tokenId: "TOKEN-H", fromHostId: "prop-counter", toHostId: "prop-scale-h", startBeat: 5, dueBeat: 8 }]; }), mechanism: (r) => (eventsOf(r, "command.rejected").some((e) => e.data?.["reason"] === "gate-closed") ? "fails:gate-closed" : r.evaluation.success ? "succeeds" : "fails:outcome") },
+    // NOISY due 9: the outer door stays open into the midnight beam — the
+    // warden's ray walks exit→pad through both live gates.
+    "exit-too-late": { kind: "sim", plan: plan(rbm12ReferencePlan, (p) => { p.rows = p.rows.map((r) => (r.tokenId === "TOKEN-N" ? { ...r, dueBeat: 9 } : r)); }), mechanism: (r) => (eventsOf(r, "guard.capture").length ? "fails:capture" : r.evaluation.success ? "succeeds" : "fails:outcome") },
+    // Scout never leaves the vault (her beat-5 grab-and-go removed): the
+    // walker's beat-6 rattle finds her inside.
+    "vault-dawdler": { kind: "sim", plan: plan(rbm12ReferencePlan, (p) => { delete p.commands[5]!["crew-scout"]; }), mechanism: (r) => (captureAt(r, 6, "crew-scout") ? "fails:capture" : r.evaluation.success ? "succeeds" : "fails:outcome") },
+    // HEAVY + NOISY only — no BRIGHT row: plan.complete fails and the vault
+    // door never opens.
+    "missing-the-light": { kind: "sim", plan: plan(rbm12ReferencePlan, (p) => { p.rows = p.rows.filter((r) => r.tokenId !== "TOKEN-B"); }), mechanism: (r) => (observation(r, "plan.complete")?.passed === false ? "fails:plan-complete" : r.evaluation.success ? "succeeds" : "fails:outcome") },
+    // Into the hall at beat 2 while the warden's opening sweep still covers
+    // it — the heavy posting opened the door, the beam is on it.
+    "early-hall-entry": { kind: "sim", plan: plan(rbm12ReferencePlan, (p) => { p.commands[2] = { "crew-helper": { type: "move", to: "cell-hall" } }; }), mechanism: (r) => (captureAt(r, 2, "crew-helper") ? "fails:capture" : r.evaluation.success ? "succeeds" : "fails:outcome") },
+    // Rows 4 and 5 past the four-row ledger.
+    "manifest-over-budget": { kind: "rows", rows: () => [...rbm12ReferencePlan().rows, { rowId: "b-again", tokenId: "TOKEN-B", fromHostId: "prop-lamp", toHostId: "prop-stand-v", startBeat: 6, dueBeat: 8 }, { rowId: "n-again", tokenId: "TOKEN-N", fromHostId: "prop-windup", toHostId: "prop-chime-ex", startBeat: 9, dueBeat: null }] },
+  },
 };
 
 const REFS: [RbmManifest, () => RbmPlan][] = [
@@ -189,7 +238,10 @@ const REFS: [RbmManifest, () => RbmPlan][] = [
 const CARDED: [RbmManifest, LevelCard][] = [
   [RBM02, RBM02_CARD], [RBM03, RBM03_CARD], [RBM04, RBM04_CARD], [RBM05, RBM05_CARD],
   [RBM06, RBM06_CARD], [RBM07, RBM07_CARD], [RBM08, RBM08_CARD], [RBM09, RBM09_CARD],
-  [RBM10, RBM10_CARD], [RBM11, RBM11_CARD], [RBM12, RBM12_CARD],
+  [RBM10, RBM10_CARD],
+  // 11/12 wire coopNote via the shipped CARDS index (spread at export), not
+  // on the raw consts — load the same merged cards the game uses.
+  [RBM11, CARDS["RBM-11"] as LevelCard], [RBM12, CARDS["RBM-12"] as LevelCard],
 ];
 
 let fails = 0;
