@@ -1,0 +1,134 @@
+{
+ "sheet": "rbm-prop-states.png",
+ "size": [
+  1774,
+  887
+ ],
+ "bg": [
+  243,
+  225,
+  194
+ ],
+ "sprites": [
+  {
+   "name": "rbm-prop-states-00",
+   "file": "rbm-prop-states-00.png",
+   "src_bbox": [
+    76,
+    68,
+    410,
+    410
+   ],
+   "size": [
+    334,
+    342
+   ],
+   "ink_px": 81848
+  },
+  {
+   "name": "rbm-prop-states-01",
+   "file": "rbm-prop-states-01.png",
+   "src_bbox": [
+    472,
+    68,
+    775,
+    406
+   ],
+   "size": [
+    303,
+    338
+   ],
+   "ink_px": 77612
+  },
+  {
+   "name": "rbm-prop-states-02",
+   "file": "rbm-prop-states-02.png",
+   "src_bbox": [
+    898,
+    123,
+    1212,
+    414
+   ],
+   "size": [
+    314,
+    291
+   ],
+   "ink_px": 61657
+  },
+  {
+   "name": "rbm-prop-states-03",
+   "file": "rbm-prop-states-03.png",
+   "src_bbox": [
+    1326,
+    109,
+    1661,
+    420
+   ],
+   "size": [
+    335,
+    311
+   ],
+   "ink_px": 78913
+  },
+  {
+   "name": "rbm-prop-states-04",
+   "file": "rbm-prop-states-04.png",
+   "src_bbox": [
+    63,
+    581,
+    402,
+    779
+   ],
+   "size": [
+    339,
+    198
+   ],
+   "ink_px": 38453
+  },
+  {
+   "name": "rbm-prop-states-05",
+   "file": "rbm-prop-states-05.png",
+   "src_bbox": [
+    834,
+    431,
+    1255,
+    802
+   ],
+   "size": [
+    421,
+    371
+   ],
+   "ink_px": 95328
+  },
+  {
+   "name": "rbm-prop-states-06",
+   "file": "rbm-prop-states-06.png",
+   "src_bbox": [
+    1299,
+    427,
+    1727,
+    795
+   ],
+   "size": [
+    428,
+    368
+   ],
+   "ink_px": 73189
+  },
+  {
+   "name": "rbm-prop-states-07",
+   "file": "rbm-prop-states-07.png",
+   "src_bbox": [
+    443,
+    596,
+    780,
+    777
+   ],
+   "size": [
+    337,
+    181
+   ],
+   "ink_px": 35450
+  }
+ ]
+}

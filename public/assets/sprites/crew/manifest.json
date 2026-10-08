@@ -1,0 +1,104 @@
+{
+ "sheet": "rbm-crew-sheet.png",
+ "size": [
+  1774,
+  887
+ ],
+ "bg": [
+  240,
+  222,
+  190
+ ],
+ "sprites": [
+  {
+   "name": "rbm-crew-sheet-00",
+   "file": "rbm-crew-sheet-00.png",
+   "src_bbox": [
+    13,
+    250,
+    273,
+    650
+   ],
+   "size": [
+    260,
+    400
+   ],
+   "ink_px": 57497
+  },
+  {
+   "name": "rbm-crew-sheet-01",
+   "file": "rbm-crew-sheet-01.png",
+   "src_bbox": [
+    285,
+    258,
+    538,
+    655
+   ],
+   "size": [
+    253,
+    397
+   ],
+   "ink_px": 56180
+  },
+  {
+   "name": "rbm-crew-sheet-02",
+   "file": "rbm-crew-sheet-02.png",
+   "src_bbox": [
+    562,
+    238,
+    870,
+    658
+   ],
+   "size": [
+    308,
+    420
+   ],
+   "ink_px": 66918
+  },
+  {
+   "name": "rbm-crew-sheet-03",
+   "file": "rbm-crew-sheet-03.png",
+   "src_bbox": [
+    884,
+    253,
+    1194,
+    652
+   ],
+   "size": [
+    310,
+    399
+   ],
+   "ink_px": 55056
+  },
+  {
+   "name": "rbm-crew-sheet-04",
+   "file": "rbm-crew-sheet-04.png",
+   "src_bbox": [
+    1200,
+    200,
+    1465,
+    661
+   ],
+   "size": [
+    265,
+    461
+   ],
+   "ink_px": 60085
+  },
+  {
+   "name": "rbm-crew-sheet-05",
+   "file": "rbm-crew-sheet-05.png",
+   "src_bbox": [
+    1485,
+    200,
+    1761,
+    650
+   ],
+   "size": [
+    276,
+    450
+   ],
+   "ink_px": 62197
+  }
+ ]
+}

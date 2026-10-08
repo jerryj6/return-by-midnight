@@ -1,0 +1,599 @@
+{
+ "sheet": "rbm-env-kit.png",
+ "size": [
+  1536,
+  1024
+ ],
+ "bg": [
+  18,
+  26,
+  34
+ ],
+ "sprites": [
+  {
+   "name": "rbm-env-kit-00",
+   "file": "rbm-env-kit-00.png",
+   "src_bbox": [
+    34,
+    89,
+    293,
+    253
+   ],
+   "size": [
+    259,
+    164
+   ],
+   "ink_px": 9548
+  },
+  {
+   "name": "rbm-env-kit-01",
+   "file": "rbm-env-kit-01.png",
+   "src_bbox": [
+    73,
+    77,
+    723,
+    485
+   ],
+   "size": [
+    650,
+    408
+   ],
+   "ink_px": 133363
+  },
+  {
+   "name": "rbm-env-kit-02",
+   "file": "rbm-env-kit-02.png",
+   "src_bbox": [
+    187,
+    124,
+    282,
+    193
+   ],
+   "size": [
+    95,
+    69
+   ],
+   "ink_px": 907
+  },
+  {
+   "name": "rbm-env-kit-03",
+   "file": "rbm-env-kit-03.png",
+   "src_bbox": [
+    261,
+    51,
+    345,
+    125
+   ],
+   "size": [
+    84,
+    74
+   ],
+   "ink_px": 2581
+  },
+  {
+   "name": "rbm-env-kit-04",
+   "file": "rbm-env-kit-04.png",
+   "src_bbox": [
+    773,
+    20,
+    885,
+    116
+   ],
+   "size": [
+    112,
+    96
+   ],
+   "ink_px": 5871
+  },
+  {
+   "name": "rbm-env-kit-05",
+   "file": "rbm-env-kit-05.png",
+   "src_bbox": [
+    776,
+    92,
+    859,
+    363
+   ],
+   "size": [
+    83,
+    271
+   ],
+   "ink_px": 13951
+  },
+  {
+   "name": "rbm-env-kit-06",
+   "file": "rbm-env-kit-06.png",
+   "src_bbox": [
+    852,
+    64,
+    1152,
+    188
+   ],
+   "size": [
+    300,
+    124
+   ],
+   "ink_px": 9883
+  },
+  {
+   "name": "rbm-env-kit-07",
+   "file": "rbm-env-kit-07.png",
+   "src_bbox": [
+    928,
+    151,
+    1004,
+    353
+   ],
+   "size": [
+    76,
+    202
+   ],
+   "ink_px": 9084
+  },
+  {
+   "name": "rbm-env-kit-08",
+   "file": "rbm-env-kit-08.png",
+   "src_bbox": [
+    1072,
+    187,
+    1154,
+    476
+   ],
+   "size": [
+    82,
+    289
+   ],
+   "ink_px": 14468
+  },
+  {
+   "name": "rbm-env-kit-09",
+   "file": "rbm-env-kit-09.png",
+   "src_bbox": [
+    1094,
+    80,
+    1184,
+    161
+   ],
+   "size": [
+    90,
+    81
+   ],
+   "ink_px": 3588
+  },
+  {
+   "name": "rbm-env-kit-10",
+   "file": "rbm-env-kit-10.png",
+   "src_bbox": [
+    1149,
+    112,
+    1495,
+    299
+   ],
+   "size": [
+    346,
+    187
+   ],
+   "ink_px": 15999
+  },
+  {
+   "name": "rbm-env-kit-11",
+   "file": "rbm-env-kit-11.png",
+   "src_bbox": [
+    1153,
+    188,
+    1385,
+    337
+   ],
+   "size": [
+    232,
+    149
+   ],
+   "ink_px": 9035
+  },
+  {
+   "name": "rbm-env-kit-12",
+   "file": "rbm-env-kit-12.png",
+   "src_bbox": [
+    753,
+    272,
+    787,
+    333
+   ],
+   "size": [
+    34,
+    61
+   ],
+   "ink_px": 1012
+  },
+  {
+   "name": "rbm-env-kit-13",
+   "file": "rbm-env-kit-13.png",
+   "src_bbox": [
+    847,
+    304,
+    1079,
+    451
+   ],
+   "size": [
+    232,
+    147
+   ],
+   "ink_px": 9741
+  },
+  {
+   "name": "rbm-env-kit-14",
+   "file": "rbm-env-kit-14.png",
+   "src_bbox": [
+    1153,
+    241,
+    1215,
+    469
+   ],
+   "size": [
+    62,
+    228
+   ],
+   "ink_px": 8494
+  },
+  {
+   "name": "rbm-env-kit-15",
+   "file": "rbm-env-kit-15.png",
+   "src_bbox": [
+    1277,
+    268,
+    1326,
+    386
+   ],
+   "size": [
+    49,
+    118
+   ],
+   "ink_px": 945
+  },
+  {
+   "name": "rbm-env-kit-16",
+   "file": "rbm-env-kit-16.png",
+   "src_bbox": [
+    1323,
+    317,
+    1386,
+    527
+   ],
+   "size": [
+    63,
+    210
+   ],
+   "ink_px": 6907
+  },
+  {
+   "name": "rbm-env-kit-17",
+   "file": "rbm-env-kit-17.png",
+   "src_bbox": [
+    1385,
+    272,
+    1467,
+    564
+   ],
+   "size": [
+    82,
+    292
+   ],
+   "ink_px": 14475
+  },
+  {
+   "name": "rbm-env-kit-18",
+   "file": "rbm-env-kit-18.png",
+   "src_bbox": [
+    1457,
+    246,
+    1507,
+    297
+   ],
+   "size": [
+    50,
+    51
+   ],
+   "ink_px": 1057
+  },
+  {
+   "name": "rbm-env-kit-19",
+   "file": "rbm-env-kit-19.png",
+   "src_bbox": [
+    447,
+    474,
+    669,
+    607
+   ],
+   "size": [
+    222,
+    133
+   ],
+   "ink_px": 9453
+  },
+  {
+   "name": "rbm-env-kit-20",
+   "file": "rbm-env-kit-20.png",
+   "src_bbox": [
+    452,
+    585,
+    525,
+    624
+   ],
+   "size": [
+    73,
+    39
+   ],
+   "ink_px": 1209
+  },
+  {
+   "name": "rbm-env-kit-21",
+   "file": "rbm-env-kit-21.png",
+   "src_bbox": [
+    655,
+    503,
+    825,
+    644
+   ],
+   "size": [
+    170,
+    141
+   ],
+   "ink_px": 9389
+  },
+  {
+   "name": "rbm-env-kit-22",
+   "file": "rbm-env-kit-22.png",
+   "src_bbox": [
+    862,
+    552,
+    1105,
+    694
+   ],
+   "size": [
+    243,
+    142
+   ],
+   "ink_px": 9482
+  },
+  {
+   "name": "rbm-env-kit-23",
+   "file": "rbm-env-kit-23.png",
+   "src_bbox": [
+    1460,
+    469,
+    1508,
+    548
+   ],
+   "size": [
+    48,
+    79
+   ],
+   "ink_px": 1926
+  },
+  {
+   "name": "rbm-env-kit-24",
+   "file": "rbm-env-kit-24.png",
+   "src_bbox": [
+    72,
+    650,
+    353,
+    774
+   ],
+   "size": [
+    281,
+    124
+   ],
+   "ink_px": 10021
+  },
+  {
+   "name": "rbm-env-kit-25",
+   "file": "rbm-env-kit-25.png",
+   "src_bbox": [
+    111,
+    603,
+    315,
+    717
+   ],
+   "size": [
+    204,
+    114
+   ],
+   "ink_px": 8809
+  },
+  {
+   "name": "rbm-env-kit-26",
+   "file": "rbm-env-kit-26.png",
+   "src_bbox": [
+    197,
+    683,
+    368,
+    801
+   ],
+   "size": [
+    171,
+    118
+   ],
+   "ink_px": 1338
+  },
+  {
+   "name": "rbm-env-kit-27",
+   "file": "rbm-env-kit-27.png",
+   "src_bbox": [
+    236,
+    744,
+    337,
+    882
+   ],
+   "size": [
+    101,
+    138
+   ],
+   "ink_px": 1221
+  },
+  {
+   "name": "rbm-env-kit-28",
+   "file": "rbm-env-kit-28.png",
+   "src_bbox": [
+    440,
+    603,
+    553,
+    886
+   ],
+   "size": [
+    113,
+    283
+   ],
+   "ink_px": 19991
+  },
+  {
+   "name": "rbm-env-kit-29",
+   "file": "rbm-env-kit-29.png",
+   "src_bbox": [
+    721,
+    643,
+    834,
+    952
+   ],
+   "size": [
+    113,
+    309
+   ],
+   "ink_px": 21359
+  },
+  {
+   "name": "rbm-env-kit-30",
+   "file": "rbm-env-kit-30.png",
+   "src_bbox": [
+    736,
+    623,
+    821,
+    667
+   ],
+   "size": [
+    85,
+    44
+   ],
+   "ink_px": 1489
+  },
+  {
+   "name": "rbm-env-kit-31",
+   "file": "rbm-env-kit-31.png",
+   "src_bbox": [
+    862,
+    632,
+    1060,
+    736
+   ],
+   "size": [
+    198,
+    104
+   ],
+   "ink_px": 1988
+  },
+  {
+   "name": "rbm-env-kit-32",
+   "file": "rbm-env-kit-32.png",
+   "src_bbox": [
+    887,
+    641,
+    1306,
+    947
+   ],
+   "size": [
+    419,
+    306
+   ],
+   "ink_px": 61771
+  },
+  {
+   "name": "rbm-env-kit-33",
+   "file": "rbm-env-kit-33.png",
+   "src_bbox": [
+    1370,
+    784,
+    1460,
+    912
+   ],
+   "size": [
+    90,
+    128
+   ],
+   "ink_px": 6471
+  },
+  {
+   "name": "rbm-env-kit-34",
+   "file": "rbm-env-kit-34.png",
+   "src_bbox": [
+    1381,
+    606,
+    1461,
+    660
+   ],
+   "size": [
+    80,
+    54
+   ],
+   "ink_px": 1184
+  },
+  {
+   "name": "rbm-env-kit-35",
+   "file": "rbm-env-kit-35.png",
+   "src_bbox": [
+    1391,
+    646,
+    1422,
+    715
+   ],
+   "size": [
+    31,
+    69
+   ],
+   "ink_px": 1024
+  },
+  {
+   "name": "rbm-env-kit-36",
+   "file": "rbm-env-kit-36.png",
+   "src_bbox": [
+    1422,
+    645,
+    1455,
+    715
+   ],
+   "size": [
+    33,
+    70
+   ],
+   "ink_px": 1005
+  },
+  {
+   "name": "rbm-env-kit-37",
+   "file": "rbm-env-kit-37.png",
+   "src_bbox": [
+    236,
+    805,
+    362,
+    894
+   ],
+   "size": [
+    126,
+    89
+   ],
+   "ink_px": 1068
+  },
+  {
+   "name": "rbm-env-kit-38",
+   "file": "rbm-env-kit-38.png",
+   "src_bbox": [
+    236,
+    820,
+    382,
+    924
+   ],
+   "size": [
+    146,
+    104
+   ],
+   "ink_px": 1968
+  }
+ ]
+}

@@ -1,0 +1,97 @@
+{
+ "game": "return-by-midnight",
+ "generated": "2026-10-08",
+ "sheets": {
+  "sprites/crew": {
+   "sheet": "rbm-crew-sheet.png",
+   "bg": [
+    240,
+    222,
+    190
+   ],
+   "count": 6,
+   "sprites": [
+    "rbm-crew-sheet-00",
+    "rbm-crew-sheet-01",
+    "rbm-crew-sheet-02",
+    "rbm-crew-sheet-03",
+    "rbm-crew-sheet-04",
+    "rbm-crew-sheet-05"
+   ]
+  },
+  "sprites/env": {
+   "sheet": "rbm-env-kit.png",
+   "bg": [
+    18,
+    26,
+    34
+   ],
+   "count": 39,
+   "sprites": [
+    "rbm-env-kit-00",
+    "rbm-env-kit-01",
+    "rbm-env-kit-02",
+    "rbm-env-kit-03",
+    "rbm-env-kit-04",
+    "rbm-env-kit-05",
+    "rbm-env-kit-06",
+    "rbm-env-kit-07",
+    "rbm-env-kit-08",
+    "rbm-env-kit-09",
+    "rbm-env-kit-10",
+    "rbm-env-kit-11",
+    "rbm-env-kit-12",
+    "rbm-env-kit-13",
+    "rbm-env-kit-14",
+    "rbm-env-kit-15",
+    "rbm-env-kit-16",
+    "rbm-env-kit-17",
+    "rbm-env-kit-18",
+    "rbm-env-kit-19",
+    "rbm-env-kit-20",
+    "rbm-env-kit-21",
+    "rbm-env-kit-22",
+    "rbm-env-kit-23",
+    "rbm-env-kit-24",
+    "rbm-env-kit-25",
+    "rbm-env-kit-26",
+    "rbm-env-kit-27",
+    "rbm-env-kit-28",
+    "rbm-env-kit-29",
+    "rbm-env-kit-30",
+    "rbm-env-kit-31",
+    "rbm-env-kit-32",
+    "rbm-env-kit-33",
+    "rbm-env-kit-34",
+    "rbm-env-kit-35",
+    "rbm-env-kit-36",
+    "rbm-env-kit-37",
+    "rbm-env-kit-38"
+   ]
+  },
+  "sprites/props": {
+   "sheet": "rbm-prop-states.png",
+   "bg": [
+    243,
+    225,
+    194
+   ],
+   "count": 8,
+   "sprites": [
+    "rbm-prop-states-00",
+    "rbm-prop-states-01",
+    "rbm-prop-states-02",
+    "rbm-prop-states-03",
+    "rbm-prop-states-04",
+    "rbm-prop-states-05",
+    "rbm-prop-states-06",
+    "rbm-prop-states-07"
+   ]
+  }
+ },
+ "images": {
+  "rbm-cover.png": "81e4e8487bfcef5ebbb6bbc18b491956b08954a1b5589135afe2549357677fbd",
+  "rbm-hero-anchor.png": "e8c75baf77ee2f9afa9f6a12c91e88820a10f4058014007cc984e445e68bd0bd",
+  "rbm-material-sheet.png": "ea93cdae292606622b0f59ab7cf6d771726ef3ab90712c767147d55a6f0d1940"
+ }
+}
