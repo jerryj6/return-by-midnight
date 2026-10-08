@@ -205,7 +205,7 @@ export const RBM05_CARD: LevelCard = {
     {
       name: "manifest-over-budget",
       summary: "Commit a third row past the two-row ledger.",
-      expectedFailure: "manifest rejected: manifest-over-budget.",
+      expectedFailure: "manifest rejected: overlapping-loan — the single token's window is already fully booked (@1–4, @5–6), so a third row can never be non-overlapping and the overlap check lands before the row budget. (manifest-over-budget itself is unreachable here; see RBM-07 for a level where it fires.)",
     },
   ],
 };

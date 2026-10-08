@@ -166,7 +166,7 @@ export const RBM02_CARD: LevelCard = {
     {
       name: "early-return",
       summary: "Due the loan at beat 4: the light goes home before the helper reaches the vault.",
-      expectedFailure: "sensor-vault never powers — the visible dependency for the vault step is missing (the tripwire stays dark).",
+      expectedFailure: "TOLERATED SHORTCUT, not a failure: the contract still completes for due 3 or 4, but sensor-vault never powers, so the taught dependency goes unseen. Only due-at-5 lights the tripwire. Due 1–2 DO fail — the lamp is home and the lit hall exposes the crossing.",
     },
     {
       name: "skip-the-loan",

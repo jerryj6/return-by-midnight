@@ -75,4 +75,105 @@ export const RBM_HINTS: Record<string, HintLadderContent> = {
       ],
     },
   },
+  "rbm-05": {
+    tiers: [
+      "One lamp, two jobs: the BRIGHT token must serve both dark rooms — and it can't be in two places at once. The ledger is the answer: the same token can be lent twice.",
+      "Loans on one token must not overlap — book the first window end-to-end, then a second window after it comes home. Both anchors need the light at different beats; schedule the returns so each room is lit exactly when it must be.",
+      "Commit the first loan for beats 1–4 and a second for beats 5–6. Order which anchor is served first by which door the operator needs open when.",
+    ],
+    solution: {
+      caption: "A complete operation (spoiler)",
+      lines: [
+        "Beat 1 — Loan BRIGHT from the nursery lamp to the mooring bust (due end of beat 4). The north door opens.",
+        "Beat 3 — Helper slips into the dark north room; its door is open on loan.",
+        "Beat 4 — She lifts the north idol and exits; the loan lapses home — the lamp's telltale fires at the settle (the home job).",
+        "Beat 5 — BRIGHT is reloaned from home to the ballast urn (legal only after the one-beat gap); the south door opens at the settle.",
+        "Beat 6 — Operator lifts the south idol and exits through the open door; BRIGHT comes home to the lamp. Run the plan, then accept it.",
+      ],
+    },
+  },
+  "rbm-06": {
+    tiers: [
+      "The job needs one thing carried and one thing weighed — and the only weight-token in the ledger can't do both at the same instant. The return lands the mass wherever the borrowed item *is*, not where it was.",
+      "Borrow the HEAVY token to make the load portable, then let the loan expire *after* the load reaches the vault — the returning mass settles inside the vault and trips its weight-sense. Due it too early and the weight lands on the carried safe mid-route.",
+      "Commit TOKEN-H with due at the end of beat 5. Get the safe moving early, and don't touch the second crew member's job until the mass is on its way back.",
+    ],
+    solution: {
+      caption: "A complete operation (spoiler)",
+      lines: [
+        "Beat 1 — Post HEAVY from the safe to the weighing crate (due end of beat 5). The lock plate trips: the store opens, the exit bolts, the vault anchor releases.",
+        "Beats 3–5 — Helper ducks through the open store and back with the ledger — before the posted weight comes home.",
+        "Beat 5 (return phase) — HEAVY lands back on the safe: the alarm plate unbars the vault door AND delivery window while the lock plate releases the front exit — one return, three doors.",
+        "Beats 6–7 — Helper leaves by the front door; operator slips in the vault window and out with the crown while the beam sweeps the hall. Run the plan, then accept it.",
+      ],
+    },
+  },
+  "rbm-07": {
+    tiers: [
+      "Three rows, three jobs: the scales, the diversion, and the door. The ledger will not let one token sit on two scales at once — double-booking is rejected outright.",
+      "The NOISY rattle only earns its diversion when it *returns* to a host that can make noise where the patrol can hear it. And the vault step must come after the repost — order matters more than speed.",
+      "Book the weight first, the jingle second, and the door token last. Keep the rattle's return inside the patrol's hearing window — due 4–6 all work, but earlier strands the diversion.",
+    ],
+    solution: {
+      caption: "A complete operation (spoiler)",
+      lines: [
+        "Beat 1 — Three doors, two tokens: HEAVY posts to the north scale (due 4) and NOISY to the decoy sack (due 7). North and east corridors open; the vault stays shut — the weight can only be in one place.",
+        "Beat 3 — Helper through the open north door; operator through the east (the door cells stay swept through beat 2).",
+        "Beat 4 — Both lift their idols and leave by the free windows; HEAVY's first posting lapses home.",
+        "Beats 4–5 — HEAVY's home interval, then the reloan to the vault scale (the only legal order — overlapping intervals are rejected). The vault door opens at the end of beat 5.",
+        "Beats 6–7 — Runner takes the vault corridor and exits with the third idol before the last scan finds the hub. Run the plan, then accept it.",
+      ],
+    },
+  },
+  "rbm-08": {
+    tiers: [
+      "Two tokens, two different due beats — and they are not interchangeable. The trap is borrowing the right things but swapping which comes home when.",
+      "The rattle's early return is *required*, not wasteful: something downstream needs the rattle back before the second half of the job. The lamp, by contrast, must stay out long enough to matter — bringing it home early leaves the second job dark.",
+      "Due the NOISY token at beat 2 and the BRIGHT token at beat 6 — then check which crew member is inside the sweep when the patrol crosses the entry.",
+    ],
+    solution: {
+      caption: "A complete operation (spoiler)",
+      lines: [
+        "Beats 1–2 — Three postings: the rattle to the decoy sack (due 2 — it must come home early), the light to the candlestick at beat 2 (due 6 — the beat-1 settle first registers the weighted lamp, so its release can open the doors), the weight stays home for now.",
+        "Beat 2 — NOISY's return presses the toy onto its plate: the bell corridor reopens. The first return of the chain.",
+        "Beat 4 — HEAVY lands on the vault scale (@4~6): the vault corridor opens. The rooms stop being swept — entries begin.",
+        "Beats 4–5 — Helper, runner and operator clear the three corridors; the lookout takes the lobby ledger while the lamp is still dark.",
+        "Beats 6–7 — The hall is swept behind them; everyone is already outside. Both late returns land home. Run the plan, then accept it.",
+      ],
+    },
+  },
+  "rbm-09": {
+    tiers: [
+      "Only one loan tonight, and the place it must land *moves*. The deposit's anchor isn't where you aim it — it's where the anchor will be when the token comes home.",
+      "pickup-and-move takes an aim: name the *destination* the token should settle into, not the cell it leaves from. Aiming at the wrong anchor completes the carry but returns to a home that isn't listening.",
+      "Schedule the single loan due at 6 and aim the deposit at the *far* anchor — the one that will have arrived, not the one standing there at pickup time.",
+    ],
+    solution: {
+      caption: "A complete operation (spoiler)",
+      lines: [
+        "Beat 1 — Post the light to the loft candlestick (due 6): the loft opens for the runner, and the stand goes dormant — ready to be re-sited.",
+        "Beat 3 — Helper lifts the bare stand: carried cargo never rests, so the lamp plate releases and the dark-room door opens.",
+        "Beat 4 — Helper hauls the stand toward the junction (still carried, door still open); operator and runner enter their rooms.",
+        "Beat 5 — Stand set down at the junction; both thieves exit through the last beat of the carry window.",
+        "Beat 6 — The light returns to the re-sited stand: the junction receiver fires. The deposit's new position is what powered it. Run the plan, then accept it.",
+      ],
+    },
+  },
+  "rbm-10": {
+    tiers: [
+      "The finale is quiet work: the rattle must come home (never keeping it fails the midnight check), and the bell must stay open until the last hand is through.",
+      "Sequence the two tokens so their returns don't fight: the rattle home early enough to satisfy the ledger, the BRIGHT loan covering the corridor crossing. Closing the bell early strands the exit.",
+      "Commit TOKEN-N due 5 and TOKEN-B due 7, move the lookout only when the patrol has already passed the vestibule — lingering there on an early beat is the one mistake this level punishes.",
+    ],
+    solution: {
+      caption: "A complete operation (spoiler)",
+      lines: [
+        "Beat 1 — The rattle is lent to the decoy sack (the bell loft opens while it sings); the light to the attic lampstand (the attic opens). The vestibule is dark only while the gallery door stays shut.",
+        "Beats 2–4 — Helper clears the bell loft; lookout slips through the dark foyer into the vestibule.",
+        "Beat 5 — Lookout leaves by the hatch before the rattle lands home: the return presses the toy, unbarring both gallery doors — and pours the west beam into the now-empty vestibule.",
+        "Beats 6–7 — Runner takes the delivery window into the open gallery and out with the idol.",
+        "Alternative — bring the rattle home at beat 3 and send the runner through the inside corridor instead: same take, earlier finish, a tighter bell window.",
+      ],
+    },
+  },
 };
