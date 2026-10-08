@@ -187,3 +187,17 @@ spot-checks (rejected token-sets re-completed with committed rows: 0 misses).
 - **Keyboard/a11y pass + fix.** Scripted Tab/focus-visible walk (title → select → board → commit → verdict): native controls were already tabbable; the real gap was SVG scene entities — `<g>` click targets with no role/tabIndex/keys. `SceneView` entities + loan threads now carry `role="button" tabIndex={0}` + Enter/Space activation (`entKey` helper) and a `.scene g[role="button"]:focus` ring. `scripts/browser-a11y-probe.ts` re-verifies: all interactive elements semantic or role-annotated.
 - **Fail-reason audit documented.** `docs/WRONG-APPROACH-AUDIT.md` — all 61 carded approaches resolve to asserted mechanisms; none inexpressible. Four manifest-shape rejection classes (start-out-of-range, due-not-offered, due-before-start, duplicate-row-id) remain uncarded — not defects, noted for parity.
 - **Research entry.** `docs/DESIGN-RESEARCH-HEIST.md` — 5 techniques from Heat Signature/Monaco/Quadrilateral Cowboy (scrubbed-failure legibility, role asymmetry via physical partitioning, tiny typed vocab with coupling-based difficulty, sub-10s iterate loop, silent-success trap) + applied checklist.
+
+## §12 — Refine-13: post-accept verdict marking + rejoin sync
+
+- **Superseded verdicts are marked, not frozen** (coordinator decision): the
+  board stays live post-accept, but any later fold flips the banner to
+  `superseded-banner` / "Verdict superseded — board changed since accept".
+  Client-side marker: revision at accept vs current revision. Probe:
+  `scripts/post-accept-probe.ts` (PASS — flag raised on all boards).
+- **Rejoin is byte-exact** after the App.tsx mount-remount fix;
+  `scripts/reconnect-probe.ts` drops the host mid-plan and asserts the
+  rejoined client's rows+orders match the surviving member's.
+- **rbm-01 coop fold anomaly: probe-side, resolved.** `pm:` @2 folds back to
+  the writer's board correctly (`scripts/rbm01-fold-probe.ts`); the earlier
+  observation was navigation timing, not an engine/net defect.

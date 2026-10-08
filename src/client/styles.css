@@ -276,3 +276,7 @@ select, .row-builder select {
    .selected affordance so Tab reveals the same target Enter selects. */
 .scene g[role="button"]:focus-visible { outline: 2px solid #e8c86a; outline-offset: 3px; border-radius: 4px; }
 .scene g[role="button"]:focus { outline: 2px solid #e8c86a; outline-offset: 3px; }
+
+/* Superseded-verdict marking: board moved on after the verdict was accepted. */
+.verdict-overlay.superseded .verdict-card { border-color: #b0722c; opacity: 0.92; }
+.verdict-overlay.superseded .overline { color: #e0a050; }

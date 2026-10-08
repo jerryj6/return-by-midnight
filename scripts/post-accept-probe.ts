@@ -92,8 +92,10 @@ async function main() {
   const b1 = await p1.locator('[data-testid="accepted-banner"]').isVisible().catch(() => false);
   const b2 = await p2.locator('[data-testid="accepted-banner"]').isVisible().catch(() => false);
   console.log(`post-accept overwrite → P1 slot="${v1}" P2 slot="${v2}" | banner P1=${b1} P2=${b2}`);
+  const s1 = await p1.locator('[data-testid="superseded-banner"]').isVisible().catch(() => false);
+  const s2 = await p2.locator('[data-testid="superseded-banner"]').isVisible().catch(() => false);
   console.log(v1 === alt && v2 === alt
-    ? "RULE: last-write-wins post-accept too — accepted state is mutable on all boards (defect class: the accepted verdict no longer matches the live board)"
+    ? `boards converge post-accept; superseded-banner P1=${s1} P2=${s2} — ${s1 && s2 ? "PASS (verdict flagged on all boards)" : "banner still claims stale verdict"}`
     : `unexpected: P1=${v1} P2=${v2}`);
   await p1.screenshot({ path: "/tmp/postaccept-p1.png", fullPage: true });
   await browser.close();

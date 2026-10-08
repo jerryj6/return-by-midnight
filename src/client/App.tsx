@@ -7,7 +7,7 @@
 // Planning never consumes in-world time (RBM-010); test.run replays the
 // committed plan; result.accept is legal only after a successful run.
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { RbmEngine } from "../engine/rbm/engine.js";
 import type { RbmAction, RbmActionPayload, RbmPlayState } from "../engine/rbm/engine.js";
 import { initialSimState } from "../engine/rbm/sim.js";
@@ -66,10 +66,19 @@ export default function App() {
   const [screen, setScreen] = useState<"title" | "select" | "play" | "lobby">("title");
   const [level, setLevel] = useState<RbmManifest>(LEVEL_DEFS[0].def);
   const net = useRef<RoomClient | null>(null);
-  const netState = useRef<{ setGs?: (s: RbmPlayState) => void; levelId?: string }>({});
+  const netState = useRef<{
+    setGs?: ((s: RbmPlayState) => void) | undefined;
+    levelId?: string;
+    pendingState?: RbmPlayState | undefined;
+    pendingFolds?: unknown[] | undefined;
+  }>({});
   const [roomCode, setRoomCode] = useState<string | null>(null);
   const [netErr, setNetErr] = useState<string | null>(null);
-  const foldRef = useRef<(p: unknown) => void>(() => {});
+  // Before PlayScreen mounts, folds buffer in pendingFolds instead of noop —
+  // otherwise a joiner's snapshot+history backlog is silently dropped.
+  const foldRef = useRef<(p: unknown) => void>((p) => {
+    (netState.current.pendingFolds ??= []).push(p);
+  });
 
   const goOnline = async (mode: "create" | "join", code?: string) => {
     try {
@@ -78,7 +87,14 @@ export default function App() {
         onState: (rs) => {
           const r = rs as { levelId: string; state: RbmPlayState };
           netState.current.levelId = r.levelId;
-          netState.current.setGs?.(r.state);
+          // Joiner renders the room's level, not the locally picked one; the
+          // remount drains pendingState so the backlog survives the switch.
+          const roomLevel = LEVEL_DEFS.find(
+            (x) => x.id.toUpperCase() === String(r.levelId).toUpperCase(),
+          );
+          if (roomLevel && roomLevel.def !== level) setLevel(roomLevel.def);
+          if (netState.current.setGs) netState.current.setGs(r.state);
+          else netState.current.pendingState = r.state;
         },
         onCommand: (p) => foldRef.current(p),
         onError: (_c, msg) => setNetErr(msg),
@@ -162,7 +178,9 @@ export default function App() {
 
   return (
     <PlayScreen
-      key={`${level.levelId}-${roomCode ?? "solo"}`}
+      // Room code must not be in the key: it arrives WITH full_state, and a
+      // remount would discard the snapshot+history backlog just folded in.
+      key={`${level.levelId}-${net.current ? "coop" : "solo"}`}
       level={level}
       onExit={() => setScreen("select")}
       net={net}
@@ -186,23 +204,35 @@ function PlayScreen({
   level: RbmManifest;
   onExit: () => void;
   net: React.MutableRefObject<RoomClient | null>;
-  netState: React.MutableRefObject<{ setGs?: (s: RbmPlayState) => void; levelId?: string }>;
+  netState: React.MutableRefObject<{
+    setGs?: ((s: RbmPlayState) => void) | undefined;
+    levelId?: string;
+    pendingState?: RbmPlayState | undefined;
+    pendingFolds?: unknown[] | undefined;
+  }>;
   foldRef: React.MutableRefObject<(p: unknown) => void>;
   roomCode: string | null;
 }) {
-  const roomLevel = netState.current.levelId
-    ? (LEVEL_DEFS.find((x) => x.id === netState.current.levelId)?.def ?? level)
-    : level;
   const engine = useMemo(() => new RbmEngine(), []);
-  const [gs, setGs] = useState<RbmPlayState>(() => engine.createInitialState(roomLevel));
+  const [gs, setGs] = useState<RbmPlayState>(() => engine.createInitialState(level));
   const [muted, setMuted] = useState(false);
   const [scrub, setScrub] = useState<number | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [focusedRow, setFocusedRow] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const seq = useRef(0);
+  const acceptRevRef = useRef<number | null>(null);
+  // Superseded-verdict marking: remember the revision the verdict was
+  // accepted at; any later fold (solo or co-op) supersedes the banner.
+  if (gs.phase === "accepted") {
+    if (acceptRevRef.current === null) acceptRevRef.current = gs.revision;
+  } else if (acceptRevRef.current !== null) {
+    acceptRevRef.current = null;
+  }
+  const verdictSuperseded =
+    gs.phase === "accepted" && gs.revision > (acceptRevRef.current ?? gs.revision);
 
-  const horizon = roomLevel.verification.horizonBeat;
+  const horizon = level.verification.horizonBeat;
   const lastRun = gs.lastRun;
   const timeline = lastRun?.timeline ?? null;
 
@@ -210,8 +240,8 @@ function PlayScreen({
   // final state, else (before any test) the plan's projected initial state so
   // committed rows already show as staged loans.
   const liveSim: RbmSimState = useMemo(
-    () => initialSimState(roomLevel, { rows: gs.manifestRows, commands: gs.commands }),
-    [roomLevel, gs.manifestRows, gs.commands],
+    () => initialSimState(level, { rows: gs.manifestRows, commands: gs.commands }),
+    [level, gs.manifestRows, gs.commands],
   );
   const displayedSim: RbmSimState =
     scrub !== null && timeline?.[scrub]
@@ -232,12 +262,12 @@ function PlayScreen({
       baseRevision: gs.revision,
       payload,
     };
-    const check = engine.validateAction(roomLevel, gs, action);
+    const check = engine.validateAction(level, gs, action);
     if (!check.ok) {
       setToast(check.reason ?? "rejected");
       return false;
     }
-    const res = engine.applyAction(roomLevel, gs, action);
+    const res = engine.applyAction(level, gs, action);
     const rej = res.events.find((e) => e.type === "action.rejected");
     if (rej) {
       rbmAudio.play("command.deny");
@@ -268,23 +298,47 @@ function PlayScreen({
   // Co-op: server broadcasts accepted command payloads; fold them through the
   // engine locally (deterministic ⇒ identical state on every client).
   netState.current.setGs = setGs;
+  // gsRef mirrors the latest folded state so rapid ws folds never apply onto
+  // a stale render-time gs (back-to-back state_patches between renders).
+  const gsRef = useRef(gs);
+  gsRef.current = gs;
   foldRef.current = (p: unknown) => {
-    const res = engine.applyAction(roomLevel, gs, {
+    const res = engine.applyAction(level, gsRef.current, {
       actorId: "coop",
       commandId: `net-${++seq.current}`,
-      baseRevision: gs.revision,
+      baseRevision: gsRef.current.revision,
       payload: p as RbmActionPayload,
     });
+    gsRef.current = res.state;
     setGs(res.state);
     setScrub(null);
   };
+  // Drain anything that arrived before mount: snapshot first, then backlog.
+  if (netState.current.pendingState) {
+    gsRef.current = netState.current.pendingState;
+    setGs(netState.current.pendingState);
+    netState.current.pendingState = undefined;
+  }
+  for (const p of netState.current.pendingFolds ?? []) foldRef.current(p);
+  netState.current.pendingFolds = [];
+  // On unmount, re-arm the buffer: folds that land between sessions must
+  // queue for the next mount, not apply into a dead instance.
+  useEffect(
+    () => () => {
+      netState.current.setGs = undefined;
+      foldRef.current = (p) => {
+        (netState.current.pendingFolds ??= []).push(p);
+      };
+    },
+    [netState, foldRef],
+  );
 
   return (
     <main className="play-screen">
       <header className="topbar">
         <div>
-          <span className="level-id">{roomLevel.levelId.toUpperCase()}</span>
-          <h1>{roomLevel.title}</h1>
+          <span className="level-id">{level.levelId.toUpperCase()}</span>
+          <h1>{level.title}</h1>
           {roomCode && <span className="badge">Crew {roomCode}</span>}
         </div>
         <div className="topbar-actions">
@@ -322,7 +376,7 @@ function PlayScreen({
       <div className="play-layout">
         <section className="board-pane" aria-label="Scene">
           <SceneView
-            level={roomLevel}
+            level={level}
             sim={displayedSim}
             rows={gs.manifestRows}
             selectedId={selectedId}
@@ -340,27 +394,27 @@ function PlayScreen({
         </section>
 
         <aside className="side-pane">
-          <Objectives level={roomLevel} gs={gs} />
+          <Objectives level={level} gs={gs} />
           <ManifestPanel
-            level={roomLevel}
+            level={level}
             gs={gs}
             engine={engine}
             focusedRow={focusedRow}
             onFocusRow={setFocusedRow}
             act={act}
           />
-          <CommandEditor level={roomLevel} gs={gs} engine={engine} act={act} />
+          <CommandEditor level={level} gs={gs} engine={engine} act={act} />
           <Inspection sim={displayedSim} selectedId={selectedId} />
           <RunControls gs={gs} act={act} />
-          {RBM_HINTS[roomLevel.levelId] ? <HintLadder content={RBM_HINTS[roomLevel.levelId]!} /> : null}
+          {RBM_HINTS[level.levelId] ? <HintLadder content={RBM_HINTS[level.levelId]!} /> : null}
         </aside>
       </div>
 
       {gs.phase === "accepted" ? (
-        <div className="verdict-overlay" data-testid="accepted-banner">
+        <div className={`verdict-overlay${verdictSuperseded ? " superseded" : ""}`} data-testid={verdictSuperseded ? "superseded-banner" : "accepted-banner"}>
           <div className="verdict-card">
-            <p className="overline">The record stands — returned</p>
-            <h2>Everything home by midnight</h2>
+            <p className="overline">{verdictSuperseded ? "Verdict superseded — board changed since accept" : "The record stands — returned"}</p>
+            <h2>{verdictSuperseded ? "Plan moved on without it" : "Everything home by midnight"}</h2>
             <p>
               The safe is out, the custodian saw nothing, and HEAVY rests where it belongs. Final hash{" "}
               <code>{gs.lastRun?.finalHash.slice(0, 12)}…</code>

@@ -119,3 +119,17 @@ marks the verdict as superseded. Coordinator decision needed: freeze inputs
 post-accept, mark the banner "superseded" on later writes, or accept as
 designed (live planning surface). Reported honestly — current behavior is
 mutable-by-default.
+
+### Join/rejoin sync (refine-13 findings, AUTOMATED)
+
+- **Fresh join + late join both carry state**: server `full_state` = rev-0
+  snapshot + complete history fold. Client defect found and fixed: the
+  PlayScreen remount on `roomCode` arrival discarded the just-folded
+  backlog — late joiners saw an empty board (invisible on fresh rooms
+  because the backlog was empty). Now buffered pre-mount and drained after;
+  the key no longer includes roomCode. Verified byte-exact post-host-drop
+  rejoin on rbm-12 (rows + orders identical on the rejoined client).
+- **Unmount gap**: folds arriving between sessions now buffer into
+  `pendingFolds` rather than folding into an unmounted instance.
+- **Burst hazard**: folds apply onto a `gsRef` mirror, not render-captured
+  `gs`, so back-to-back `state_patch` frames can't drop earlier writes.
