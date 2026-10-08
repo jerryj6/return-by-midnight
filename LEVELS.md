@@ -228,11 +228,11 @@ alternate that loses. Canonical rows/commands are the committed reference plans.
 | Level | Verified alternates (all still win) |
 |---|---|
 | RBM-01 | Enumerated — 14 manifests → **2 winners, 1 family** (`TOKEN-H→prop-crate` @1–2~3). `startBeat` 1–2 (beat 2 is the committed alternate); helper's beat-2 command also passes at beat 1. |
-| RBM-02 | Enumerated — **12 winners, 1 family**. `dueBeat` 3, 4, 5 all complete — but only **5** powers `sensor-vault`; 3/4 are TOLERATED shortcuts (carded). `startBeat` 2–5. |
-| RBM-03 | Enumerated — **1 family**; the entire legal band wins: every `startBeat` × every offered `dueBeat`. |
+| RBM-02 | Enumerated — 17 manifests → **12 winners, 1 family**. `dueBeat` 3, 4, 5 all complete — but only **5** powers `sensor-vault`; 3/4 are TOLERATED shortcuts (carded). `startBeat` 2–5. |
+| RBM-03 | Enumerated — 21 manifests → **15 winners, 1 family**; the entire legal band wins: every `startBeat` × every offered `dueBeat`. |
 | RBM-04 | Enumerated — **2 winners / 20 manifests, 1 family** — the knife-edge: `startBeat` 2 forced, `dueBeat` 4–5. `TOKEN-B` is a proven inert distractor (`maxRows:1` makes it unreachable). |
-| RBM-05 | Enumerated — **1 family**. Row order is swappable (north-first or south-first are both committed alternates); row 0 `startBeat` 2–4, row 1 `startBeat` up to 6. |
-| RBM-06 | Enumerated — **1 family**: `dueBeat` exactly 5; `startBeat` 1–4 free. |
+| RBM-05 | Enumerated — 276 manifests → **12 winners, 1 family**. Row order is swappable (north-first or south-first are both committed alternates); row 0 `startBeat` 2–4, row 1 `startBeat` up to 6. |
+| RBM-06 | Enumerated — 20 manifests → **4 winners, 1 family**: `dueBeat` exactly 5; `startBeat` 1–4 free. |
 | RBM-07 | Enumerated — **540 winners / 24,128 manifests, 1 family** — the ocean: timing floats enormously on a fixed 3-row routing. Row 0 `dueBeat` 3–4; `TOKEN-H` vault `dueBeat` 3–6 + `startBeat` 2–3; `TOKEN-N` rattle `dueBeat` **3–7 all win** (due 1–2 strands the diversion, `null` fails `noisy-home`). |
 | RBM-08 | Enumerated — 5,600 manifests (259 statically eliminated, 0 misses) → **1,485 winners, 1 family**. `TOKEN-B` `dueBeat` 5–7, `startBeat` 3–4 (start 1 fails — the beat-1 settle must register the weighted lamp first); `TOKEN-N` `dueBeat` 3 also wins (due 6 fails); `TOKEN-H` `dueBeat` 5–7, `startBeat` 1–5. |
 | RBM-09 | Enumerated — 29 manifests → **12 winners, 1 family**. `dueBeat` 4, 5, 7 (canonical 6); `startBeat` 2–3. The aim is NOT free: `cell-junction` is the only viable landing (aiming `cell-alcove` fails). |
@@ -240,10 +240,12 @@ alternate that loses. Canonical rows/commands are the committed reference plans.
 | RBM-11 | Enumerated — 1,296 manifests → **324 winners, 1 family** (the crossover). Corridor rows `dueBeat` 4–5, `startBeat` 1–3; window rows `dueBeat` 7–8, `startBeat` ≤6 — bound is `late.start > early.due`, not a fixed beat (a start-5 window wins when the early post ends at 4). Committed reference and asymmetric-shift alternate are both in this family. |
 | RBM-12 | Enumerated — 92,160 manifests → **33,000 winners, 4 families**: canonical (1,440) `TOKEN-H` `dueBeat` 3–4 / `startBeat` 1–3, `TOKEN-B` `dueBeat` 5–9 / `startBeat` 1–4, `TOKEN-N` `dueBeat` 7–8 / `startBeat` 1–6; plus three **split-posting families** — any single posting may decompose into two shorter loans covering the same beats (`H@1~2 + H@3~3`, `B@1~2 + B@3~5`, `N@1~2 + N@3~7`; `maxRows:4` buys exactly one split). Same choreography — paperwork variants, not new routes. |
 
-**Enumeration status (refine-7): all 12 levels swept.** Per-level sim counts
-and eliminated-set audits appear in each row above (prefiltered levels:
-259/246/6,564/1,675 row-sets statically eliminated on 08/10/11/12, padded
-spot-checks 0 misses). Every level except RBM-12 has exactly ONE token→host
+**Enumeration status (re-verified refine-8): all 12 levels swept twice —
+family counts unchanged (rbm-12 exactly 4, all others exactly 1).** Per-level
+sim counts and eliminated-set audits appear in each row above (prefiltered
+levels: 259/246/3,388/890 row-sets statically eliminated on 08/10/11/12,
+padded spot-checks 0 misses — counts tightened as the prefilter's coverage
+model learned the third plate polarity). Every level except RBM-12 has exactly ONE token→host
 routing family; no undiscovered alternate routes exist anywhere in the set.
 RBM-12 alone has 4 families (canonical + three split-posting variants — same
 choreography, paperwork variants). The remaining multiplicity is purely loan
