@@ -1,10 +1,12 @@
-# RBM-02..07 — Level authoring notes
+# RBM-02..10 — Level authoring notes
 
-Six rooms following the master §II RBM-D arc (chapter 2 = composition),
+Nine rooms following the master §II RBM-D arc (chapters 2 = composition,
+3 = interdependence),
 designed within the frozen engine semantics (manifest rows + per-beat crew
 commands + guard rays + plate/gate machinery + sensors). Verified against
 `simulate()` and `RbmEngine.validateAction`/`applyAction`; see
-`tests/unit/rbm02-04.test.ts` and `tests/unit/rbm05-07.test.ts`.
+`tests/unit/rbm02-04.test.ts`, `tests/unit/rbm05-07.test.ts`, and
+`tests/unit/rbm08-10.test.ts`.
 
 Shared conventions: every level exports `<LEVEL>` (`RbmManifest`), a
 `rbmNNReferencePlan()` returning the verified winning `RbmPlan`, a
@@ -134,6 +136,9 @@ ledger won't take two rows over the same beats.
 | 05    | 2       | n/a (single token → overlap) | yes                      |
 | 06    | 1       | yes (`manifest-over-budget`) | n/a (single row)         |
 | 07    | 3       | yes (`manifest-over-budget`) | yes                      |
+| 08    | 3       | yes (`manifest-over-budget`) | yes (both legs swap)     |
+| 09    | 1       | n/a (single token)           | yes                      |
+| 10    | 2       | yes (`manifest-over-budget`) | n/a (one row each)       |
 
 ## Frozen-engine constraints observed (not patched)
 
@@ -162,3 +167,52 @@ ledger won't take two rows over the same beats.
   toward that plate's mass wherever it physically stands (until carried);
   RBM-04 uses this for the alarm-plate-follows-the-owner trick.
 - Level cards are metadata for the client/UI; the engine ignores them.
+
+## RBM-08 — Last Call (ordered returns compose a chain; 4-crew)
+
+Three properties, one order that works: NOISY must return EARLY (its home
+press reopens the bell corridor), HEAVY posts mid-run (the vault scale),
+BRIGHT must stay AWAY (its stand holds the north door AND lobby exit shut
+while lit — the away-window is the passage window). Swapping the rattle's
+due beat with the lamp's breaks both legs of the chain at once.
+
+- **Transition-gated doors (new engine fact)**: gate targets only fire on
+  plate press/release TRANSITIONS — so "open while the token is away"
+  requires the plate to register the weighted baseline first. The lamp loan
+  therefore starts at beat 2, not beat 1: the beat-1 settle records the
+  press that the beat-2 release inverts.
+- Two complete strategies verified (canonical + earlier-weight/tighter-lamp
+  schedule). `coopNote` carries the four-contribution map per GME-007.
+- Wrong approaches: swapped due beats (chain collapses), lamp-home-early
+  (lobby reseals on the lookout), skip-the-early-return (east never opens),
+  entry-during-the-sweep (pre-move scan), over-budget.
+
+## RBM-09 — The Moving Deposit (aim the dormant home)
+
+"Move/aim the receiver while its property is away" mapped onto real
+mechanics: the lamp's STAND rests on a thr-1 plate sealing the dark room;
+carrying it (carried cargo never rests) opens the door for the operator's
+crossing — the carry window IS the enabling act. Park it at the junction,
+restore the light, and `sensor-junction` powers at the aimed cell
+(`entityAt prop-stand @ cell-junction` makes the aim an outcome; wrong
+parking visibly fails).
+
+- **Verb note**: `pickup`/`drop` are separate verbs so the window spans
+  beats — the plate must miss the stand for at least one settle.
+- Single-token level: over-budget unreachable (documented in the table);
+  overlap + keep-forever + wrong-aim + window-miss covered.
+
+## RBM-10 — The Quietest Exit (returns can expose teammates; 4-crew)
+
+Literal exposure via `seg.gatedBy`: the rattle's return presses plate-toy,
+unbarring both gallery doors for the runner — AND the west beam's
+vestibule segment is gated by `gate-gallery`, so the same opening pours
+the beam into the room the lookout just used. Coordinate her exit before
+the return lands.
+
+- **Two strategies with an explicit tradeoff**: (A) late return + outside
+  window route; (B) early return + inside foyer corridor — earlier gallery
+  completion vs a tighter bell-loft window.
+- The paired counterexamples prove the causality: the same linger is safe
+  when the return never lands (no capture — but the gallery stays shut).
+- `coopNote` carries the four-contribution map per GME-007.

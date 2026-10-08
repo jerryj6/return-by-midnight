@@ -16,4 +16,10 @@ export interface LevelCard {
   /** Beat-indexed caption list of the verified winning plan. */
   winningTraceSummary: string[];
   wrongApproaches: WrongApproach[];
+  /**
+   * GME-007 cooperation map: one entry per distinct contribution type the
+   * level supports in co-op (four entries on designated four-person levels:
+   * RBM-08/10/11/12). Optional — solo-focused rooms may omit it.
+   */
+  coopNote?: string[];
 }
