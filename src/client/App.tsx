@@ -96,6 +96,7 @@ export default function App() {
       <main className="title-screen">
         <div className="title-card">
           <p className="overline">A toy-museum heist</p>
+          <img className="title-art" src="/assets/rbm-cover.png" alt="Toy-museum cutaway at midnight" />
           <h1>Return by Midnight</h1>
           <p className="pitch">Borrow the world's properties. Use their return to finish the job.</p>
           <button type="button" className="primary" data-testid="play-solo" onClick={() => setScreen("select")}>
