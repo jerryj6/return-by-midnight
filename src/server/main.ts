@@ -2,7 +2,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { readFileSync, existsSync, statSync } from "node:fs";
 import { join, extname, resolve } from "node:path";
 import { startRoomServer } from "./index.js";
-import { rbmAdapter } from "./rbm-adapter.js";
+import { heistAdapter } from "./heist-adapter.js";
 
 const PORT = Number(process.env.PORT ?? 8787);
 const DIST = "dist";
@@ -22,7 +22,7 @@ const http = createServer((req: IncomingMessage, res: ServerResponse) => {
 
 // The room server owns ws upgrade handling on the same HTTP server.
 startRoomServer({
-  adapters: [rbmAdapter],
+  adapters: [heistAdapter],
   defaultGameType: "rbm",
   httpServer: http,
   wsPath: "/ws",

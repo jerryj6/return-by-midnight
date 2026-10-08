@@ -307,6 +307,11 @@ export class RoomManager {
   }
 
   private fullState(room: Room, member: RoomMember, reconnected: boolean): FullState {
+    const adapter = this.adapterFor(room.gameType);
+    const redact = (p: unknown) => (adapter?.redactPayload ? adapter.redactPayload(p) : p);
+    const snapData = adapter?.publicSnapshot
+      ? { revision: room.revision, data: b64encode(adapter.publicSnapshot(this.view(room))) }
+      : { revision: room.snap.revision, data: b64encode(room.snap.bytes) };
     return {
       type: 'full_state',
       room: this.roomMeta(room),
@@ -316,8 +321,8 @@ export class RoomManager {
       reconnected,
       revision: room.revision,
       stateHash: this.stateHash(room),
-      snapshot: { revision: room.snap.revision, data: b64encode(room.snap.bytes) },
-      history: room.log.filter((e) => e.revision > room.snap.revision).map((e) => this.toHistoryEntry(e)),
+      snapshot: snapData,
+      history: room.log.filter((e) => e.revision > room.snap.revision).map((e) => ({ ...this.toHistoryEntry(e), payload: redact(e.payload) })),
       members: this.roster(room),
     };
   }
@@ -664,7 +669,9 @@ export class RoomManager {
       commandId: entry.commandId,
       actorId: entry.actorId,
       baseRevision: entry.baseRevision,
-      payload: entry.payload,
+      payload: this.adapterFor(room.gameType)?.redactPayload
+        ? this.adapterFor(room.gameType)!.redactPayload!(entry.payload)
+        : entry.payload,
       events: entry.events,
     };
   }

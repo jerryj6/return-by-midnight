@@ -1,8 +1,8 @@
 import { existsSync, readFileSync } from "node:fs";
-import { LEVELS } from "../src/content/levels/index.js";
+import { HEIST_LEVELS } from "../src/content/heist/levels.js";
 
 const checks: [string, boolean][] = [
-  ["12 main levels authored", (LEVELS as readonly unknown[]).length === 12],
+  ["heist levels authored", HEIST_LEVELS.length >= 3],
   ["dist build exists", existsSync("dist/index.html") && existsSync("dist/build-id.json")],
   ["README", existsSync("README.md")],
   ["RELEASE-STATUS.json", existsSync("docs/RELEASE-STATUS.json")],

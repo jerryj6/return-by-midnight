@@ -90,6 +90,19 @@ export interface GameAdapter<S = unknown> {
    */
   hashState?(room: RoomView<S>): string;
 
+  /**
+   * Optional: strip hidden information from a command payload for broadcast
+   * `state_patch` frames and `full_state.history`. The durable store keeps the
+   * raw payload so recovery replay still works.
+   */
+  redactPayload?(cmd: unknown): unknown;
+
+  /**
+   * Optional: snapshot bytes for `full_state.snapshot` that contain only
+   * publicly visible state (used instead of `snapshot` when present).
+   */
+  publicSnapshot?(room: RoomView<S>): Uint8Array;
+
   /** Optional join gate (e.g. admit only at a planning boundary). */
   admitJoiner?(room: RoomView<S>): ValidationResult;
 

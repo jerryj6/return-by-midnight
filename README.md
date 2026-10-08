@@ -1,35 +1,42 @@
 # Return by Midnight
 
-A browser puzzle game — property-loan scheduling heist.
+A browser heist-tactics game — simultaneous turns in a toy museum.
 
-Borrow properties (HEAVY/BRIGHT/NOISY) from museum objects; schedule their returns to close doors, press plates, and finish the job before midnight.
+Each turn, every crew member plans a path of up to 3 tiles plus an optional
+property loan (HEAVY/BRIGHT/NOISY, lent from its home object to another
+object). Guards telegraph their next move; everything resolves at once; loans
+snap home after N turns. The heist fails if a crew member is seen, if midnight
+arrives, or if a loan isn't home when the heist ends. Grab the prize, get the
+whole crew out.
 
-- **12 authored main levels** (solo campaign) + optional mastery extras
-- **Live 2–4 player co-op**: host a room, share the code; every command resolves on the authoritative server and replays deterministically on every client
-- Generated art (per-game art bible) + procedural WebAudio cues
+- **3 authored levels** (L1–L3) with authored solutions
+- **Live 2–4 player co-op**: host a room, share the code; plans lock in per
+  seat and resolve on the authoritative server (locked plans stay hidden)
 
 ## Run
 
 ```bash
 npm ci && npm run build && npm start   # serves site + ws rooms on :10000
-npm run dev                            # vite dev server (client only)
-npm run dev:server                     # room server dev
+npm run dev                          # vite dev server (client only)
+npm run dev:server                   # room server dev
 ```
 
 ## Verify
 
 ```bash
 npm run check:source && npm run check:static
-npm run test:unit && npm run test:campaign && npm run test:depth && npm run test:network && npm run test:e2e
+npm run check:content    # replays authored solutions, must all win
+npm run test:unit && npm run test:network && npm run test:e2e
 npm run audit:assets && npm run audit:release
 npm run verify:production --url https://<deployed> --sha <commit>
 ```
 
 ## Layout
 
-- `src/engine` — pure deterministic rules (no DOM/network/time)
-- `src/content/levels` — 12 authored levels + LevelCards (RBM-01 … RBM-12)
+- `docs/HEIST-RULES.md` — authoritative rules
+- `src/engine/heist` — pure deterministic rules (no DOM/network/time)
+- `src/content/heist` — level definitions + authored solutions
 - `src/client` — React UI · `src/server` — ws room server
-- `public/assets` — generated art (sprites/, covers, materials); `art/manifests/assets.json`
-- `docs/` — MASTER-HANDOFF (binding contract), REQUIREMENTS, DECISIONS, AUDIO-MANIFEST, PLAYTEST-KIT
+- `public/assets` — generated art; `art/manifests/assets.json`
+- `docs/` — MASTER-HANDOFF (binding contract), REQUIREMENTS, DECISIONS
 - `evidence/INDEX.md` — verification evidence index
