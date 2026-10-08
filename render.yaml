@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: return-by-midnight
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: node dist-server/src/server/main.js
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: NODE_VERSION
+        value: 22
