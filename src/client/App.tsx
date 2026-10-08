@@ -63,7 +63,7 @@ const LEVELS: { level: RbmManifest; chapter: string; blurb: string }[] = LEVEL_D
 const TOKEN_LETTER: Record<PropertyType, string> = { HEAVY: "H", BRIGHT: "B", NOISY: "N" };
 
 export default function App() {
-  const [screen, setScreen] = useState<"title" | "select" | "play" | "lobby">("title");
+  const [screen, setScreen] = useState<"title" | "select" | "play" | "lobby" | "credits">("title");
   const [level, setLevel] = useState<RbmManifest>(LEVEL_DEFS[0].def);
   const net = useRef<RoomClient | null>(null);
   const netState = useRef<{
@@ -123,8 +123,27 @@ export default function App() {
           <button type="button" className="ghost" data-testid="play-coop" onClick={() => setScreen("lobby")}>
             Crew up
           </button>
+          <button type="button" className="ghost" data-testid="show-credits" onClick={() => setScreen("credits")}>
+            Credits
+          </button>
           {netErr && <p className="fail">{netErr}</p>}
         </div>
+      </main>
+    );
+  }
+
+  if (screen === "credits") {
+    return (
+      <main className="select-screen">
+        <h1>Credits</h1>
+        <p>Return by Midnight — a property-loan scheduling heist in twelve manifests.</p>
+        <ul>
+          <li>A Devin production for the AI Skills Studio Challenge.</li>
+          <li>Design, engine, interface, and levels built in the open; no external art or audio assets — every cue and image is generated in-repo.</li>
+          <li>Engine: deterministic beat simulation over a shared midnight ledger. Multiplayer: live rooms over WebSocket.</li>
+          <li>The toys go home; the record of who borrowed them does not.</li>
+        </ul>
+        <button type="button" className="ghost" onClick={() => setScreen("title")}>Back</button>
       </main>
     );
   }
