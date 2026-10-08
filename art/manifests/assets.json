@@ -1,0 +1,343 @@
+{
+ "game": "return-by-midnight",
+ "generated": "2026-10-08",
+ "generator": "ChatGPT Desktop (image gen) + sprite-cut.py (connected-component cutout, corner-bg keying)",
+ "assets": [
+  {
+   "path": "public/assets/rbm-cover.png",
+   "sha256": "81e4e8487bfcef5ebbb6bbc18b491956b08954a1b5589135afe2549357677fbd",
+   "bytes": 2527427,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/rbm-hero-anchor.png",
+   "sha256": "e8c75baf77ee2f9afa9f6a12c91e88820a10f4058014007cc984e445e68bd0bd",
+   "bytes": 2427746,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/rbm-material-sheet.png",
+   "sha256": "ea93cdae292606622b0f59ab7cf6d771726ef3ab90712c767147d55a6f0d1940",
+   "bytes": 2898978,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/crew/rbm-crew-sheet-00.png",
+   "sha256": "b4d2de5e43c6fd189ac4cce6edeb8231975d08414dc9f6f02c6963747b51386b",
+   "bytes": 189501,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/crew/rbm-crew-sheet-01.png",
+   "sha256": "8e917ec9a435e25df532e9364cea0a6854be9fa7b155edc30a120f4b4dab03a5",
+   "bytes": 183064,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/crew/rbm-crew-sheet-02.png",
+   "sha256": "d00507ee8c9158a9cfaedcc6b8cf6347a021fdc83511df1bacd20dc62dc47f5d",
+   "bytes": 226382,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/crew/rbm-crew-sheet-03.png",
+   "sha256": "6a1d52424c5f53ec3ee1f23039e0ab1adb74422ab7ff514dedc84a29b510c46b",
+   "bytes": 220998,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/crew/rbm-crew-sheet-04.png",
+   "sha256": "0191ef1c053c80f8119f7973892b6fc0ca9e966f20663abd1ca8f659e5040caa",
+   "bytes": 204522,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/crew/rbm-crew-sheet-05.png",
+   "sha256": "971c039e11618efcaf2f2232e06c670a04e5f4cc025ab718037c54bef5931a72",
+   "bytes": 217251,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-00.png",
+   "sha256": "8b7f101386dce9f5283851be04e3317b8e5230c2b2dfd87029f398bd1c3d6ac0",
+   "bytes": 75862,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-01.png",
+   "sha256": "f0115de30878ab7c93868261fdf5ce243c8b17136f78864f738bef822a33ca2e",
+   "bytes": 445796,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-02.png",
+   "sha256": "9f111e00d9142f23f303604ab0dd2b624588825aa63bae06182e6e044e3380c8",
+   "bytes": 14595,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-03.png",
+   "sha256": "1dfae37a417a2bbe57e46bad3dde799864fb05718384830f38b30a71d616c0f5",
+   "bytes": 14733,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-04.png",
+   "sha256": "67c3b665615552bab35c85c177322c96dc63548f23c8b7a747233b499da1988e",
+   "bytes": 21452,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-05.png",
+   "sha256": "1c9e04312b25944173821bb595a33f78ca17fba2ceb5315c33b18b2a7e45c7bf",
+   "bytes": 40758,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-06.png",
+   "sha256": "cffe6398b645ea5476a8c5e741fdc0b370558693c48f83b23028117ae8a68fc1",
+   "bytes": 66939,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-07.png",
+   "sha256": "b6b43209d5abc735044ef284c88b06b756ff9d250a80d704e94ee1aa6f759a41",
+   "bytes": 29067,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-08.png",
+   "sha256": "b340a8fa580392c4578ad0b7e85445dd5b2340db5f392b9c2d713987507b6790",
+   "bytes": 40206,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-09.png",
+   "sha256": "a2ace678ba9d011ff65aa3981fbe39ab50ca408221dc6420cb541facfd8fb50c",
+   "bytes": 15199,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-10.png",
+   "sha256": "b762c64035b5c872f98d5f02b7fb2b3dc34b33b30be9dba44c425ef1b199b554",
+   "bytes": 110624,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-11.png",
+   "sha256": "7e4ebff5bbf91fbcf76018cd99c1e62727b1ad8469543bae4023a9789e017b40",
+   "bytes": 67789,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-12.png",
+   "sha256": "a8e3a25c95b89249bdca15d7c2920555937a4f52deffad53bd3df149875cfe6f",
+   "bytes": 4300,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-13.png",
+   "sha256": "4b14b43bb4faa17526b4313355a260570422e13ca459b2a4e15db91f190ceef5",
+   "bytes": 57083,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-14.png",
+   "sha256": "09bdd3ae509aee45394bf57b9ef802fcca67e564e61da2efacd6e3c9953c43b6",
+   "bytes": 25354,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-15.png",
+   "sha256": "1a1fa67be029787fb7f837ed811f9edeec1c693b7d81a85af10fea6b05a5c6d9",
+   "bytes": 10256,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-16.png",
+   "sha256": "65e273ae4a4760c8b32f38e03f616df62c1ce5d655e74394bda88a560f94e9c2",
+   "bytes": 24884,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-17.png",
+   "sha256": "e093bee49031f739a2933c4b54fdd75b4eb196631c0b42e3fa3029ab205e5310",
+   "bytes": 43193,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-18.png",
+   "sha256": "95372be21fb2b4a2919fbb6485da966e796b3f38c9493d84b8b6930dd107973a",
+   "bytes": 5457,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-19.png",
+   "sha256": "1a9efdf198b66a54e186d9372ecc9e94965edfd816975061c734f53206436055",
+   "bytes": 54096,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-20.png",
+   "sha256": "7a9cc337cfc0e4f6265886f7f4a82ce5167339142db67694184c503d61da491b",
+   "bytes": 6452,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-21.png",
+   "sha256": "5885d93ce72e728db92829759193865189114d7c7aacaa0825135962b65bd61a",
+   "bytes": 41999,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-22.png",
+   "sha256": "690b6a188c07e894c442339e9c51e676d5a599638841108a5661cc2f4ae34047",
+   "bytes": 62295,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-23.png",
+   "sha256": "693e81e8499899fe735071a9f92ec21b1271b7cad47882465e3b0b44556dc203",
+   "bytes": 7259,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-24.png",
+   "sha256": "39c593ef56d02fc84bf619a9920542e9751c331994f0669ac6bb9b493b68882f",
+   "bytes": 81059,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-25.png",
+   "sha256": "796f7530f695c989f5ba58cd69622ab771d60f9f72f71d70ac1fa25271c4a275",
+   "bytes": 46704,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-26.png",
+   "sha256": "06874a1054eee1c140d379700ff64c7b580d4f1c64d937b66994434de4b07eae",
+   "bytes": 45106,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-27.png",
+   "sha256": "f012c7c133a8605767f1cd9b8ff53757ffa01508e5adf27a2adfef54a9d1ac5e",
+   "bytes": 30759,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-28.png",
+   "sha256": "18bb353f3af22d3546043a4b848e608ba08ee6f670f1756f06c4b6430185e4b9",
+   "bytes": 52685,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-29.png",
+   "sha256": "b30949691df4e4b4fb728ed63cd2508dfe97de7261d32e2b3ede965ef419a78e",
+   "bytes": 56423,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-30.png",
+   "sha256": "410955597c7139805b26c7758f4be1d53275fe635f08cd6192b0b7fef5b41b64",
+   "bytes": 8087,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-31.png",
+   "sha256": "0336580597351c5bb3d8fbbf7ba8ef43017777b4dc3eee38685b81e3d204f9c9",
+   "bytes": 45545,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-32.png",
+   "sha256": "8588a0c201e673b31b2b990983544a78b2bb303091d2603d43547d20d9273243",
+   "bytes": 238059,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-33.png",
+   "sha256": "4fbdba319872cf523a1ef8caf1be2a66fdb0602e89f1a6df778afafe708cf177",
+   "bytes": 24962,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-34.png",
+   "sha256": "36ed7bce01c2e5c96f9d370fbc4e39822988735f8001a73c45885006d5d93a8e",
+   "bytes": 10410,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-35.png",
+   "sha256": "028358011989ad358e580967c1dd12a2eb8dbab9979eb2b49e5857564f66280f",
+   "bytes": 4843,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-36.png",
+   "sha256": "4cbd7de0619d4b177e9a283b66a2ea7033bbb9c8c8c740d64b1a3431de16112e",
+   "bytes": 5300,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-37.png",
+   "sha256": "4a081becf3c3b236dcbef0725534ef6a7e4f1c2730805a39e93fa96b4198bc64",
+   "bytes": 25208,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/env/rbm-env-kit-38.png",
+   "sha256": "26738cbf1d57e30a1e017657f9a289194fe91b7e60459fcf4c2e49841fc9bf89",
+   "bytes": 30874,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/props/rbm-prop-states-00.png",
+   "sha256": "92ff3a661411bcf6d4e10ff0231d816a2213329bd24ce29c8186c7e313087262",
+   "bytes": 193930,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/props/rbm-prop-states-01.png",
+   "sha256": "d2267ece8c87c639c30ee0c31b63bbf0648cfac84d8f3da7ab88ee04164fdf2d",
+   "bytes": 171267,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/props/rbm-prop-states-02.png",
+   "sha256": "61a35ad4f1f811ab8ac8347a0fe0cb7e5e6e2774c00f98ac825aa9ef697402ec",
+   "bytes": 177626,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/props/rbm-prop-states-03.png",
+   "sha256": "f39dbd101dac5ddf8b9dab78b213eb32666f5451c5b39a65f7db87f275f4550e",
+   "bytes": 205767,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/props/rbm-prop-states-04.png",
+   "sha256": "10d023349eb4a9341f5fe065be8e53d5ef73134e0ebd1fdfde68aae87cfb2b8e",
+   "bytes": 114443,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/props/rbm-prop-states-05.png",
+   "sha256": "22b5ceb7efe79f9f578b7d9f54ba7638dbfc65f5eade5a4e788ce3c459c183b8",
+   "bytes": 261646,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/props/rbm-prop-states-06.png",
+   "sha256": "d03134d001b1a0119031edfef5a3fddfc52dd6ad71293e7f5fd2e460155b784a",
+   "bytes": 254189,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  },
+  {
+   "path": "public/assets/sprites/props/rbm-prop-states-07.png",
+   "sha256": "8337cfad3135e53960bea83ce6079456fbc7fb256347923ded9f5148c36594f9",
+   "bytes": 105833,
+   "source": "ChatGPT Desktop generated (see /Users/devin/art/MANIFEST.md)"
+  }
+ ]
+}
