@@ -225,7 +225,7 @@ export default function SceneView({ level, sim, rows, selectedId, focusedRow, on
       })}
 
       {/* crew */}
-      {level.crew.map((c) => {
+      {level.crew.map((c, ci) => {
         const s = sim.entities[c.id];
         if (!s) return null;
         const pt = entityPt(c.id);
@@ -237,8 +237,9 @@ export default function SceneView({ level, sim, rows, selectedId, focusedRow, on
             onClick={(ev) => { ev.stopPropagation(); onSelect(selected ? null : c.id); }}
             data-testid={`ent-${c.id}`}
           >
-            <circle cx={pt.x} cy={pt.y - 12} r="9" className="crew-head" />
-            <rect x={pt.x - 10} y={pt.y - 4} width="20" height="22" rx="6" className="crew-body" />
+            <image href={`/assets/sprites/crew/rbm-crew-sheet-0${ci % 4}.png`}
+              x={pt.x - 16} y={pt.y - 34} width="32" height="44"
+              preserveAspectRatio="xMidYMax meet" />
             {s.captured ? <circle cx={pt.x} cy={pt.y - 12} r="16" className="caught-ring" /> : null}
             <text x={pt.x} y={pt.y + 34} className="ent-label">
               {nameOf(c.id)}{s.captured ? " — caught" : ""}
@@ -260,9 +261,9 @@ export default function SceneView({ level, sim, rows, selectedId, focusedRow, on
             onClick={(ev) => { ev.stopPropagation(); onSelect(selected ? null : g.id); }}
             data-testid={`ent-${g.id}`}
           >
-            <circle cx={pt.x} cy={pt.y - 12} r="9" className="guard-head" />
-            <rect x={pt.x - 11} y={pt.y - 4} width="22" height="24" rx="6" className="guard-body" />
-            <rect x={pt.x - 12} y={pt.y - 24} width="24" height="7" rx="3" className="guard-hat" />
+            <image href="/assets/sprites/crew/rbm-crew-sheet-04.png"
+              x={pt.x - 17} y={pt.y - 36} width="34" height="48"
+              preserveAspectRatio="xMidYMax meet" />
             <text x={pt.x} y={pt.y + 36} className="ent-label">
               {nameOf(g.id)}
             </text>
